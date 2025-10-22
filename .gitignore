@@ -1,7 +1,9 @@
-# Godot 4+ specific ignores
+
+# Carpetas internas de Godot
 .godot/
 .nomedia
-
+*.import
+/android/
 # Godot-specific ignores
 .import/
 export.cfg
@@ -10,7 +12,7 @@ export_credentials.cfg
 # Imported translations (automatically generated from CSV files)
 *.translation
 
-# Mono-specific ignores
+# Mono-specific ignores (solo si usas C#)
 .mono/
 data_*/
 mono_crash.*.json
