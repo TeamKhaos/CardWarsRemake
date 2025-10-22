@@ -11,6 +11,11 @@ const MASCARA_COLISION_CARTA = 1
 const MASCARA_COLISION_CARTA_RANURA = 2
 # Velocidad por defecto de la animación de la carta.
 const velocidad_de_carta_default = 0.2
+# Tamaño por defecto de la carta
+const ALTURA_DEFECTO_CARTA = 0.8
+const ALTURA_SUBIDA_CARTA = 0.85
+
+
 # Indica si el cursor está sobre una carta.
 var cursor_sobre_carta
 # Referencia al nodo que gestiona la mano del jugador.
@@ -40,12 +45,12 @@ func empezar_a_arrastrar(carta):
 	# Establece la carta que se está arrastrando.
 	carta_siend_arrastrada = carta
 	# Restaura la escala de la carta a su tamaño original.
-	carta.scale = Vector2(1, 1)
+	carta.scale = Vector2(ALTURA_DEFECTO_CARTA, ALTURA_DEFECTO_CARTA)
 	
 # Se llama para dejar de arrastrar una carta.
 func dejar_de_arrastrar():
 	# Aumenta ligeramente la escala de la carta para dar un efecto visual.
-	carta_siend_arrastrada.scale = Vector2(1.05, 1.05)
+	carta_siend_arrastrada.scale = Vector2(ALTURA_SUBIDA_CARTA, ALTURA_SUBIDA_CARTA)
 	# Comprueba si hay una ranura de carta debajo del cursor.
 	var carta_ranura_encontrada = raycast_check_carta_ranura()
 	# Si se encuentra una ranura y no está ocupada.

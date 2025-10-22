@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://c0r63xh4h711i" path="res://scripts/ManejoCarta.gd" id="1_0xm2m"]
 [ext_resource type="Script" uid="uid://cj0fxhkuo832e" path="res://scripts/mano_jugador.gd" id="1_sugp2"]
 [ext_resource type="PackedScene" uid="uid://yja8ns78ohi8" path="res://scenes/carta_ranura.tscn" id="2_sugp2"]
-[ext_resource type="Texture2D" uid="uid://dp48sn2157bw7" path="res://assets/carta_duelo0.png" id="4_jyhfs"]
+[ext_resource type="Texture2D" uid="uid://bhilui1xnp6ca" path="res://assets/carta_duelo0.png" id="4_jyhfs"]
 [ext_resource type="Script" uid="uid://d7r7tnvf5pf1" path="res://scenes/deck.gd" id="4_tbgi4"]
 [ext_resource type="Script" uid="uid://bw3vxnapy3ntr" path="res://scenes/InputManager.gd" id="6_tefeu"]
 
