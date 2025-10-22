@@ -1,15 +1,15 @@
 extends Node2D
 
 # --- CONSTANTES ---
-# Máscara de colisión para las cartas.
+# Máscara de colisión para detectar las cartas.
 const MASCARA_COLISION_CARTA = 1
-# Máscara de colisión para el mazo de cartas.
+# Máscara de colisión para detectar el mazo de cartas.
 const MASCARA_COLISION_CARTA_DECK = 4
 
-# --- VARIABLES ---
-# Referencia al nodo que maneja las cartas.
+# --- REFERENCIAS ---
+# Referencia al script que maneja la lógica de las cartas.
 var carta_manager_referencia
-# Referencia al mazo.
+# Referencia al script del mazo.
 var deck_referencia
 
 # --- SEÑALES ---
@@ -21,12 +21,11 @@ signal levantado_click_izquierdo
 # --- FUNCIONES DE GODOT ---
 # Se llama cuando el nodo entra en el árbol de la escena por primera vez.
 func _ready() -> void:
-	# Obtiene la referencia al nodo de manejo de cartas.
+	# Obtiene las referencias a los nodos de manejo de cartas y del mazo.
 	carta_manager_referencia = $"../ManejoCarta"
-	# Obtiene la referencia al mazo.
 	deck_referencia = $"../Deck"
 
-# Se llama cada vez que hay un evento de entrada.
+# Se llama en cada evento de entrada (input).
 func _input(event):
 	# Comprueba si el evento es un clic del botón izquierdo del mouse.
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
@@ -34,38 +33,38 @@ func _input(event):
 		if event.pressed:
 			# Emite la señal de que se ha hecho clic.
 			emit_signal("clickeado_click_izquierdo")
-			# Lanza un rayo para detectar con qué se ha hecho clic.
+			# Lanza un rayo para detectar qué se ha clickeado.
 			raycast_al_cursor()
 		# Si se suelta el botón.
 		else:
 			# Emite la señal de que se ha soltado el clic.
 			emit_signal("levantado_click_izquierdo")
 			
-# --- FUNCIONES PERSONALIZADAS ---
+# --- FUNCIONES DE RAYCAST ---
 # Lanza un rayo desde la posición del cursor para detectar objetos.
 func raycast_al_cursor():
 	# Obtiene el estado del espacio 2D del mundo.
 	var space_state = get_world_2d().direct_space_state
-	# Crea nuevos parámetros para la consulta de puntos de física.
+	# Crea los parámetros para la consulta de punto.
 	var parametros = PhysicsPointQueryParameters2D.new()
-	# Establece la posición de la consulta en la posición global del mouse.
+	# Establece la posición de la consulta en la posición del mouse.
 	parametros.position = get_global_mouse_position()
-	# Permite que la consulta colisione con áreas.
+	# Habilita la colisión con áreas.
 	parametros.collide_with_areas = true
-	# Realiza la intersección de puntos.
+	# Realiza la intersección de punto.
 	var resultado = space_state.intersect_point(parametros)
 	# Si hay algún resultado.
 	if resultado.size() > 0:
-		# Obtiene la máscara de colisión del primer resultado.
+		# Obtiene la máscara de colisión del objeto detectado.
 		var resultado_collision_mask = resultado[0].collider.collision_mask
 		# Si la máscara de colisión es la de una carta.
 		if resultado_collision_mask == MASCARA_COLISION_CARTA:
 			# Se ha seleccionado una carta.
 			var carta_encontrada = resultado[0].collider.get_parent()
-			# Si se encontró una carta.
+			# Si se ha encontrado una carta válida.
 			if carta_encontrada:
-				# Inicia el arrastre de la carta.
-				carta_manager_referencia.start_drag(carta_encontrada)
+				# Llama a la función para empezar a arrastrar la carta.
+				carta_manager_referencia.empezar_a_arrastrar(carta_encontrada)
 		# Si la máscara de colisión es la del mazo.
 		elif resultado_collision_mask == MASCARA_COLISION_CARTA_DECK:
 			# Se ha seleccionado el mazo.

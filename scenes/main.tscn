@@ -3,9 +3,9 @@
 [ext_resource type="Script" uid="uid://c0r63xh4h711i" path="res://scripts/ManejoCarta.gd" id="1_0xm2m"]
 [ext_resource type="Script" uid="uid://cj0fxhkuo832e" path="res://scripts/mano_jugador.gd" id="1_sugp2"]
 [ext_resource type="PackedScene" uid="uid://yja8ns78ohi8" path="res://scenes/carta_ranura.tscn" id="2_sugp2"]
-[ext_resource type="Texture2D" uid="uid://bhilui1xnp6ca" path="res://assets/carta_duelo0.png" id="4_jyhfs"]
-[ext_resource type="Script" uid="uid://d7r7tnvf5pf1" path="res://scenes/deck.gd" id="4_tbgi4"]
-[ext_resource type="Script" uid="uid://bw3vxnapy3ntr" path="res://scenes/InputManager.gd" id="6_tefeu"]
+[ext_resource type="Texture2D" uid="uid://dp48sn2157bw7" path="res://assets/carta_duelo0.png" id="4_jyhfs"]
+[ext_resource type="Script" uid="uid://ddo0p2s5jnlft" path="res://scripts/deck.gd" id="4_tbgi4"]
+[ext_resource type="Script" uid="uid://bw3vxnapy3ntr" path="res://scripts/InputManager.gd" id="6_tefeu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tbgi4"]
 size = Vector2(1023.80743, 1599.6992)
@@ -15,19 +15,11 @@ size = Vector2(1023.80743, 1599.6992)
 [node name="ManoJugador" type="Node2D" parent="."]
 script = ExtResource("1_sugp2")
 
-[node name="CartaRanura" parent="." instance=ExtResource("2_sugp2")]
-position = Vector2(950, 500)
-scale = Vector2(0.8, 0.8)
-
-[node name="CartaRanura2" parent="." instance=ExtResource("2_sugp2")]
-position = Vector2(1120, 500)
-scale = Vector2(0.8, 0.8)
-
 [node name="ManejoCarta" type="Node2D" parent="."]
 script = ExtResource("1_0xm2m")
 
 [node name="Deck" type="Node2D" parent="."]
-position = Vector2(150, 900)
+position = Vector2(635.0001, 193)
 scale = Vector2(0.4, 0.4)
 script = ExtResource("4_tbgi4")
 
@@ -53,6 +45,17 @@ offset_right = 26.0
 offset_bottom = 20.0
 scale = Vector2(3.075, 3.075)
 text = "0"
+metadata/_edit_use_anchors_ = true
+
+[node name="Mesa" type="Node2D" parent="."]
+
+[node name="CartaRanura" parent="Mesa" instance=ExtResource("2_sugp2")]
+position = Vector2(206.00006, 392)
+scale = Vector2(0.8, 0.8)
+
+[node name="CartaRanura2" parent="Mesa" instance=ExtResource("2_sugp2")]
+position = Vector2(376.00006, 392)
+scale = Vector2(0.8, 0.8)
 
 [node name="InputManager" type="Node2D" parent="."]
 script = ExtResource("6_tefeu")
