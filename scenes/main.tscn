@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://damvkfgrcxg5u"]
+
+[ext_resource type="Script" uid="uid://c0r63xh4h711i" path="res://scripts/ManejoCarta.gd" id="1_0xm2m"]
+[ext_resource type="PackedScene" uid="uid://duley73kyk7tt" path="res://scenes/card.tscn" id="2_h2yge"]
+[ext_resource type="PackedScene" uid="uid://yja8ns78ohi8" path="res://scenes/carta_ranura.tscn" id="2_sugp2"]
+
+[node name="Main" type="Node2D"]
+
+[node name="CartaRanura" parent="." instance=ExtResource("2_sugp2")]
+position = Vector2(159, 164)
+
+[node name="CartaRanura2" parent="." instance=ExtResource("2_sugp2")]
+position = Vector2(371, 162)
+
+[node name="ManejoCarta" type="Node2D" parent="."]
+script = ExtResource("1_0xm2m")
+
+[node name="Card" parent="ManejoCarta" instance=ExtResource("2_h2yge")]
+position = Vector2(386, 486)
+
+[node name="Card2" parent="ManejoCarta" instance=ExtResource("2_h2yge")]
+position = Vector2(186, 486)

@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://yja8ns78ohi8"]
+
+[ext_resource type="Script" uid="uid://b3clc1njubxhe" path="res://scripts/Carta_ranura.gd" id="1_pfuov"]
+[ext_resource type="Texture2D" uid="uid://bykpck7yhq4hl" path="res://assets/ranura-carta.png" id="2_m5a3o"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_slm10"]
+size = Vector2(269, 428)
+
+[node name="CartaRanura" type="Node2D"]
+script = ExtResource("1_pfuov")
+
+[node name="CartaRanuraImg" type="Sprite2D" parent="."]
+scale = Vector2(0.65579706, 0.64631337)
+texture = ExtResource("2_m5a3o")
+
+[node name="AreaRanura" type="Area2D" parent="."]
+scale = Vector2(0.65579706, 0.64631337)
+collision_layer = 0
+collision_mask = 2
+
+[node name="ColisionRanura" type="CollisionShape2D" parent="AreaRanura"]
+position = Vector2(0.5, 0)
+shape = SubResource("RectangleShape2D_slm10")
