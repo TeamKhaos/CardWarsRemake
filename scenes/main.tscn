@@ -16,17 +16,19 @@ size = Vector2(1023.80743, 1599.6992)
 script = ExtResource("1_sugp2")
 
 [node name="CartaRanura" parent="." instance=ExtResource("2_sugp2")]
-position = Vector2(741, 419)
+position = Vector2(950, 500)
+scale = Vector2(0.8, 0.8)
 
 [node name="CartaRanura2" parent="." instance=ExtResource("2_sugp2")]
-position = Vector2(984, 419)
+position = Vector2(1120, 500)
+scale = Vector2(0.8, 0.8)
 
 [node name="ManejoCarta" type="Node2D" parent="."]
 script = ExtResource("1_0xm2m")
 
 [node name="Deck" type="Node2D" parent="."]
-position = Vector2(268, 790)
-scale = Vector2(0.5, 0.5)
+position = Vector2(150, 900)
+scale = Vector2(0.4, 0.4)
 script = ExtResource("4_tbgi4")
 
 [node name="Sprite2D" type="Sprite2D" parent="Deck"]
