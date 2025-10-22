@@ -5,9 +5,11 @@ var tamano_escena
 const MASCARA_COLISION_CARTA = 1
 const MASCARA_COLISION_CARTA_RANURA = 2
 var cursor_sobre_carta
+var mano_jugador_referencia
 
 func _ready() -> void:
 	tamano_escena = get_viewport_rect().size
+	mano_jugador_referencia = $"../ManoJugador"
 
 
 func _process(delta: float) -> void:
@@ -37,9 +39,12 @@ func dejar_de_arrastrar():
 	carta_siend_arrastrada.scale = Vector2(1.05, 1.05)
 	var carta_ranura_encontrada = raycast_check_carta_ranura()
 	if carta_ranura_encontrada and not carta_ranura_encontrada.carta_en_ranura:
+		mano_jugador_referencia.remover_carta_mano(carta_siend_arrastrada)
 		carta_siend_arrastrada.global_position = carta_ranura_encontrada.global_position
 		carta_siend_arrastrada.get_node("Area2D/CollisionShape2D").disabled = true
 		carta_ranura_encontrada.carta_en_ranura = true
+	else:
+		mano_jugador_referencia.añadir_carta_mano(carta_siend_arrastrada)
 	carta_siend_arrastrada = null
 	
 	

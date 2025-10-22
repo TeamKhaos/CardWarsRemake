@@ -3,6 +3,8 @@ extends Node2D
 signal sosteniendo
 signal soltando
 
+var posicion_inicial
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	#Todas las cartas son hijos ahora de ManejoCarta o esto darra error
