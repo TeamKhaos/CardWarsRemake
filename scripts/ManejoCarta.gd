@@ -4,31 +4,20 @@ var carta_siend_arrastrada
 var tamano_escena
 const MASCARA_COLISION_CARTA = 1
 const MASCARA_COLISION_CARTA_RANURA = 2
+const velocidad_de_carta_default = 0.2
 var cursor_sobre_carta
 var mano_jugador_referencia
 
 func _ready() -> void:
 	tamano_escena = get_viewport_rect().size
 	mano_jugador_referencia = $"../ManoJugador"
-
+	$"../InputManager".connect("levantado_click_izquierdo", on_click_izquierdo_levantado)
 
 func _process(delta: float) -> void:
 	if carta_siend_arrastrada:
 		var mouse_pos = get_global_mouse_position()
 		carta_siend_arrastrada.global_position = Vector2(clamp(mouse_pos.x, 0, tamano_escena.x), clamp(mouse_pos.y, 0, tamano_escena.y))
 
-
-func _input(event):
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
-		if event.pressed:
-			var carta = raycast_check_carta()
-			
-			if carta: 
-				empezar_a_arrastrar(carta)
-		else:
-			if carta_siend_arrastrada:
-				dejar_de_arrastrar()
-			
 func empezar_a_arrastrar(carta):
 	carta_siend_arrastrada = carta
 	carta.scale = Vector2(1, 1)
@@ -44,7 +33,7 @@ func dejar_de_arrastrar():
 		carta_siend_arrastrada.get_node("Area2D/CollisionShape2D").disabled = true
 		carta_ranura_encontrada.carta_en_ranura = true
 	else:
-		mano_jugador_referencia.añadir_carta_mano(carta_siend_arrastrada)
+		mano_jugador_referencia.añadir_carta_mano(carta_siend_arrastrada, velocidad_de_carta_default)
 	carta_siend_arrastrada = null
 	
 	
@@ -124,3 +113,7 @@ func get_carta_con_mayor_z_index(cartas):
 	
 	# Devolvemos la carta que se encuentra más arriba visualmente
 	return carta_mas_alta
+
+func on_click_izquierdo_levantado():
+	if carta_siend_arrastrada:
+		dejar_de_arrastrar()

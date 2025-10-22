@@ -1,8 +1,14 @@
-[gd_scene load_steps=4 format=3 uid="uid://damvkfgrcxg5u"]
+[gd_scene load_steps=8 format=3 uid="uid://damvkfgrcxg5u"]
 
 [ext_resource type="Script" uid="uid://c0r63xh4h711i" path="res://scripts/ManejoCarta.gd" id="1_0xm2m"]
 [ext_resource type="Script" uid="uid://cj0fxhkuo832e" path="res://scripts/mano_jugador.gd" id="1_sugp2"]
 [ext_resource type="PackedScene" uid="uid://yja8ns78ohi8" path="res://scenes/carta_ranura.tscn" id="2_sugp2"]
+[ext_resource type="Texture2D" uid="uid://dp48sn2157bw7" path="res://assets/carta_duelo0.png" id="4_jyhfs"]
+[ext_resource type="Script" uid="uid://7yngdrh7pqwv" path="res://scenes/deck.gd" id="4_tbgi4"]
+[ext_resource type="Script" uid="uid://s42vieds6upg" path="res://scenes/InputManager.gd" id="6_tefeu"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tbgi4"]
+size = Vector2(1023.80743, 1599.6992)
 
 [node name="Main" type="Node2D"]
 
@@ -17,3 +23,34 @@ position = Vector2(984, 419)
 
 [node name="ManejoCarta" type="Node2D" parent="."]
 script = ExtResource("1_0xm2m")
+
+[node name="Deck" type="Node2D" parent="."]
+position = Vector2(268, 790)
+scale = Vector2(0.5, 0.5)
+script = ExtResource("4_tbgi4")
+
+[node name="Sprite2D" type="Sprite2D" parent="Deck"]
+z_index = -2
+scale = Vector2(0.63, 0.63)
+texture = ExtResource("4_jyhfs")
+
+[node name="Area2D" type="Area2D" parent="Deck"]
+scale = Vector2(0.63, 0.63)
+collision_layer = 4
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Deck/Area2D"]
+scale = Vector2(0.63, 0.63)
+shape = SubResource("RectangleShape2D_tbgi4")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Deck"]
+modulate = Color(0, 0, 0, 1)
+offset_left = -9.0
+offset_top = -18.0
+offset_right = 26.0
+offset_bottom = 20.0
+scale = Vector2(3.075, 3.075)
+text = "0"
+
+[node name="InputManager" type="Node2D" parent="."]
+script = ExtResource("6_tefeu")
