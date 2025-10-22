@@ -4,7 +4,7 @@ extends Node2D
 
 const carta_ancho = 200
 const mano_y_posicion = 790
-const velocidad_de_carta_default = 1
+const velocidad_de_carta_default = 0.2
 
 
 var mano_jugador = []

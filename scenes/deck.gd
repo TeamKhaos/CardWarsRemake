@@ -2,7 +2,7 @@ extends Node2D
 
 var jugador_deck = ["planta", "planta", "planta"]
 const carta_escena_dir = "res://scenes/card.tscn"
-const velocidad_tomado_carta = 0
+const velocidad_tomado_carta = 0.3
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

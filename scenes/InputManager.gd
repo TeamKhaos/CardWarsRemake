@@ -34,7 +34,7 @@ func raycast_al_cursor():
 			#carta seleccionada
 			var carta_encontrada = resultado[0].collider.get_parent()
 			if carta_encontrada:
-				carta_manager_referencia.start_drag(carta_encontrada)
+				carta_manager_referencia.empezar_a_arrastrar(carta_encontrada)
 		elif resultado_collision_mask == MASCARA_COLISION_CARTA_DECK:
 			#deck seleccionado
 			deck_referencia.tomar_carta()
