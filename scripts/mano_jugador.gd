@@ -14,6 +14,7 @@ var mano_jugador = []
 # --- FUNCIONES DE MANO ---
 # Añade una carta a la mano del jugador.
 func añadir_carta_mano(carta, velocidad):
+	
 	# Si la carta no está ya en la mano.
 	if carta not in mano_jugador:
 		# Inserta la carta al principio del array de la mano.
@@ -23,6 +24,7 @@ func añadir_carta_mano(carta, velocidad):
 	# Si la carta ya está en la mano, la devuelve a su posición inicial.
 	else:
 		animar_carta_a_posicion(carta, carta.posicion_inicial, velocidad_de_carta_default)
+		
 		
 # Actualiza la posición de todas las cartas en la mano.
 func actulizar_posicion_mano(velocidad):
@@ -46,14 +48,21 @@ func calcular_carta_posicion(index, ancho_ventana):
 	var x_offset = ancho_ventana / 2 + index * carta_ancho - total_ancho / 2
 	return x_offset
 	
-# Elimina una carta de la mano del jugador.
+
+# Elimina una carta de la mano del jugador y repone automáticamente si hace falta
 func remover_carta_mano(carta):
-	# Si la carta está en la mano.
 	if carta in mano_jugador:
-		# Elimina la carta del array de la mano.
+		# Elimina la carta
 		mano_jugador.erase(carta)
-		# Actualiza la posición de las cartas restantes.
+		# Actualiza posiciones de las cartas restantes
 		actulizar_posicion_mano(velocidad_de_carta_default)
+		
+		# Repone carta automáticamente
+		var deck = $"../Deck"
+		if deck:  # Asegúrate de que existe
+			var nueva_carta = deck.reponer_carta()  # Método que devuelve una carta del mazo
+			if nueva_carta:
+				añadir_carta_mano(nueva_carta, velocidad_de_carta_default)
 	
 # --- FUNCIONES DE ANIMACIÓN ---
 # Anima una carta a una nueva posición.

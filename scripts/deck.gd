@@ -66,9 +66,8 @@ func tomar_carta():
 			nueva_carta.get_node("AnimationPlayer").play("carta_flip")
 			primerclick = true
 
-func reponer_carta():
-	
 
+func reponer_carta():
 			# Obtiene el nombre de la carta a sacar.
 		var carta_sacar_nombre = jugador_deck[0]
 		# Elimina la carta del mazo.
