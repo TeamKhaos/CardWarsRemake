@@ -1,22 +1,28 @@
-[gd_scene load_steps=4 format=3 uid="uid://damvkfgrcxg5u"]
+[gd_scene load_steps=6 format=3 uid="uid://damvkfgrcxg5u"]
 
-[ext_resource type="Script" uid="uid://c0r63xh4h711i" path="res://scripts/ManejoCarta.gd" id="1_0xm2m"]
-[ext_resource type="PackedScene" uid="uid://duley73kyk7tt" path="res://scenes/card.tscn" id="2_h2yge"]
+[ext_resource type="PackedScene" uid="uid://e541wm1yv5k7" path="res://scenes/mano-jugador.tscn" id="1_tefeu"]
+[ext_resource type="PackedScene" uid="uid://bsn73b6awqrvh" path="res://scenes/manejo-carta.tscn" id="2_o6xl0"]
 [ext_resource type="PackedScene" uid="uid://yja8ns78ohi8" path="res://scenes/carta_ranura.tscn" id="2_sugp2"]
+[ext_resource type="PackedScene" uid="uid://udwupf77vm0o" path="res://scenes/Deck.tscn" id="3_tbgi4"]
+[ext_resource type="PackedScene" uid="uid://cnnn8nl54a5oe" path="res://scenes/input_manager.tscn" id="6_tefeu"]
 
 [node name="Main" type="Node2D"]
 
-[node name="CartaRanura" parent="." instance=ExtResource("2_sugp2")]
-position = Vector2(159, 164)
+[node name="ManoJugador" parent="." instance=ExtResource("1_tefeu")]
 
-[node name="CartaRanura2" parent="." instance=ExtResource("2_sugp2")]
-position = Vector2(371, 162)
+[node name="ManejoCarta" parent="." instance=ExtResource("2_o6xl0")]
 
-[node name="ManejoCarta" type="Node2D" parent="."]
-script = ExtResource("1_0xm2m")
+[node name="Deck" parent="." instance=ExtResource("3_tbgi4")]
+position = Vector2(877, 1100)
 
-[node name="Card" parent="ManejoCarta" instance=ExtResource("2_h2yge")]
-position = Vector2(386, 486)
+[node name="Mesa" type="Node2D" parent="."]
 
-[node name="Card2" parent="ManejoCarta" instance=ExtResource("2_h2yge")]
-position = Vector2(186, 486)
+[node name="CartaRanura2" parent="Mesa" instance=ExtResource("2_sugp2")]
+position = Vector2(632, 290.00006)
+scale = Vector2(0.8, 0.8)
+
+[node name="CartaRanura" parent="Mesa" instance=ExtResource("2_sugp2")]
+position = Vector2(462, 290.00006)
+scale = Vector2(0.8, 0.8)
+
+[node name="InputManager" parent="." instance=ExtResource("6_tefeu")]

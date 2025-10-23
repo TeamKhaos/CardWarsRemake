@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://yja8ns78ohi8"]
 
 [ext_resource type="Script" uid="uid://b3clc1njubxhe" path="res://scripts/Carta_ranura.gd" id="1_pfuov"]
-[ext_resource type="Texture2D" uid="uid://bykpck7yhq4hl" path="res://assets/ranura-carta.png" id="2_m5a3o"]
+[ext_resource type="Texture2D" uid="uid://d3j2cusi66ufw" path="res://assets/ranura-carta.png" id="2_m5a3o"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_slm10"]
 size = Vector2(269, 428)

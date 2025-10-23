@@ -1,23 +1,211 @@
-[gd_scene load_steps=4 format=3 uid="uid://duley73kyk7tt"]
+[gd_scene load_steps=8 format=3 uid="uid://duley73kyk7tt"]
 
 [ext_resource type="Script" uid="uid://ck8yoemv1i144" path="res://scripts/Carta.gd" id="1_6u4wf"]
-[ext_resource type="Texture2D" uid="uid://bcccf3bay0xeo" path="res://assets/carta_verde1.png" id="1_kikvd"]
+[ext_resource type="Texture2D" uid="uid://b86ap8h005b4r" path="res://assets/carta_verde1.png" id="1_kikvd"]
+[ext_resource type="Texture2D" uid="uid://dp48sn2157bw7" path="res://assets/carta_duelo0.png" id="2_ktuci"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ig7tw"]
 size = Vector2(159, 249)
 
+[sub_resource type="Animation" id="Animation_ktuci"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ataque:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.62352943, 0, 0.1764706, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("defensa:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.62352943, 0, 0.1764706, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Carta_reverso:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.24651158, 0.24702372)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Carta_reverso:z_index")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Cardimage:z_index")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [-1]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Cardimage:scale")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.24728683, 0.24728683)]
+}
+
+[sub_resource type="Animation" id="Animation_6u4wf"]
+resource_name = "carta_flip"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ataque:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0.62352943, 0, 0.1764706, 0), Color(0.62352943, 0, 0.1764706, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("defensa:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.11450026, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(0.62352943, 0, 0.1764706, 0), Color(0.62352943, 0, 0.1764706, 0), Color(0.62352943, 0, 0.1764706, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Carta_reverso:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.24651158, 0.24702372), Vector2(0.1, 0.247), Vector2(0.24, 0.247)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Carta_reverso:z_index")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Cardimage:z_index")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [-1, 0]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Cardimage:scale")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.24728683, 0.24728683), Vector2(0.1, 0.247), Vector2(0.24, 0.247)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ktuci"]
+_data = {
+&"RESET": SubResource("Animation_ktuci"),
+&"carta_flip": SubResource("Animation_6u4wf")
+}
+
 [node name="Card" type="Node2D"]
+scale = Vector2(0.8, 0.8)
 script = ExtResource("1_6u4wf")
 
+[node name="Carta_reverso" type="Sprite2D" parent="."]
+position = Vector2(0.5000057, -0.49998474)
+scale = Vector2(0.24651158, 0.24702372)
+texture = ExtResource("2_ktuci")
+
 [node name="Cardimage" type="Sprite2D" parent="."]
+z_index = -1
 scale = Vector2(0.24728683, 0.24728683)
 texture = ExtResource("1_kikvd")
 
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(0.5, -0.5)
 shape = SubResource("RectangleShape2D_ig7tw")
+
+[node name="ataque" type="RichTextLabel" parent="."]
+modulate = Color(0.62352943, 0, 0.1764706, 0)
+offset_left = -66.25
+offset_top = 23.750004
+offset_right = -26.25
+offset_bottom = 63.750004
+scale = Vector2(2, 2)
+text = "0"
+metadata/_edit_use_anchors_ = true
+
+[node name="defensa" type="RichTextLabel" parent="."]
+modulate = Color(0.62352943, 0, 0.1764706, 0)
+offset_left = 35.0
+offset_top = 60.0
+offset_right = 75.0
+offset_bottom = 100.0
+scale = Vector2(2, 2)
+text = "0"
+metadata/_edit_use_anchors_ = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_ktuci")
+}
 
 [connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
 [connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]
