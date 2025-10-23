@@ -3,23 +3,14 @@ extends Node2D
 # --- CONSTANTES ---
 # Ancho de cada carta para calcular su posición en la mano.
 const carta_ancho = 150
-# Posición en el eje Y donde se colocarán las cartas de la mano.
-const mano_y_posicion = 900
+# Proporción de la altura de la pantalla para la posición Y de la mano.
+const mano_y_proporcion = 0.9
 # Velocidad por defecto para las animaciones de las cartas.
 const velocidad_de_carta_default = 0.2
 
 # --- VARIABLES ---
 # Array que almacena las cartas que el jugador tiene en la mano.
 var mano_jugador = []
-# Coordenada X del centro de la pantalla.
-var center_screen_x
-
-# --- FUNCIONES DE GODOT ---
-# Se llama cuando el nodo entra en el árbol de la escena por primera vez.
-func _ready() -> void:
-	# Calcula la coordenada X del centro de la pantalla.
-	center_screen_x = get_viewport().size.x/2
-	
 # --- FUNCIONES DE MANO ---
 # Añade una carta a la mano del jugador.
 func añadir_carta_mano(carta, velocidad):
@@ -35,10 +26,12 @@ func añadir_carta_mano(carta, velocidad):
 		
 # Actualiza la posición de todas las cartas en la mano.
 func actulizar_posicion_mano(velocidad):
+	# Obtiene el tamaño actual de la ventana.
+	var tamano_ventana = get_viewport().size
 	# Itera sobre todas las cartas en la mano.
 	for i in range(mano_jugador.size()):
 		# Calcula la nueva posición de la carta.
-		var nueva_posicion = Vector2(calcular_carta_posicion(i), mano_y_posicion)
+		var nueva_posicion = Vector2(calcular_carta_posicion(i, tamano_ventana.x), tamano_ventana.y * mano_y_proporcion)
 		var carta = mano_jugador[i]
 		# Guarda la posición inicial de la carta.
 		carta.posicion_inicial = nueva_posicion
@@ -46,11 +39,11 @@ func actulizar_posicion_mano(velocidad):
 		animar_carta_a_posicion(carta, nueva_posicion, velocidad) 
 
 # Calcula la posición en el eje X de una carta en la mano.
-func calcular_carta_posicion(index):
+func calcular_carta_posicion(index, ancho_ventana):
 	# Calcula el ancho total que ocupan las cartas.
 	var total_ancho = (mano_jugador.size() - 1) * carta_ancho
 	# Calcula el desplazamiento en X para centrar las cartas.
-	var x_offset = center_screen_x + index * carta_ancho - total_ancho / 2
+	var x_offset = ancho_ventana / 2 + index * carta_ancho - total_ancho / 2
 	return x_offset
 	
 # Elimina una carta de la mano del jugador.

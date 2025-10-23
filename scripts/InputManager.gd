@@ -43,6 +43,7 @@ func _input(event):
 # --- FUNCIONES DE RAYCAST ---
 # Lanza un rayo desde la posición del cursor para detectar objetos.
 func raycast_al_cursor():
+
 	# Obtiene el estado del espacio 2D del mundo.
 	var space_state = get_world_2d().direct_space_state
 	# Crea los parámetros para la consulta de punto.
@@ -69,3 +70,5 @@ func raycast_al_cursor():
 		elif resultado_collision_mask == MASCARA_COLISION_CARTA_DECK:
 			# Se ha seleccionado el mazo.
 			deck_referencia.tomar_carta()
+			
+			

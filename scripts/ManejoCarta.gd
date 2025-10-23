@@ -59,6 +59,8 @@ func dejar_de_arrastrar():
 		mano_jugador_referencia.remover_carta_mano(carta_siend_arrastrada)
 		# Coloca la carta en la posición de la ranura.
 		carta_siend_arrastrada.global_position = carta_ranura_encontrada.global_position
+		#se adapte al tamano
+		carta_siend_arrastrada.scale = carta_ranura_encontrada.scale
 		# Desactiva la colisión de la carta para que no se pueda volver a coger.
 		carta_siend_arrastrada.get_node("Area2D/CollisionShape2D").disabled = true
 		# Marca la ranura como ocupada.
@@ -99,12 +101,12 @@ func resaltar_carta(carta, sosteniendo):
 	# Si se está resaltando.
 	if sosteniendo:
 		# Aumenta la escala y el z-index para que aparezca por encima.
-		carta.scale = Vector2(1.05, 1.05)
+		carta.scale = Vector2(ALTURA_SUBIDA_CARTA, ALTURA_SUBIDA_CARTA)
 		carta.z_index = 2
 	# Si se quita el resaltado.
 	else:
 		# Restaura la escala y el z-index.
-		carta.scale = Vector2(1, 1)
+		carta.scale = Vector2(ALTURA_DEFECTO_CARTA, ALTURA_DEFECTO_CARTA)
 		carta.z_index = 1
 		
 # Lanza un rayo para comprobar si hay una ranura de carta debajo del cursor.
@@ -121,6 +123,7 @@ func raycast_check_carta_ranura():
 
 # Lanza un rayo para comprobar si hay una carta debajo del cursor.
 func raycast_check_carta():
+	
 	var space_state = get_world_2d().direct_space_state
 	var parametros = PhysicsPointQueryParameters2D.new()
 	parametros.position = get_global_mouse_position()

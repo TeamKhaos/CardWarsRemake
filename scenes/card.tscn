@@ -164,7 +164,6 @@ _data = {
 }
 
 [node name="Card" type="Node2D"]
-position = Vector2(150, 900)
 scale = Vector2(0.8, 0.8)
 script = ExtResource("1_6u4wf")
 
@@ -181,17 +180,17 @@ texture = ExtResource("1_kikvd")
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(0.5, -0.5)
 shape = SubResource("RectangleShape2D_ig7tw")
 
 [node name="ataque" type="RichTextLabel" parent="."]
 modulate = Color(0.62352943, 0, 0.1764706, 0)
-offset_left = -60.0
-offset_top = 60.0
-offset_right = -20.0
-offset_bottom = 100.0
+offset_left = -66.25
+offset_top = 23.750004
+offset_right = -26.25
+offset_bottom = 63.750004
 scale = Vector2(2, 2)
 text = "0"
+metadata/_edit_use_anchors_ = true
 
 [node name="defensa" type="RichTextLabel" parent="."]
 modulate = Color(0.62352943, 0, 0.1764706, 0)
@@ -201,6 +200,7 @@ offset_right = 75.0
 offset_bottom = 100.0
 scale = Vector2(2, 2)
 text = "0"
+metadata/_edit_use_anchors_ = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
