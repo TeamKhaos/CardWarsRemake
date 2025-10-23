@@ -1,5 +1,6 @@
 extends Node2D
 
+@export var deck_: Node
 # --- CONSTANTES ---
 # Ancho de cada carta para calcular su posición en la mano.
 const carta_ancho = 150
@@ -58,7 +59,7 @@ func remover_carta_mano(carta):
 		actulizar_posicion_mano(velocidad_de_carta_default)
 		
 		# Repone carta automáticamente
-		var deck = $"../Deck"
+		var deck = deck_
 		if deck:  # Asegúrate de que existe
 			var nueva_carta = deck.reponer_carta()  # Método que devuelve una carta del mazo
 			if nueva_carta:

@@ -1,5 +1,10 @@
 extends Node2D
 
+
+
+@export var manejo_carta: Node
+@export var manejo_jugador: Node
+
 # --- VARIABLES ---
 # Array que contiene los nombres de las cartas en el mazo del jugador.
 var jugador_deck = []
@@ -57,11 +62,11 @@ func tomar_carta():
 			# Carga la imagen y la asigna a la textura de la carta.
 			nueva_carta.get_node("Cardimage").texture = load(carta_imagen_ruta)
 			# Añade la nueva carta como hija del nodo de manejo de cartas.
-			$"../ManejoCarta".add_child(nueva_carta)
+			manejo_carta.add_child(nueva_carta)
 			# Le da un nombre a la carta.
 			nueva_carta.name = "Carta"
 			# Añade la carta a la mano del jugador.
-			$"../ManoJugador".añadir_carta_mano(nueva_carta, velocidad_tomado_carta)
+			manejo_jugador.añadir_carta_mano(nueva_carta, velocidad_tomado_carta)
 			# Reproduce la animación de la carta al ser tomada.
 			nueva_carta.get_node("AnimationPlayer").play("carta_flip")
 			primerclick = true
@@ -97,11 +102,11 @@ func reponer_carta():
 		# Carga la imagen y la asigna a la textura de la carta.
 		nueva_carta.get_node("Cardimage").texture = load(carta_imagen_ruta)
 		# Añade la nueva carta como hija del nodo de manejo de cartas.
-		$"../ManejoCarta".add_child(nueva_carta)
+		manejo_carta.add_child(nueva_carta)
 		# Le da un nombre a la carta.
 		nueva_carta.name = "Carta"
 		# Añade la carta a la mano del jugador.
-		$"../ManoJugador".añadir_carta_mano(nueva_carta, velocidad_tomado_carta)
+		manejo_jugador.añadir_carta_mano(nueva_carta, velocidad_tomado_carta)
 		# Reproduce la animación de la carta al ser tomada.
 		nueva_carta.get_node("AnimationPlayer").play("carta_flip")
 		primerclick = true

@@ -1,0 +1,16 @@
+[gd_scene load_steps=5 format=3 uid="uid://c3g66nmiornxv"]
+
+[ext_resource type="PackedScene" uid="uid://udwupf77vm0o" path="res://scenes/deck.tscn" id="1_jt5h6"]
+[ext_resource type="PackedScene" uid="uid://b1fprt3mnmhe2" path="res://scenes/perfil.tscn" id="2_mk3m0"]
+[ext_resource type="PackedScene" uid="uid://e541wm1yv5k7" path="res://scenes/mano-jugador.tscn" id="3_3f8o5"]
+[ext_resource type="PackedScene" uid="uid://bsn73b6awqrvh" path="res://scenes/manejo-carta.tscn" id="4_a325k"]
+
+[node name="Jugador" type="Node2D"]
+
+[node name="Deck" parent="." instance=ExtResource("1_jt5h6")]
+
+[node name="perfil" parent="." instance=ExtResource("2_mk3m0")]
+
+[node name="ManoJugador" parent="." instance=ExtResource("3_3f8o5")]
+
+[node name="ManejoCarta" parent="." instance=ExtResource("4_a325k")]

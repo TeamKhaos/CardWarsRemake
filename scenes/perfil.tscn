@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://b1fprt3mnmhe2"]
+
+[ext_resource type="Texture2D" uid="uid://o71aiyi5d8l4" path="res://assets/profile.png" id="1_63x4o"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_x6mgl"]
+radius = 120.26637
+
+[node name="perfil" type="Node2D"]
+
+[node name="imagen" type="Sprite2D" parent="."]
+scale = Vector2(0.5293419, 0.5433453)
+texture = ExtResource("1_63x4o")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="forma" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_x6mgl")

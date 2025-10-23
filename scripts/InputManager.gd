@@ -1,4 +1,7 @@
 extends Node2D
+@export var manejo_carta: Node
+@export var deck_: Node
+
 
 # --- CONSTANTES ---
 # Máscara de colisión para detectar las cartas.
@@ -22,8 +25,8 @@ signal levantado_click_izquierdo
 # Se llama cuando el nodo entra en el árbol de la escena por primera vez.
 func _ready() -> void:
 	# Obtiene las referencias a los nodos de manejo de cartas y del mazo.
-	carta_manager_referencia = $"../ManejoCarta"
-	deck_referencia = $"../Deck"
+	carta_manager_referencia = manejo_carta
+	deck_referencia = deck_
 
 # Se llama en cada evento de entrada (input).
 func _input(event):

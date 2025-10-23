@@ -1,5 +1,9 @@
 extends Node2D
 
+@export var manejo_jugador: Node
+@export var input_manager: Node
+
+
 # --- VARIABLES ---
 # Referencia a la carta que se está arrastrando actualmente.
 var carta_siend_arrastrada
@@ -27,9 +31,9 @@ func _ready() -> void:
 	# Obtiene el tamaño de la pantalla.
 	tamano_escena = get_viewport_rect().size
 	# Obtiene la referencia a la mano del jugador.
-	mano_jugador_referencia = $"../ManoJugador"
+	mano_jugador_referencia = manejo_jugador
 	# Conecta la señal de soltar el clic izquierdo del InputManager a una función local.
-	$"../InputManager".connect("levantado_click_izquierdo", on_click_izquierdo_levantado)
+	input_manager.connect("levantado_click_izquierdo", on_click_izquierdo_levantado)
 
 # Se llama en cada fotograma.
 func _process(delta: float) -> void:
