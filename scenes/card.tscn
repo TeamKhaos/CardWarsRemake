@@ -164,7 +164,6 @@ _data = {
 }
 
 [node name="Card" type="Node2D"]
-scale = Vector2(0.8, 0.8)
 script = ExtResource("1_6u4wf")
 
 [node name="Carta_reverso" type="Sprite2D" parent="."]

@@ -1,28 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://ne8ekixwg5in"]
+[gd_scene load_steps=3 format=3 uid="uid://ne8ekixwg5in"]
 
-[ext_resource type="PackedScene" uid="uid://bsn73b6awqrvh" path="res://scenes/manejo-carta.tscn" id="1_b0nem"]
-[ext_resource type="PackedScene" uid="uid://cnnn8nl54a5oe" path="res://scenes/input_manager.tscn" id="2_x0xbu"]
-[ext_resource type="PackedScene" uid="uid://e541wm1yv5k7" path="res://scenes/mano-jugador.tscn" id="3_7qr1p"]
-[ext_resource type="PackedScene" uid="uid://udwupf77vm0o" path="res://scenes/deck.tscn" id="4_e66cg"]
+[ext_resource type="PackedScene" uid="uid://dyi8jkhua2ecg" path="res://scenes/baraja-player.tscn" id="1_ba4lm"]
 [ext_resource type="PackedScene" uid="uid://yja8ns78ohi8" path="res://scenes/carta_ranura.tscn" id="5_5fme1"]
 
 [node name="Demo" type="Node2D"]
 
-[node name="InputManager" parent="." node_paths=PackedStringArray("manejo_carta", "deck_") instance=ExtResource("2_x0xbu")]
-manejo_carta = NodePath("../ManejoCarta")
-deck_ = NodePath("../Deck")
-
-[node name="ManejoCarta" parent="." node_paths=PackedStringArray("manejo_jugador", "input_manager") instance=ExtResource("1_b0nem")]
-manejo_jugador = NodePath("../ManoJugador")
-input_manager = NodePath("../InputManager")
-
-[node name="ManoJugador" parent="." node_paths=PackedStringArray("deck_") instance=ExtResource("3_7qr1p")]
-deck_ = NodePath("../Deck")
-
-[node name="Deck" parent="." node_paths=PackedStringArray("manejo_carta", "manejo_jugador") instance=ExtResource("4_e66cg")]
-position = Vector2(135.99998, 476.99997)
-manejo_carta = NodePath("../ManejoCarta")
-manejo_jugador = NodePath("../ManoJugador")
+[node name="baraja_player" parent="." instance=ExtResource("1_ba4lm")]
 
 [node name="CartaRanura" parent="." instance=ExtResource("5_5fme1")]
 position = Vector2(414, 171)

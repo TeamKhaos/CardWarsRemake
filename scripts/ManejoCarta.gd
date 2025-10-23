@@ -80,6 +80,7 @@ func dejar_de_arrastrar():
 func connect_carta_signal(carta):
 	carta.connect("sosteniendo", on_hovered_over_carta)
 	carta.connect("soltando", on_hovered_off_carta)
+	carta.scale = Vector2(ALTURA_DEFECTO_CARTA, ALTURA_DEFECTO_CARTA)
 	
 # Se llama cuando el cursor pasa por encima de una carta.
 func on_hovered_over_carta(carta):
