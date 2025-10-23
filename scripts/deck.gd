@@ -68,7 +68,8 @@ func tomar_carta():
 
 
 func reponer_carta():
-			# Obtiene el nombre de la carta a sacar.
+	if jugador_deck.size() > 0: 
+		# Obtiene el nombre de la carta a sacar.
 		var carta_sacar_nombre = jugador_deck[0]
 		# Elimina la carta del mazo.
 		jugador_deck.erase(carta_sacar_nombre)
