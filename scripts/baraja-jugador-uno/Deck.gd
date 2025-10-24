@@ -18,7 +18,7 @@ var referencia_db_cartas
 func _ready() -> void:
 	# Posiciona el mazo en el lado izquierdo de la pantalla.
 	var tamano_ventana = get_viewport().size
-	self.position = Vector2(tamano_ventana.x * 0.22, tamano_ventana.y * 0.82)
+	self.position = Vector2(tamano_ventana.x * 0.20, tamano_ventana.y * 0.82)
 	var DbCartas = preload("res://scripts/DB_Cartas.gd")
 	jugador_deck = DbCartas.CARTAS.keys()
 	# Baraja el mazo del jugador.

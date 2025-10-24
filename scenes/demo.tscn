@@ -11,7 +11,7 @@
 [node name="baraja_player2" parent="." instance=ExtResource("2_ba4lm")]
 
 [node name="CartaRanura" parent="." instance=ExtResource("5_5fme1")]
-position = Vector2(445, 373)
+position = Vector2(716, 442)
 
 [node name="CartaRanura2" parent="." instance=ExtResource("5_5fme1")]
-position = Vector2(678, 377)
+position = Vector2(920, 442)

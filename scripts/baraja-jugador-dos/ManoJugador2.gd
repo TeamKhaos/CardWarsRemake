@@ -3,7 +3,7 @@ extends Node2D
 @export var deck_: Node
 # --- CONSTANTES ---
 # Ancho de cada carta para calcular su posición en la mano.
-const carta_ancho = 140
+const carta_ancho = 135
 # Proporción de la altura de la pantalla para la posición Y de la mano.
 const mano_y_proporcion = 0.18
 # Velocidad por defecto para las animaciones de las cartas.

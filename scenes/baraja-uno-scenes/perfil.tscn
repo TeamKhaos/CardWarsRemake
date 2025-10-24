@@ -1,14 +1,17 @@
-[gd_scene load_steps=3 format=3 uid="uid://b1fprt3mnmhe2"]
+[gd_scene load_steps=4 format=3 uid="uid://b1fprt3mnmhe2"]
 
 [ext_resource type="Texture2D" uid="uid://o71aiyi5d8l4" path="res://assets/profile.png" id="1_63x4o"]
+[ext_resource type="Script" uid="uid://dujmyyxyfgt7n" path="res://scripts/baraja-jugador-uno/perfil.gd" id="1_8805n"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_x6mgl"]
-radius = 120.26637
+radius = 99.0
 
 [node name="perfil" type="Node2D"]
+script = ExtResource("1_8805n")
 
 [node name="imagen" type="Sprite2D" parent="."]
-scale = Vector2(0.5293419, 0.5433453)
+position = Vector2(-0.58386517, -4.7683716e-07)
+scale = Vector2(0.42233545, 0.42799994)
 texture = ExtResource("1_63x4o")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]

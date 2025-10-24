@@ -16,8 +16,8 @@ const MASCARA_COLISION_CARTA_RANURA = 2
 # Velocidad por defecto de la animación de la carta.
 const velocidad_de_carta_default = 0.2
 # Tamaño por defecto de la carta
-const ALTURA_DEFECTO_CARTA = 0.8
-const ALTURA_SUBIDA_CARTA = 0.85
+const ALTURA_DEFECTO_CARTA = 0.70
+const ALTURA_SUBIDA_CARTA = 0.80
 
 
 # Indica si el cursor está sobre una carta.

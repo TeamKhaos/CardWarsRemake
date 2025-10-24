@@ -4,13 +4,13 @@
 [ext_resource type="Texture2D" uid="uid://d3j2cusi66ufw" path="res://assets/ranura-carta.png" id="2_m5a3o"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_slm10"]
-size = Vector2(269, 428)
+size = Vector2(229.04144, 353.25134)
 
 [node name="CartaRanura" type="Node2D"]
 script = ExtResource("1_pfuov")
 
 [node name="CartaRanuraImg" type="Sprite2D" parent="."]
-scale = Vector2(0.65579706, 0.64631337)
+scale = Vector2(0.54891306, 0.5282258)
 texture = ExtResource("2_m5a3o")
 
 [node name="AreaRanura" type="Area2D" parent="."]
@@ -19,4 +19,5 @@ collision_layer = 2
 collision_mask = 0
 
 [node name="ColisionRanura" type="CollisionShape2D" parent="AreaRanura"]
+scale = Vector2(1, 1.0000001)
 shape = SubResource("RectangleShape2D_slm10")
