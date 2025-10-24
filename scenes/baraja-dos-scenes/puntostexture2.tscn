@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://bv5il8qkqf46p"]
+
+[ext_resource type="Script" uid="uid://bjuebkwyq55tt" path="res://scripts/baraja-jugador-dos/puntos2.gd" id="1_85jag"]
+[ext_resource type="Texture2D" uid="uid://c4jonn2sxbng0" path="res://assets/images/puntos.png" id="2_q7d2c"]
+
+[node name="puntos" type="Node2D"]
+script = ExtResource("1_85jag")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.8105049, 0.45)
+texture = ExtResource("2_q7d2c")

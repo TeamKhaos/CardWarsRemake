@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://dyi8jkhua2ecg"]
+[gd_scene load_steps=8 format=3 uid="uid://dyi8jkhua2ecg"]
 
 [ext_resource type="PackedScene" uid="uid://b1fprt3mnmhe2" path="res://scenes/baraja-uno-scenes/perfil.tscn" id="1_8t8ff"]
 [ext_resource type="PackedScene" uid="uid://bsn73b6awqrvh" path="res://scenes/baraja-uno-scenes/manejo-carta.tscn" id="2_ssfeg"]
 [ext_resource type="PackedScene" uid="uid://udwupf77vm0o" path="res://scenes/baraja-uno-scenes/deck.tscn" id="3_wwpgx"]
 [ext_resource type="PackedScene" uid="uid://cnnn8nl54a5oe" path="res://scenes/baraja-uno-scenes/input_manager.tscn" id="4_hvuhv"]
 [ext_resource type="PackedScene" uid="uid://e541wm1yv5k7" path="res://scenes/baraja-uno-scenes/mano-jugador.tscn" id="5_258xl"]
+[ext_resource type="PackedScene" uid="uid://ca4feqqwx4onj" path="res://scenes/baraja-uno-scenes/puntostexture.tscn" id="7_rfjqy"]
 [ext_resource type="PackedScene" uid="uid://dbddwnst7khjn" path="res://scenes/baraja-uno-scenes/manotexture.tscn" id="7_vjr14"]
 
 [node name="baraja_player" type="Node2D"]
@@ -27,3 +28,5 @@ position = Vector2(122, 517)
 [node name="InputManager" parent="." node_paths=PackedStringArray("manejo_carta", "deck_") instance=ExtResource("4_hvuhv")]
 manejo_carta = NodePath("../ManejoCarta")
 deck_ = NodePath("../Deck")
+
+[node name="puntos" parent="." instance=ExtResource("7_rfjqy")]
