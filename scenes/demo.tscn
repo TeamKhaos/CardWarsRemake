@@ -1,23 +1,23 @@
-[gd_scene load_steps=5 format=3 uid="uid://ne8ekixwg5in"]
+[gd_scene load_steps=6 format=3 uid="uid://ne8ekixwg5in"]
 
 [ext_resource type="PackedScene" uid="uid://br5jtnv27c6k0" path="res://scenes/baraja-uno-scenes/baraja-player.tscn" id="1_ba4lm"]
 [ext_resource type="PackedScene" uid="uid://b1qp17ltetqmu" path="res://scenes/baraja-dos-scenes/baraja-player2.tscn" id="2_ba4lm"]
 [ext_resource type="PackedScene" uid="uid://b4rsxqbl1fb8c" path="res://scenes/centromesa.tscn" id="3_l20p6"]
-[ext_resource type="Texture2D" uid="uid://bqhknxsq1edon" path="res://assets/images/fondo.jpg" id="4_vephn"]
+[ext_resource type="Script" uid="uid://cehyt5o0mi17x" path="res://scripts/fondo.gd" id="4_b0nem"]
+[ext_resource type="Texture2D" uid="uid://c7pe6psughb87" path="res://assets/images/fondo.png" id="5_x0xbu"]
 
 [node name="Demo" type="Node2D"]
+
+[node name="centromesa" parent="." instance=ExtResource("3_l20p6")]
 
 [node name="baraja_player2" parent="." instance=ExtResource("2_ba4lm")]
 
 [node name="baraja_player" parent="." instance=ExtResource("1_ba4lm")]
 
-[node name="centromesa" parent="." instance=ExtResource("3_l20p6")]
-
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+script = ExtResource("4_b0nem")
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
-position = Vector2(188.49976, 992.5)
-scale = Vector2(15.074728, 15.94898)
-texture = ExtResource("4_vephn")
+texture = ExtResource("5_x0xbu")

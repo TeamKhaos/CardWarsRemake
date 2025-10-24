@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://yja8ns78ohi8"]
 
 [ext_resource type="Script" uid="uid://b3clc1njubxhe" path="res://scripts/CartaRanura.gd" id="1_pfuov"]
-[ext_resource type="Texture2D" uid="uid://d3j2cusi66ufw" path="res://assets/ranura-carta.png" id="2_m5a3o"]
+[ext_resource type="Texture2D" uid="uid://cknj3wdr2281g" path="res://assets/images/maso.png" id="2_pfuov"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_slm10"]
 size = Vector2(229.04144, 353.25134)
@@ -10,8 +10,8 @@ size = Vector2(229.04144, 353.25134)
 script = ExtResource("1_pfuov")
 
 [node name="CartaRanuraImg" type="Sprite2D" parent="."]
-scale = Vector2(0.54891306, 0.5282258)
-texture = ExtResource("2_m5a3o")
+scale = Vector2(0.20165782, 0.21474877)
+texture = ExtResource("2_pfuov")
 
 [node name="AreaRanura" type="Area2D" parent="."]
 scale = Vector2(0.65579706, 0.64631337)

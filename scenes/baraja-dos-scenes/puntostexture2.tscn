@@ -1,11 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://bv5il8qkqf46p"]
+[gd_scene load_steps=3 format=3 uid="uid://b5ue64tmr2acu"]
 
-[ext_resource type="Script" uid="uid://bjuebkwyq55tt" path="res://scripts/player/puntos.gd" id="1_85jag"]
+[ext_resource type="Script" uid="uid://bbkkj05fwqfdv" path="res://scripts/player/puntos.gd" id="1_wr5mp"]
 [ext_resource type="Texture2D" uid="uid://c4jonn2sxbng0" path="res://assets/images/puntos.png" id="2_q7d2c"]
 
 [node name="puntos" type="Node2D"]
-script = ExtResource("1_85jag")
+script = ExtResource("1_wr5mp")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.8105049, 0.45)
+scale = Vector2(0.55686074, 0.42373815)
 texture = ExtResource("2_q7d2c")

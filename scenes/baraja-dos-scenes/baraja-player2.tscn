@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://d0kx6ep6hlp3" path="res://scenes/baraja-dos-scenes/manejo-carta2.tscn" id="4_r0if4"]
 [ext_resource type="PackedScene" uid="uid://cngyj7hhgkyxg" path="res://scenes/baraja-dos-scenes/mano-jugador2.tscn" id="5_8ugpn"]
 [ext_resource type="PackedScene" uid="uid://chkkm07k6m5ie" path="res://scenes/baraja-dos-scenes/manotexture2.tscn" id="6_8ugpn"]
-[ext_resource type="PackedScene" uid="uid://bv5il8qkqf46p" path="res://scenes/baraja-dos-scenes/puntostexture2.tscn" id="7_cwrvk"]
+[ext_resource type="PackedScene" uid="uid://bx70e1qxfwmv0" path="res://scenes/baraja-dos-scenes/puntostexture2.tscn" id="7_cwrvk"]
 
 [node name="BarajaPlayer2" type="Node2D"]
 

@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://0k5hq6e2ay85"]
 
-[ext_resource type="Script" uid="uid://fyjxeg5shx6m" path="res://scripts/player/Deck.gd" id="1_5unmk"]
-[ext_resource type="Texture2D" uid="uid://dp48sn2157bw7" path="res://assets/carta_duelo0.png" id="2_jldr8"]
+[ext_resource type="Script" uid="uid://dxprty85s4omu" path="res://scripts/player/Deck.gd" id="1_5unmk"]
+[ext_resource type="Texture2D" uid="uid://cknj3wdr2281g" path="res://assets/images/maso.png" id="2_5unmk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tbgi4"]
 size = Vector2(1023.80743, 1599.6992)
@@ -13,7 +13,7 @@ script = ExtResource("1_5unmk")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 z_index = -2
 scale = Vector2(0.63, 0.63)
-texture = ExtResource("2_jldr8")
+texture = ExtResource("2_5unmk")
 
 [node name="Area2D" type="Area2D" parent="."]
 scale = Vector2(0.63, 0.63)
