@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://b4rsxqbl1fb8c"]
+
+[ext_resource type="PackedScene" uid="uid://yja8ns78ohi8" path="res://scenes/carta_ranura.tscn" id="1_pcpjj"]
+
+[node name="centromesa" type="Node2D"]
+
+[node name="CartaRanura" parent="." instance=ExtResource("1_pcpjj")]
+is_player_one = false
+
+[node name="CartaRanura2" parent="." instance=ExtResource("1_pcpjj")]
