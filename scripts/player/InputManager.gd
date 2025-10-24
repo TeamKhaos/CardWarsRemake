@@ -1,6 +1,8 @@
 extends Node2D
 @export var manejo_carta: Node
 @export var deck_: Node
+@export var is_player_one: bool = true
+
 # --- CONSTANTES ---
 # Máscara de colisión para detectar las cartas.
 const MASCARA_COLISION_CARTA = 1
@@ -29,7 +31,7 @@ func _ready() -> void:
 # Se llama en cada evento de entrada (input).
 func _input(event):
 	# Comprueba si el evento es un clic del botón izquierdo del mouse.
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT :
 		# Si se presiona el botón.
 		if event.pressed:
 			# Emite la señal de que se ha hecho clic.
@@ -56,19 +58,19 @@ func raycast_al_cursor():
 	# Realiza la intersección de punto.
 	var resultado = space_state.intersect_point(parametros)
 	# Si hay algún resultado.
-	if resultado.size() > 0:
+	if resultado.size() > 0 :
 		# Obtiene la máscara de colisión del objeto detectado.
 		var resultado_collision_mask = resultado[0].collider.collision_mask
 		# Si la máscara de colisión es la de una carta.
-		if resultado_collision_mask == MASCARA_COLISION_CARTA:
+		if resultado_collision_mask == MASCARA_COLISION_CARTA  :
 			# Se ha seleccionado una carta.
 			var carta_encontrada = resultado[0].collider.get_parent()
 			# Si se ha encontrado una carta válida.
-			if carta_encontrada:
+			if carta_encontrada :
 				# Llama a la función para empezar a arrastrar la carta.
 				carta_manager_referencia.empezar_a_arrastrar(carta_encontrada)
 		# Si la máscara de colisión es la del mazo.
-		elif resultado_collision_mask == MASCARA_COLISION_CARTA_DECK:
+		elif resultado_collision_mask == MASCARA_COLISION_CARTA_DECK :
 			# Se ha seleccionado el mazo.
 			deck_referencia.tomar_carta()
 			

@@ -24,6 +24,7 @@ manejo_jugador = NodePath("../ManoJugador")
 [node name="InputManager" parent="." node_paths=PackedStringArray("manejo_carta", "deck_") instance=ExtResource("3_6o3qm")]
 manejo_carta = NodePath("../ManejoCarta")
 deck_ = NodePath("../Deck")
+is_player_one = false
 
 [node name="ManejoCarta" parent="." node_paths=PackedStringArray("manejo_jugador", "input_manager") instance=ExtResource("4_r0if4")]
 is_player_one = false

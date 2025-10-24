@@ -20,6 +20,7 @@ func _ready():
 
 # --- FUNCIONES DE MANO ---
 func añadir_carta_mano(carta, velocidad):
+	## pendiente que las cartas salgan giradas si is player one es false
 	if carta not in mano_jugador:
 		mano_jugador.insert(0, carta)
 		actulizar_posicion_mano(velocidad)

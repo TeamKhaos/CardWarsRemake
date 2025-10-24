@@ -25,8 +25,8 @@ func _ready() -> void:
 	input_manager.connect("levantado_click_izquierdo", on_click_izquierdo_levantado)
 
 	if is_player_one:
-		ALTURA_DEFECTO_CARTA = 0.70
-		ALTURA_SUBIDA_CARTA = 0.80
+		ALTURA_DEFECTO_CARTA = 0.7
+		ALTURA_SUBIDA_CARTA = 0.8
 	else:
 		ALTURA_DEFECTO_CARTA = 0.7
 		ALTURA_SUBIDA_CARTA = 0.8
@@ -38,34 +38,34 @@ func _process(delta: float) -> void:
 
 # --- FUNCIONES DE ARRASTRE ---
 func empezar_a_arrastrar(carta):
-	carta_siend_arrastrada = carta
-	carta.scale = Vector2(ALTURA_DEFECTO_CARTA, ALTURA_DEFECTO_CARTA)
+		carta_siend_arrastrada = carta
+		carta.scale = Vector2(ALTURA_DEFECTO_CARTA, ALTURA_DEFECTO_CARTA)
 	
 func dejar_de_arrastrar():
 	carta_siend_arrastrada.scale = Vector2(ALTURA_SUBIDA_CARTA, ALTURA_SUBIDA_CARTA)
 	var carta_ranura_encontrada = raycast_check_carta_ranura()
-	if carta_ranura_encontrada and not carta_ranura_encontrada.carta_en_ranura:
+	if carta_ranura_encontrada and not carta_ranura_encontrada.carta_en_ranura and is_player_one:
 		mano_jugador_referencia.remover_carta_mano(carta_siend_arrastrada)
 		carta_siend_arrastrada.global_position = carta_ranura_encontrada.global_position
 		carta_siend_arrastrada.scale = carta_ranura_encontrada.scale
 		carta_siend_arrastrada.get_node("Area2D/CollisionShape2D").disabled = true
 		carta_ranura_encontrada.carta_en_ranura = true
-	else:
+	elif is_player_one:
 		mano_jugador_referencia.añadir_carta_mano(carta_siend_arrastrada, velocidad_de_carta_default)
 	carta_siend_arrastrada = null
 	
 # --- MANEJO DE SEÑALES DE LA CARTA ---
 func connect_carta_signal(carta):
-	carta.connect("sosteniendo", on_hovered_over_carta)
-	carta.connect("soltando", on_hovered_off_carta)
+	carta.connect("sosteniendo", al_entrar_el_cursor_en_carta)
+	carta.connect("soltando", al_salir_del_cursor)
 	carta.scale = Vector2(ALTURA_DEFECTO_CARTA, ALTURA_DEFECTO_CARTA)
 	
-func on_hovered_over_carta(carta):
+func al_entrar_el_cursor_en_carta(carta):
 	if !cursor_sobre_carta:
 		cursor_sobre_carta = true 
 		resaltar_carta(carta, true)
 
-func on_hovered_off_carta(carta):
+func al_salir_del_cursor(carta):
 	if !carta_siend_arrastrada:
 		cursor_sobre_carta = false
 		resaltar_carta(carta, false)
@@ -96,7 +96,6 @@ func raycast_check_carta_ranura():
 	return null
 
 func raycast_check_carta():
-	
 	var space_state = get_world_2d().direct_space_state
 	var parametros = PhysicsPointQueryParameters2D.new()
 	parametros.position = get_global_mouse_position()
