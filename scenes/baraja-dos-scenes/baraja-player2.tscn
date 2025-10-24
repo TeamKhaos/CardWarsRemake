@@ -1,0 +1,26 @@
+[gd_scene load_steps=6 format=3 uid="uid://b1qp17ltetqmu"]
+
+[ext_resource type="PackedScene" uid="uid://cqosclm8wd5e1" path="res://scenes/baraja-dos-scenes/perfil2.tscn" id="1_ikob4"]
+[ext_resource type="PackedScene" uid="uid://0k5hq6e2ay85" path="res://scenes/baraja-dos-scenes/deck2.tscn" id="2_8d8u2"]
+[ext_resource type="PackedScene" uid="uid://civ2vuqdnysyn" path="res://scenes/baraja-dos-scenes/input_manager2.tscn" id="3_6o3qm"]
+[ext_resource type="PackedScene" uid="uid://d0kx6ep6hlp3" path="res://scenes/baraja-dos-scenes/manejo-carta2.tscn" id="4_r0if4"]
+[ext_resource type="PackedScene" uid="uid://cngyj7hhgkyxg" path="res://scenes/baraja-dos-scenes/mano-jugador2.tscn" id="5_8ugpn"]
+
+[node name="BarajaPlayer2" type="Node2D"]
+
+[node name="perfil" parent="." instance=ExtResource("1_ikob4")]
+
+[node name="Deck" parent="." node_paths=PackedStringArray("manejo_carta", "manejo_jugador") instance=ExtResource("2_8d8u2")]
+manejo_carta = NodePath("../ManejoCarta")
+manejo_jugador = NodePath("../ManoJugador")
+
+[node name="InputManager" parent="." node_paths=PackedStringArray("manejo_carta", "deck_") instance=ExtResource("3_6o3qm")]
+manejo_carta = NodePath("../ManejoCarta")
+deck_ = NodePath("../Deck")
+
+[node name="ManejoCarta" parent="." node_paths=PackedStringArray("manejo_jugador", "input_manager") instance=ExtResource("4_r0if4")]
+manejo_jugador = NodePath("../ManoJugador")
+input_manager = NodePath("../InputManager")
+
+[node name="ManoJugador" parent="." node_paths=PackedStringArray("deck_") instance=ExtResource("5_8ugpn")]
+deck_ = NodePath("../Deck")

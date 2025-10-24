@@ -1,8 +1,6 @@
 extends Node2D
 @export var manejo_carta: Node
 @export var deck_: Node
-
-
 # --- CONSTANTES ---
 # Máscara de colisión para detectar las cartas.
 const MASCARA_COLISION_CARTA = 1

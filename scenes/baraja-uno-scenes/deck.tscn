@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://udwupf77vm0o"]
 
-[ext_resource type="Script" uid="uid://ddo0p2s5jnlft" path="res://scripts/Deck.gd" id="1_1efqa"]
+[ext_resource type="Script" uid="uid://rfg1trcvmiri" path="res://scripts/baraja-jugador-uno/Deck.gd" id="1_1efqa"]
 [ext_resource type="Texture2D" uid="uid://dp48sn2157bw7" path="res://assets/carta_duelo0.png" id="2_s22ja"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tbgi4"]
