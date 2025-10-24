@@ -6,6 +6,6 @@ extends Node2D
 func _ready() -> void:
 	var tamano_ventana = get_viewport().size
 	if is_player_one:
-		self.position = Vector2(tamano_ventana.x * 0.08, tamano_ventana.y * 0.82)
+		self.position = Vector2(tamano_ventana.x * 0.08, tamano_ventana.y * 0.78)
 	else:
 		self.position = Vector2(tamano_ventana.x * 0.92, tamano_ventana.y * 0.22)
