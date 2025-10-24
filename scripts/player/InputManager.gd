@@ -72,4 +72,3 @@ func raycast_al_cursor():
 			# Se ha seleccionado el mazo.
 			deck_referencia.tomar_carta()
 			
-			

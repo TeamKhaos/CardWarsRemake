@@ -11,10 +11,13 @@
 [node name="BarajaPlayer2" type="Node2D"]
 
 [node name="manotexture" parent="." instance=ExtResource("6_8ugpn")]
+is_player_one = false
 
 [node name="perfil" parent="." instance=ExtResource("1_ikob4")]
+is_player_one = false
 
 [node name="Deck" parent="." node_paths=PackedStringArray("manejo_carta", "manejo_jugador") instance=ExtResource("2_8d8u2")]
+is_player_one = false
 manejo_carta = NodePath("../ManejoCarta")
 manejo_jugador = NodePath("../ManoJugador")
 
@@ -23,10 +26,13 @@ manejo_carta = NodePath("../ManejoCarta")
 deck_ = NodePath("../Deck")
 
 [node name="ManejoCarta" parent="." node_paths=PackedStringArray("manejo_jugador", "input_manager") instance=ExtResource("4_r0if4")]
+is_player_one = false
 manejo_jugador = NodePath("../ManoJugador")
 input_manager = NodePath("../InputManager")
 
 [node name="ManoJugador" parent="." node_paths=PackedStringArray("deck_") instance=ExtResource("5_8ugpn")]
+is_player_one = false
 deck_ = NodePath("../Deck")
 
 [node name="puntos" parent="." instance=ExtResource("7_cwrvk")]
+is_player_one = false

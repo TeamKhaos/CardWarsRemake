@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://b1fprt3mnmhe2"]
 
 [ext_resource type="Texture2D" uid="uid://o71aiyi5d8l4" path="res://assets/profile.png" id="1_63x4o"]
-[ext_resource type="Script" uid="uid://dujmyyxyfgt7n" path="res://scripts/baraja-jugador-uno/perfil.gd" id="1_8805n"]
+[ext_resource type="Script" uid="uid://dujmyyxyfgt7n" path="res://scripts/player/perfil.gd" id="1_8805n"]
 
 [node name="perfil" type="Node2D"]
 script = ExtResource("1_8805n")

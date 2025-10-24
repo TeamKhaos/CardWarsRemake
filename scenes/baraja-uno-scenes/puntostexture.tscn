@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://ca4feqqwx4onj"]
 
-[ext_resource type="Script" uid="uid://c5o7r2c5gj7gu" path="res://scripts/baraja-jugador-uno/puntos.gd" id="1_ga3gq"]
+[ext_resource type="Script" uid="uid://c5o7r2c5gj7gu" path="res://scripts/player/puntos.gd" id="1_ga3gq"]
 [ext_resource type="Texture2D" uid="uid://c4jonn2sxbng0" path="res://assets/images/puntos.png" id="2_3qfrr"]
 
 [node name="puntos" type="Node2D"]

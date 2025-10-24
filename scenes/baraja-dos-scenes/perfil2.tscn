@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://ccx3bs1paww45"]
 
-[ext_resource type="Script" uid="uid://d0se4goal45la" path="res://scripts/baraja-jugador-dos/perfil2.gd" id="1_magqf"]
+[ext_resource type="Script" uid="uid://d0se4goal45la" path="res://scripts/player/perfil.gd" id="1_magqf"]
 [ext_resource type="Texture2D" uid="uid://wnd808focex8" path="res://assets/ia.png" id="2_magqf"]
 
 [node name="perfil" type="Node2D"]

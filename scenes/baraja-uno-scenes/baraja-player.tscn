@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dyi8jkhua2ecg"]
+[gd_scene load_steps=8 format=3 uid="uid://br5jtnv27c6k0"]
 
 [ext_resource type="PackedScene" uid="uid://b1fprt3mnmhe2" path="res://scenes/baraja-uno-scenes/perfil.tscn" id="1_8t8ff"]
 [ext_resource type="PackedScene" uid="uid://bsn73b6awqrvh" path="res://scenes/baraja-uno-scenes/manejo-carta.tscn" id="2_ssfeg"]
@@ -8,25 +8,25 @@
 [ext_resource type="PackedScene" uid="uid://ca4feqqwx4onj" path="res://scenes/baraja-uno-scenes/puntostexture.tscn" id="7_rfjqy"]
 [ext_resource type="PackedScene" uid="uid://dbddwnst7khjn" path="res://scenes/baraja-uno-scenes/manotexture.tscn" id="7_vjr14"]
 
-[node name="baraja_player" type="Node2D"]
+[node name="BarajaPlayer" type="Node2D"]
 
 [node name="manotexture" parent="." instance=ExtResource("7_vjr14")]
 
-[node name="ManejoCarta" parent="." node_paths=PackedStringArray("manejo_jugador", "input_manager") instance=ExtResource("2_ssfeg")]
-manejo_jugador = NodePath("../ManoJugador")
-input_manager = NodePath("../InputManager")
-
-[node name="ManoJugador" parent="." instance=ExtResource("5_258xl")]
+[node name="perfil" parent="." instance=ExtResource("1_8t8ff")]
 
 [node name="Deck" parent="." node_paths=PackedStringArray("manejo_carta", "manejo_jugador") instance=ExtResource("3_wwpgx")]
 manejo_carta = NodePath("../ManejoCarta")
 manejo_jugador = NodePath("../ManoJugador")
 
-[node name="perfil" parent="." instance=ExtResource("1_8t8ff")]
-position = Vector2(122, 517)
-
 [node name="InputManager" parent="." node_paths=PackedStringArray("manejo_carta", "deck_") instance=ExtResource("4_hvuhv")]
 manejo_carta = NodePath("../ManejoCarta")
+deck_ = NodePath("../Deck")
+
+[node name="ManejoCarta" parent="." node_paths=PackedStringArray("manejo_jugador", "input_manager") instance=ExtResource("2_ssfeg")]
+manejo_jugador = NodePath("../ManoJugador")
+input_manager = NodePath("../InputManager")
+
+[node name="ManoJugador" parent="." node_paths=PackedStringArray("deck_") instance=ExtResource("5_258xl")]
 deck_ = NodePath("../Deck")
 
 [node name="puntos" parent="." instance=ExtResource("7_rfjqy")]

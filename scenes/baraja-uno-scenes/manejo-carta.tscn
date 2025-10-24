@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bsn73b6awqrvh"]
 
-[ext_resource type="Script" uid="uid://c0r63xh4h711i" path="res://scripts/baraja-jugador-uno/ManejoCarta.gd" id="1_b2yth"]
+[ext_resource type="Script" uid="uid://c0r63xh4h711i" path="res://scripts/player/ManejoCarta.gd" id="1_b2yth"]
 
 [node name="ManejoCarta" type="Node2D"]
 script = ExtResource("1_b2yth")
