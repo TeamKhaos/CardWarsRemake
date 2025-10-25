@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://b4rsxqbl1fb8c"]
 
 [ext_resource type="PackedScene" uid="uid://yja8ns78ohi8" path="res://scenes/carta_ranura.tscn" id="1_pcpjj"]
-[ext_resource type="Texture2D" uid="uid://b3qfjqqaa2tnc" path="res://assets/images/mesacentro.png" id="2_1drbg"]
-[ext_resource type="Script" uid="uid://dk5pcjwho6k8d" path="res://scripts/mesa.gd" id="3_wuet2"]
+[ext_resource type="Texture2D" uid="uid://dmhbxqc4s7e8c" path="res://assets/images/mesacentro.png" id="2_1drbg"]
+[ext_resource type="Script" path="res://scripts/mesa.gd" id="3_wuet2"]
 
 [node name="centromesa" type="Node2D"]
 
@@ -11,6 +11,3 @@ texture = ExtResource("2_1drbg")
 script = ExtResource("3_wuet2")
 
 [node name="CartaRanura" parent="." instance=ExtResource("1_pcpjj")]
-is_player_one = false
-
-[node name="CartaRanura2" parent="." instance=ExtResource("1_pcpjj")]

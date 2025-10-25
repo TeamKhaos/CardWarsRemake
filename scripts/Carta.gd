@@ -15,7 +15,8 @@ var posicion_inicial
 func _ready() -> void:
 	# Conecta las señales de esta carta al script del padre (ManejoCarta).
 	# Es importante que todas las cartas sean hijas de ManejoCarta para que esto funcione.
-	get_parent().connect_carta_signal(self)
+	if get_parent().has_method("connect_carta_signal"):
+		get_parent().connect_carta_signal(self)
 
 
 # Se llama en cada fotograma. 'delta' es el tiempo transcurrido desde el fotograma anterior.

@@ -37,6 +37,7 @@ func tomar_carta():
 			var nueva_carta = carta_escena.instantiate()
 			
 			nueva_carta.global_position = self.global_position 
+			nueva_carta.scale = Vector2(0.7, 0.7)
 			
 			nueva_carta.get_node("ataque").text = str(referencia_db_cartas.CARTAS[carta_sacar_nombre][0])
 			nueva_carta.get_node("defensa").text = str(referencia_db_cartas.CARTAS[carta_sacar_nombre][1])
@@ -60,6 +61,7 @@ func reponer_carta():
 		var carta_escena = preload(carta_escena_dir)
 		var nueva_carta = carta_escena.instantiate()
 		nueva_carta.global_position = self.global_position 
+		nueva_carta.scale = Vector2(0.7, 0.7)
 		nueva_carta.get_node("ataque").text = str(referencia_db_cartas.CARTAS[carta_sacar_nombre][0])
 		nueva_carta.get_node("defensa").text = str(referencia_db_cartas.CARTAS[carta_sacar_nombre][1])
 		var carta_imagen_ruta = str("res://assets/" + carta_sacar_nombre + ".png") 
