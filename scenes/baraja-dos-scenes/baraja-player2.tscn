@@ -1,14 +1,20 @@
-[gd_scene load_steps=8 format=3 uid="uid://b1qp17ltetqmu"]
+[gd_scene load_steps=10 format=3 uid="uid://b1qp17ltetqmu"]
 
+[ext_resource type="Script" uid="uid://dly066mtdvlvk" path="res://scripts/ia/AIController.gd" id="1_ff5hb"]
 [ext_resource type="PackedScene" uid="uid://ccx3bs1paww45" path="res://scenes/baraja-dos-scenes/perfil2.tscn" id="1_ikob4"]
 [ext_resource type="PackedScene" uid="uid://0k5hq6e2ay85" path="res://scenes/baraja-dos-scenes/deck2.tscn" id="2_8d8u2"]
-[ext_resource type="PackedScene" uid="uid://civ2vuqdnysyn" path="res://scenes/baraja-dos-scenes/input_manager2.tscn" id="3_6o3qm"]
 [ext_resource type="PackedScene" uid="uid://d0kx6ep6hlp3" path="res://scenes/baraja-dos-scenes/manejo-carta2.tscn" id="4_r0if4"]
 [ext_resource type="PackedScene" uid="uid://cngyj7hhgkyxg" path="res://scenes/baraja-dos-scenes/mano-jugador2.tscn" id="5_8ugpn"]
 [ext_resource type="PackedScene" uid="uid://chkkm07k6m5ie" path="res://scenes/baraja-dos-scenes/manotexture2.tscn" id="6_8ugpn"]
-[ext_resource type="PackedScene" uid="uid://bx70e1qxfwmv0" path="res://scenes/baraja-dos-scenes/puntostexture2.tscn" id="7_cwrvk"]
+[ext_resource type="PackedScene" uid="uid://b5ue64tmr2acu" path="res://scenes/baraja-dos-scenes/puntostexture2.tscn" id="7_cwrvk"]
+[ext_resource type="Script" uid="uid://cgvdsx2tj35m1" path="res://scripts/ia/ManejoCarta.gd" id="7_ff5hb"]
+[ext_resource type="Script" uid="uid://c0sk1hsrdxyvh" path="res://scripts/ia/ManoJugador.gd" id="9_c41br"]
 
-[node name="BarajaPlayer2" type="Node2D"]
+[node name="BarajaPlayer2" type="Node2D" node_paths=PackedStringArray("deck", "manejo_carta", "mano_jugador")]
+script = ExtResource("1_ff5hb")
+deck = NodePath("Deck")
+manejo_carta = NodePath("ManejoCarta")
+mano_jugador = NodePath("ManoJugador")
 
 [node name="manotexture" parent="." instance=ExtResource("6_8ugpn")]
 is_player_one = false
@@ -17,22 +23,14 @@ is_player_one = false
 is_player_one = false
 
 [node name="Deck" parent="." node_paths=PackedStringArray("manejo_carta", "manejo_jugador") instance=ExtResource("2_8d8u2")]
-is_player_one = false
 manejo_carta = NodePath("../ManejoCarta")
 manejo_jugador = NodePath("../ManoJugador")
 
-[node name="InputManager" parent="." node_paths=PackedStringArray("manejo_carta", "deck_") instance=ExtResource("3_6o3qm")]
-manejo_carta = NodePath("../ManejoCarta")
-deck_ = NodePath("../Deck")
-is_player_one = false
-
-[node name="ManejoCarta" parent="." node_paths=PackedStringArray("manejo_jugador", "input_manager") instance=ExtResource("4_r0if4")]
-is_player_one = false
-manejo_jugador = NodePath("../ManoJugador")
-input_manager = NodePath("../InputManager")
+[node name="ManejoCarta" parent="." instance=ExtResource("4_r0if4")]
+script = ExtResource("7_ff5hb")
 
 [node name="ManoJugador" parent="." node_paths=PackedStringArray("deck_") instance=ExtResource("5_8ugpn")]
-is_player_one = false
+script = ExtResource("9_c41br")
 deck_ = NodePath("../Deck")
 
 [node name="puntos" parent="." instance=ExtResource("7_cwrvk")]
