@@ -4,6 +4,7 @@ extends Node2D
 @export var is_player_one: bool = true
 @export var manejo_carta: Node
 @export var manejo_jugador: Node
+var ALTURA_DEFECTO_CARTA: float
 
 # --- VARIABLES ---
 var ia_deck = []
@@ -28,6 +29,7 @@ func _ready() -> void:
 
 # --- FUNCIONES DEL MAZO ---
 func tomar_carta():
+	ALTURA_DEFECTO_CARTA = 0.7
 	if primerclick == false:
 		for i in range(5):
 			var carta_sacar_nombre = ia_deck[0]
@@ -37,7 +39,7 @@ func tomar_carta():
 			var nueva_carta = carta_escena.instantiate()
 			
 			nueva_carta.global_position = self.global_position 
-			nueva_carta.scale = Vector2(0.7, 0.7)
+			nueva_carta.scale = Vector2(ALTURA_DEFECTO_CARTA,	ALTURA_DEFECTO_CARTA)
 			
 			nueva_carta.get_node("ataque").text = str(referencia_db_cartas.CARTAS[carta_sacar_nombre][0])
 			nueva_carta.get_node("defensa").text = str(referencia_db_cartas.CARTAS[carta_sacar_nombre][1])
@@ -50,6 +52,7 @@ func tomar_carta():
 			primerclick = true
 
 func reponer_carta():
+	ALTURA_DEFECTO_CARTA = 0.7
 	if ia_deck.size() > 0: 
 		var carta_sacar_nombre = ia_deck[0]
 		ia_deck.erase(carta_sacar_nombre)
@@ -61,7 +64,7 @@ func reponer_carta():
 		var carta_escena = preload(carta_escena_dir)
 		var nueva_carta = carta_escena.instantiate()
 		nueva_carta.global_position = self.global_position 
-		nueva_carta.scale = Vector2(0.7, 0.7)
+		nueva_carta.scale = Vector2(ALTURA_DEFECTO_CARTA, ALTURA_DEFECTO_CARTA)
 		nueva_carta.get_node("ataque").text = str(referencia_db_cartas.CARTAS[carta_sacar_nombre][0])
 		nueva_carta.get_node("defensa").text = str(referencia_db_cartas.CARTAS[carta_sacar_nombre][1])
 		var carta_imagen_ruta = str("res://assets/" + carta_sacar_nombre + ".png") 

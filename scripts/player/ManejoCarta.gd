@@ -58,7 +58,7 @@ func dejar_de_arrastrar():
 func connect_carta_signal(carta):
 	carta.connect("sosteniendo", on_hovered_over_carta)
 	carta.connect("soltando", on_hovered_off_carta)
-	carta.scale = Vector2(ALTURA_DEFECTO_CARTA, ALTURA_DEFECTO_CARTA)
+	carta.scale = Vector2(ALTURA_DEFECTO_CARTA, ALTURA_SUBIDA_CARTA)
 	
 func on_hovered_over_carta(carta):
 	if !cursor_sobre_carta:
@@ -81,7 +81,12 @@ func resaltar_carta(carta, sosteniendo):
 		carta.scale = Vector2(ALTURA_SUBIDA_CARTA, ALTURA_SUBIDA_CARTA)
 		carta.z_index = 2
 	else:
-		carta.scale = Vector2(ALTURA_DEFECTO_CARTA, ALTURA_DEFECTO_CARTA)
+			# Solo aplicar escala default si la carta está en la mano
+			# Si está en una ranura, mantener escala (1, 1)
+		if carta.get_node("Area2D/CollisionShape2D").disabled:  # Esto indica que está en ranura
+			carta.scale = Vector2(1, 1)
+		else:
+			carta.scale = Vector2(ALTURA_DEFECTO_CARTA, ALTURA_DEFECTO_CARTA)
 		carta.z_index = 1
 		
 func raycast_check_carta_ranura():

@@ -9,6 +9,7 @@ func _ready() -> void:
 		self.position = Vector2(tamano_ventana.x * 0.418, tamano_ventana.y * 0.5)
 	else:
 		self.position = Vector2(tamano_ventana.x * 0.582, tamano_ventana.y * 0.5)
+		carta_en_ranura = true
 		
 		
 	
