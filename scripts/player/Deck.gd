@@ -38,8 +38,10 @@ func tomar_carta():
 			
 			nueva_carta.global_position = self.global_position 
 			
-			nueva_carta.get_node("ataque").text = str(referencia_db_cartas.CARTAS[carta_sacar_nombre][0])
-			nueva_carta.get_node("defensa").text = str(referencia_db_cartas.CARTAS[carta_sacar_nombre][1])
+			var datos_carta = referencia_db_cartas.CARTAS[carta_sacar_nombre]
+			nueva_carta.get_node("ataque").text = str(datos_carta["ataque"])
+			nueva_carta.set_meta("tipo", datos_carta["tipo"]) # Guardamos el tipo como metadata (útil luego para el combate)
+			
 			var carta_imagen_ruta = str("res://assets/" + carta_sacar_nombre + ".png") 
 			nueva_carta.get_node("Cardimage").texture = load(carta_imagen_ruta)
 			manejo_carta.add_child(nueva_carta)
@@ -59,9 +61,12 @@ func reponer_carta():
 		$RichTextLabel.text = str(jugador_deck.size())
 		var carta_escena = preload(carta_escena_dir)
 		var nueva_carta = carta_escena.instantiate()
-		nueva_carta.global_position = self.global_position 
-		nueva_carta.get_node("ataque").text = str(referencia_db_cartas.CARTAS[carta_sacar_nombre][0])
-		nueva_carta.get_node("defensa").text = str(referencia_db_cartas.CARTAS[carta_sacar_nombre][1])
+		nueva_carta.global_position = self.global_position
+		
+		var datos_carta = referencia_db_cartas.CARTAS[carta_sacar_nombre]
+		nueva_carta.get_node("ataque").text = str(datos_carta["ataque"])
+		nueva_carta.set_meta("tipo", datos_carta["tipo"])
+
 		var carta_imagen_ruta = str("res://assets/" + carta_sacar_nombre + ".png") 
 		nueva_carta.get_node("Cardimage").texture = load(carta_imagen_ruta)
 		manejo_carta.add_child(nueva_carta)

@@ -22,10 +22,9 @@ func _ready() -> void:
 		self.position = Vector2(tamano_ventana.x * 0.80, tamano_ventana.y * 0.18)
 	
 	var DbCartas = preload("res://scripts/DB_Cartas.gd")
+	referencia_db_cartas = DbCartas
 	ia_deck = DbCartas.CARTAS.keys()
 	ia_deck.shuffle()
-	$RichTextLabel.text = str(ia_deck.size())
-	referencia_db_cartas = preload("res://scripts/DB_Cartas.gd")
 
 # --- FUNCIONES DEL MAZO ---
 func tomar_carta():
@@ -41,8 +40,10 @@ func tomar_carta():
 			nueva_carta.global_position = self.global_position 
 			nueva_carta.scale = Vector2(ALTURA_DEFECTO_CARTA,	ALTURA_DEFECTO_CARTA)
 			
-			nueva_carta.get_node("ataque").text = str(referencia_db_cartas.CARTAS[carta_sacar_nombre][0])
-			nueva_carta.get_node("defensa").text = str(referencia_db_cartas.CARTAS[carta_sacar_nombre][1])
+			var datos_carta = referencia_db_cartas.CARTAS[carta_sacar_nombre]
+			nueva_carta.get_node("ataque").text = str(datos_carta["ataque"])
+			nueva_carta.set_meta("tipo", datos_carta["tipo"]) # Guardamos el tipo como metadata (útil luego para el combate)
+
 			var carta_imagen_ruta = str("res://assets/" + carta_sacar_nombre + ".png") 
 			nueva_carta.get_node("Cardimage").texture = load(carta_imagen_ruta)
 			manejo_carta.add_child(nueva_carta)

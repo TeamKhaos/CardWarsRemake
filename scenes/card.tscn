@@ -182,6 +182,7 @@ texture = ExtResource("1_kikvd")
 shape = SubResource("RectangleShape2D_ig7tw")
 
 [node name="ataque" type="RichTextLabel" parent="."]
+visible = false
 modulate = Color(0.62352943, 0, 0.1764706, 0)
 offset_left = -66.25
 offset_top = 23.750004
@@ -192,6 +193,7 @@ text = "0"
 metadata/_edit_use_anchors_ = true
 
 [node name="defensa" type="RichTextLabel" parent="."]
+visible = false
 modulate = Color(0.62352943, 0, 0.1764706, 0)
 offset_left = 35.0
 offset_top = 60.0
