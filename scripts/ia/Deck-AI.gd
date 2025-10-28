@@ -1,4 +1,3 @@
-
 extends Node2D
 
 @export var is_player_one: bool = true
@@ -49,7 +48,7 @@ func tomar_carta():
 			manejo_carta.add_child(nueva_carta)
 			nueva_carta.name = "Carta"
 			manejo_ia.añadir_carta_mano(nueva_carta, velocidad_tomado_carta)
-			nueva_carta.get_node("AnimationPlayer").play("carta_flip")
+			
 			primerclick = true
 
 func reponer_carta():
@@ -73,4 +72,3 @@ func reponer_carta():
 		manejo_carta.add_child(nueva_carta)
 		nueva_carta.name = "Carta"
 		manejo_ia.añadir_carta_mano(nueva_carta, velocidad_tomado_carta)
-		nueva_carta.get_node("AnimationPlayer").play("carta_flip")
