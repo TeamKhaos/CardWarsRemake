@@ -1,5 +1,8 @@
 extends Node2D
 
+# --- PROPIEDADES ---
+@export var is_ai: bool = false
+
 # --- SEÑALES ---
 # Se emite cuando el mouse está sobre la carta.
 signal sosteniendo
@@ -13,6 +16,12 @@ var posicion_inicial
 # --- FUNCIONES DE GODOT ---
 # Se llama cuando el nodo entra en el árbol de la escena por primera vez.
 func _ready() -> void:
+	# Si la carta es de la IA, deshabilitar la interacción del mouse.
+	if is_ai:
+		var area_2d = get_node_or_null("Area2D") # Asume que el nodo Area2D se llama "Area2D"
+		if area_2d:
+			area_2d.input_pickable = false
+		
 	# Conecta las señales de esta carta al script del padre (ManejoCarta).
 	# Es importante que todas las cartas sean hijas de ManejoCarta para que esto funcione.
 	if get_parent().has_method("connect_carta_signal"):

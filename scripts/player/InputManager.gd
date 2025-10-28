@@ -63,6 +63,7 @@ func raycast_al_cursor():
 		if resultado_collision_mask == MASCARA_COLISION_CARTA:
 			# Se ha seleccionado una carta.
 			var carta_encontrada = resultado[0].collider.get_parent()
+			if carta_encontrada.is_ai: return
 			# Si se ha encontrado una carta válida.
 			if carta_encontrada:
 				# Llama a la función para empezar a arrastrar la carta.

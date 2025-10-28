@@ -37,7 +37,7 @@ func tomar_carta():
 			$RichTextLabel.text = str(ia_deck.size())
 			var carta_escena = preload(carta_escena_dir)
 			var nueva_carta = carta_escena.instantiate()
-			
+			nueva_carta.is_ai = true 
 			nueva_carta.global_position = self.global_position 
 			nueva_carta.scale = Vector2(ALTURA_DEFECTO_CARTA,	ALTURA_DEFECTO_CARTA)
 			
@@ -63,6 +63,7 @@ func reponer_carta():
 		$RichTextLabel.text = str(ia_deck.size())
 		var carta_escena = preload(carta_escena_dir)
 		var nueva_carta = carta_escena.instantiate()
+		nueva_carta.is_ai = true 
 		nueva_carta.global_position = self.global_position 
 		nueva_carta.scale = Vector2(ALTURA_DEFECTO_CARTA, ALTURA_DEFECTO_CARTA)
 		nueva_carta.get_node("ataque").text = str(referencia_db_cartas.CARTAS[carta_sacar_nombre][0])

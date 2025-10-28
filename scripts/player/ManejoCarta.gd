@@ -59,6 +59,7 @@ func connect_carta_signal(carta):
 	carta.scale = Vector2(ALTURA_DEFECTO_CARTA, ALTURA_DEFECTO_CARTA)
 	
 func on_hovered_over_carta(carta):
+	if carta.is_ai: return
 	if !cursor_sobre_carta:
 		cursor_sobre_carta = true 
 		resaltar_carta(carta, true)
@@ -68,6 +69,7 @@ func on_hovered_off_carta(carta):
 		cursor_sobre_carta = false
 		resaltar_carta(carta, false)
 		var nueva_carta_sosteniendo = raycast_check_carta()
+		if nueva_carta_sosteniendo and nueva_carta_sosteniendo.is_ai: return
 		if nueva_carta_sosteniendo:
 			resaltar_carta(nueva_carta_sosteniendo, true)
 		else:
@@ -112,6 +114,7 @@ func raycast_check_carta():
 
 func get_carta_con_mayor_z_index(cartas):
 	var carta_mas_alta = cartas[0].collider.get_parent()
+	if carta_mas_alta.is_ai: return null
 	var z_index_mas_alto = carta_mas_alta.z_index
 	
 	for i in range(1, cartas.size()):
