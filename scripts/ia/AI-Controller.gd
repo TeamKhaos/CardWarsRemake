@@ -2,7 +2,7 @@ extends Node2D
 
 @export var deck: Node
 @export var manejo_carta: Node
-@export var mano_jugador: Node
+@export var mano_ia: Node
 @export var slots_container: Node
 
 func _ready():
@@ -15,7 +15,7 @@ func _ready():
 
 func _on_timer_timeout():
 	# Si la IA tiene menos de 5 cartas, roba una
-	if mano_jugador.mano_jugador.size() < 5:
+	if mano_ia.cartas_en_mano.size() < 5:
 		deck.tomar_carta()
 	else:
 		# Si ya tiene 5 cartas, juega una
@@ -23,14 +23,14 @@ func _on_timer_timeout():
 
 
 func play_turn():
-	if mano_jugador.mano_jugador.size() > 0:
-		var card_to_play = mano_jugador.mano_jugador[0]
+	if mano_ia.cartas_en_mano.size() > 0:
+		var card_to_play = mano_ia.cartas_en_mano[0]
 		var empty_slot = find_empty_slot()
 		
 		if empty_slot:
 			# Marcar la ranura como ocupada
 			empty_slot.set("carta_en_ranura", true)
-			mano_jugador.remover_carta_mano(card_to_play)
+			mano_ia.remover_carta_mano(card_to_play)
 
 			# --- ANIMACIÓN ---
 			var tween = create_tween()

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dbddwnst7khjn"]
 
-[ext_resource type="Script" uid="uid://by30ixggm4tci" path="res://scripts/player/manotexture.gd" id="1_eqg00"]
+[ext_resource type="Script" uid="uid://cxoujhl75822j" path="res://scripts/player/manotexture.gd" id="1_eqg00"]
 [ext_resource type="Texture2D" uid="uid://qci2e5fhvkgx" path="res://assets/images/mesa.png" id="2_3346o"]
 
 [node name="manotexture" type="Node2D"]

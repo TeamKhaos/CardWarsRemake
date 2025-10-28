@@ -1,19 +1,19 @@
 [gd_scene load_steps=4 format=3 uid="uid://0k5hq6e2ay85"]
 
-[ext_resource type="Script" uid="uid://dxprty85s4omu" path="res://scripts/ia/Deck.gd" id="1_5unmk"]
-[ext_resource type="Texture2D" uid="uid://dqaq5swf41vgi" path="res://assets/images/maso.png" id="2_5unmk"]
+[ext_resource type="Script" uid="uid://bv0urweac5u22" path="res://scripts/ia/Deck-AI.gd" id="1_enq05"]
+[ext_resource type="Texture2D" uid="uid://cknj3wdr2281g" path="res://assets/images/maso.png" id="2_mv5jo"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tbgi4"]
 size = Vector2(1023.80743, 1599.6992)
 
-[node name="Deck" type="Node2D"]
+[node name="DeckIA" type="Node2D"]
 scale = Vector2(0.4, 0.4)
-script = ExtResource("1_5unmk")
+script = ExtResource("1_enq05")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 z_index = -2
 scale = Vector2(0.63, 0.63)
-texture = ExtResource("2_5unmk")
+texture = ExtResource("2_mv5jo")
 
 [node name="Area2D" type="Area2D" parent="."]
 scale = Vector2(0.63, 0.63)

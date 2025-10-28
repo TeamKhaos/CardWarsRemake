@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://chkkm07k6m5ie"]
+
+[ext_resource type="Script" uid="uid://cxoujhl75822j" path="res://scripts/player/manotexture.gd" id="1_gwy4h"]
+[ext_resource type="Texture2D" uid="uid://qci2e5fhvkgx" path="res://assets/images/mesa.png" id="1_ljfht"]
+
+[node name="manotexture" type="Node2D"]
+script = ExtResource("1_gwy4h")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.764258, 0.76453495)
+texture = ExtResource("1_ljfht")
