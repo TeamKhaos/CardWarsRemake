@@ -9,5 +9,6 @@ func play_card_for_ai(carta, ranura):
 
 	carta.global_position = ranura.global_position
 	carta.scale = Vector2(1, 1)
+	carta.get_node("AnimationPlayer").play("carta_flip")
 	carta.get_node("Area2D/CollisionShape2D").disabled = true
 	ranura.set("carta_en_ranura", true)

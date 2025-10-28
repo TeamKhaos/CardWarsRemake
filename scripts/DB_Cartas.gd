@@ -2,7 +2,7 @@
 # La estructura es un diccionario llamado CARTAS, donde cada clave es el nombre de la carta
 # y el valor es un array con sus estadísticas, en este caso, Ataque y Defensa.
 
-const CARTAS = { #Ataque, Defensa
+const CARTAS = { #Ataque, Tipo
 	"carta_verde1" : [3,2],
 	"carta_verde2" : [3,2],
 	"carta_verde3" : [3,2],
