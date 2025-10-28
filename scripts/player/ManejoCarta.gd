@@ -37,10 +37,10 @@ func _process(delta: float) -> void:
 # --- FUNCIONES DE ARRASTRE ---
 func empezar_a_arrastrar(carta):
 	carta_siend_arrastrada = carta
-	carta.scale = Vector2(ALTURA_DEFECTO_CARTA, ALTURA_SUBIDA_CARTA)
+	carta.scale = Vector2(ALTURA_SUBIDA_CARTA, ALTURA_SUBIDA_CARTA)
 	
 func dejar_de_arrastrar():
-	carta_siend_arrastrada.scale = Vector2(ALTURA_DEFECTO_CARTA, ALTURA_SUBIDA_CARTA)
+	carta_siend_arrastrada.scale = Vector2(ALTURA_SUBIDA_CARTA, ALTURA_SUBIDA_CARTA)
 	var carta_ranura_encontrada = raycast_check_carta_ranura()
 	if carta_ranura_encontrada and not carta_ranura_encontrada.carta_en_ranura:
 		mano_jugador_referencia.remover_carta_mano(carta_siend_arrastrada)
@@ -56,7 +56,7 @@ func dejar_de_arrastrar():
 func connect_carta_signal(carta):
 	carta.connect("sosteniendo", on_hovered_over_carta)
 	carta.connect("soltando", on_hovered_off_carta)
-	carta.scale = Vector2(ALTURA_DEFECTO_CARTA, ALTURA_SUBIDA_CARTA)
+	carta.scale = Vector2(ALTURA_DEFECTO_CARTA, ALTURA_DEFECTO_CARTA)
 	
 func on_hovered_over_carta(carta):
 	if !cursor_sobre_carta:
@@ -76,7 +76,7 @@ func on_hovered_off_carta(carta):
 # --- FUNCIONES DE UTILIDAD ---
 func resaltar_carta(carta, sosteniendo):
 	if sosteniendo:
-		carta.scale = Vector2(ALTURA_DEFECTO_CARTA,ALTURA_SUBIDA_CARTA )
+		carta.scale = Vector2(ALTURA_SUBIDA_CARTA,ALTURA_SUBIDA_CARTA )
 		carta.z_index = 2
 	else:
 			# Solo aplicar escala default si la carta está en la mano
