@@ -30,6 +30,10 @@ func play_turn():
 		if empty_slot:
 			# Marcar la ranura como ocupada
 			empty_slot.set("carta_en_ranura", true)
+			var ataque = card_to_play.get_meta("ataque")
+			var tipo = card_to_play.get_meta("tipo")
+			print("📥 Carta cayó en ranura2:", card_to_play.name, "→ { ataque:", ataque, ", tipo:", tipo, " }")
+			get_node("../Game_Manager").registrar_carta(empty_slot.id_ranura, card_to_play, true)
 			mano_ia.remover_carta_mano(card_to_play)
 
 			# --- ANIMACIÓN ---
@@ -51,8 +55,17 @@ func play_turn():
 
 
 func find_empty_slot():
-	for slot in slots_container.get_children():
-		var ocupado = slot.get("carta_en_ranura")
-		if not ocupado:
-			return slot
+	print("🔎 Buscando ranura vacía...")
+
+	var ranuras = get_tree().get_nodes_in_group("ranuras")
+	print("📦 Total de ranuras detectadas en grupo:", ranuras.size())
+
+	for ranura in ranuras:
+		print("➡️ Revisando:", ranura.name, "| carta_en_ranura =", ranura.carta_en_ranura)
+
+		if not ranura.carta_en_ranura:
+			print("✅ Ranura libre encontrada:", ranura.name)
+			return ranura
+	
+	print("❌ No se encontró ninguna ranura libre.")
 	return null

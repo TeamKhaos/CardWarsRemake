@@ -48,6 +48,9 @@ func dejar_de_arrastrar():
 		carta_siend_arrastrada.scale = carta_ranura_encontrada.scale
 		carta_siend_arrastrada.get_node("Area2D/CollisionShape2D").disabled = true
 		carta_ranura_encontrada.carta_en_ranura = true
+		var ataque = carta_siend_arrastrada.get_meta("ataque")
+		var tipo = carta_siend_arrastrada.get_meta("tipo")
+		print("📥 Carta cayó en ranura:", carta_siend_arrastrada.name, "→ { ataque:", ataque, ", tipo:", tipo, " }")
 	else:
 		mano_jugador_referencia.añadir_carta_mano(carta_siend_arrastrada, velocidad_de_carta_default)
 	carta_siend_arrastrada = null

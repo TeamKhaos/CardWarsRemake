@@ -41,7 +41,7 @@ func tomar_carta():
 			nueva_carta.scale = Vector2(ALTURA_DEFECTO_CARTA,	ALTURA_DEFECTO_CARTA)
 			
 			var datos_carta = referencia_db_cartas.CARTAS[carta_sacar_nombre]
-			nueva_carta.get_node("ataque").text = str(datos_carta["ataque"])
+			nueva_carta.set_meta("ataque", datos_carta["ataque"])
 			nueva_carta.set_meta("tipo", datos_carta["tipo"]) # Guardamos el tipo como metadata (útil luego para el combate)
 
 			var carta_imagen_ruta = str("res://assets/" + carta_sacar_nombre + ".png") 

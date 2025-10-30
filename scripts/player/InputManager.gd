@@ -6,6 +6,8 @@ extends Node2D
 const MASCARA_COLISION_CARTA = 1
 # Máscara de colisión para detectar el mazo de cartas.
 const MASCARA_COLISION_CARTA_DECK = 4
+# mascara colisioni ranura
+
 
 # --- REFERENCIAS ---
 # Referencia al script que maneja la lógica de las cartas.
@@ -72,4 +74,5 @@ func raycast_al_cursor():
 		elif resultado_collision_mask == MASCARA_COLISION_CARTA_DECK:
 			# Se ha seleccionado el mazo.
 			deck_referencia.tomar_carta()
+			
 			

@@ -1,10 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://ne8ekixwg5in"]
+[gd_scene load_steps=7 format=3 uid="uid://ne8ekixwg5in"]
 
 [ext_resource type="PackedScene" uid="uid://br5jtnv27c6k0" path="res://scenes/baraja-uno-scenes/baraja-player.tscn" id="1_ba4lm"]
 [ext_resource type="PackedScene" uid="uid://deh8w4hji7hh5" path="res://scenes/baraja-dos-scenes/baraja-AI.tscn" id="2_x0xbu"]
-[ext_resource type="PackedScene" uid="uid://b4rsxqbl1fb8c" path="res://scenes/centromesa.tscn" id="3_l20p6"]
 [ext_resource type="PackedScene" uid="uid://yja8ns78ohi8" path="res://scenes/carta_ranura.tscn" id="3_x0xbu"]
-[ext_resource type="Script" uid="uid://cehyt5o0mi17x" path="res://scripts/fondo.gd" id="4_b0nem"]
+[ext_resource type="Script" path="res://scripts/fondo.gd" id="4_b0nem"]
 [ext_resource type="Texture2D" uid="uid://ci67b6mbtu3m4" path="res://assets/images/fondo.png" id="5_x0xbu"]
 [ext_resource type="Script" uid="uid://bqtr8swjkg67o" path="res://scripts/ia/Game_Manager.gd" id="7_7qr1p"]
 
@@ -13,9 +12,9 @@
 [node name="Game_Manager" type="Node2D" parent="."]
 script = ExtResource("7_7qr1p")
 
-[node name="centromesa" parent="." instance=ExtResource("3_l20p6")]
+[node name="CartaRanura" parent="." groups=["ranuras"] instance=ExtResource("3_x0xbu")]
 
-[node name="CartaRanura2" parent="." instance=ExtResource("3_x0xbu")]
+[node name="CartaRanura2" parent="." groups=["ranuras"] instance=ExtResource("3_x0xbu")]
 primersloot = false
 
 [node name="BarajaIA" parent="." node_paths=PackedStringArray("slots_container") instance=ExtResource("2_x0xbu")]

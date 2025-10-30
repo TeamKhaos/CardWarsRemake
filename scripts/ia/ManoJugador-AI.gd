@@ -15,6 +15,7 @@ func añadir_carta_mano(carta, velocidad):
 	## pendiente que las cartas salgan giradas si is player one es false
 	if carta not in cartas_en_mano:
 		cartas_en_mano.insert(0, carta)
+		carta.name = "CartaIA"
 		actulizar_posicion_mano(velocidad)
 	else:
 		animar_carta_a_posicion(carta, carta.posicion_inicial, velocidad_de_carta_default)

@@ -9,10 +9,6 @@ size = Vector2(229.04144, 353.25134)
 [node name="CartaRanura" type="Node2D"]
 script = ExtResource("1_pfuov")
 
-[node name="CartaRanuraImg" type="Sprite2D" parent="."]
-scale = Vector2(0.20165782, 0.21474877)
-texture = ExtResource("2_pfuov")
-
 [node name="AreaRanura" type="Area2D" parent="."]
 scale = Vector2(0.65579706, 0.64631337)
 collision_layer = 2
@@ -21,3 +17,7 @@ collision_mask = 0
 [node name="ColisionRanura" type="CollisionShape2D" parent="AreaRanura"]
 scale = Vector2(1, 1.0000001)
 shape = SubResource("RectangleShape2D_slm10")
+
+[node name="CartaRanuraImg" type="Sprite2D" parent="."]
+scale = Vector2(0.20165782, 0.21474877)
+texture = ExtResource("2_pfuov")
