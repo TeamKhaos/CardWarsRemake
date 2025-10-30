@@ -1,11 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://deh8w4hji7hh5"]
+[gd_scene load_steps=6 format=3 uid="uid://deh8w4hji7hh5"]
 
 [ext_resource type="Script" uid="uid://cvdye5lwiwmmo" path="res://scripts/ia/AI-Controller.gd" id="1_ncd17"]
 [ext_resource type="PackedScene" uid="uid://d0kx6ep6hlp3" path="res://scenes/baraja-dos-scenes/manejo-carta-AI.tscn" id="2_ryrig"]
 [ext_resource type="PackedScene" uid="uid://cngyj7hhgkyxg" path="res://scenes/baraja-dos-scenes/mano-AI.tscn" id="3_lbsoq"]
 [ext_resource type="PackedScene" uid="uid://chkkm07k6m5ie" path="res://scenes/baraja-dos-scenes/manotextureAI.tscn" id="4_grdi1"]
-[ext_resource type="PackedScene" uid="uid://ccx3bs1paww45" path="res://scenes/baraja-dos-scenes/perfilAI.tscn" id="5_w0rys"]
-[ext_resource type="PackedScene" uid="uid://b5ue64tmr2acu" path="res://scenes/baraja-dos-scenes/puntostextureAI.tscn" id="6_jij20"]
 [ext_resource type="PackedScene" uid="uid://0k5hq6e2ay85" path="res://scenes/baraja-dos-scenes/deck-AI.tscn" id="7_r75po"]
 
 [node name="BarajaIA" type="Node2D" node_paths=PackedStringArray("deck", "manejo_carta", "mano_ia")]
@@ -15,9 +13,6 @@ manejo_carta = NodePath("ManejoCartaAI")
 mano_ia = NodePath("ManoIA")
 
 [node name="manotexture" parent="." instance=ExtResource("4_grdi1")]
-is_player_one = false
-
-[node name="perfil" parent="." instance=ExtResource("5_w0rys")]
 is_player_one = false
 
 [node name="DeckIA" parent="." node_paths=PackedStringArray("manejo_carta", "manejo_ia") instance=ExtResource("7_r75po")]
@@ -30,6 +25,3 @@ manejo_ia = NodePath("../ManoIA")
 [node name="ManoIA" parent="." node_paths=PackedStringArray("deck_") instance=ExtResource("3_lbsoq")]
 scale = Vector2(0.4, 0.4)
 deck_ = NodePath("../DeckIA")
-
-[node name="puntos" parent="." instance=ExtResource("6_jij20")]
-is_player_one = false

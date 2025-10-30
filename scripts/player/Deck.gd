@@ -5,6 +5,7 @@ extends Node2D
 @export var manejo_carta: Node
 @export var manejo_jugador: Node
 
+
 # --- VARIABLES ---
 var jugador_deck = []
 const carta_escena_dir = "res://scenes/card.tscn"

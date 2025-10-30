@@ -8,10 +8,12 @@ func _ready() -> void:
 	var tamano_ventana = get_viewport().size
 	if primersloot:
 		self.position = Vector2(tamano_ventana.x * 0.418, tamano_ventana.y * 0.5)
-		id_ranura = "ranura1"
+		id_ranura = "ranuraplayer"
+
 	else:
 		self.position = Vector2(tamano_ventana.x * 0.582, tamano_ventana.y * 0.5)
-		id_ranura = "ranura2"
+		id_ranura = "ranuraia"
+	
 		
 		
 	

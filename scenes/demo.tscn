@@ -1,10 +1,14 @@
-[gd_scene load_steps=7 format=3 uid="uid://ne8ekixwg5in"]
+[gd_scene load_steps=11 format=3 uid="uid://ne8ekixwg5in"]
 
 [ext_resource type="PackedScene" uid="uid://br5jtnv27c6k0" path="res://scenes/baraja-uno-scenes/baraja-player.tscn" id="1_ba4lm"]
 [ext_resource type="PackedScene" uid="uid://deh8w4hji7hh5" path="res://scenes/baraja-dos-scenes/baraja-AI.tscn" id="2_x0xbu"]
 [ext_resource type="PackedScene" uid="uid://yja8ns78ohi8" path="res://scenes/carta_ranura.tscn" id="3_x0xbu"]
 [ext_resource type="Script" path="res://scripts/fondo.gd" id="4_b0nem"]
+[ext_resource type="PackedScene" uid="uid://ccx3bs1paww45" path="res://scenes/baraja-dos-scenes/perfilAI.tscn" id="4_h5dly"]
+[ext_resource type="PackedScene" uid="uid://ca4feqqwx4onj" path="res://scenes/baraja-uno-scenes/puntostexture.tscn" id="5_e66cg"]
+[ext_resource type="PackedScene" uid="uid://b5ue64tmr2acu" path="res://scenes/baraja-dos-scenes/puntostextureAI.tscn" id="5_nwon6"]
 [ext_resource type="Texture2D" uid="uid://ci67b6mbtu3m4" path="res://assets/images/fondo.png" id="5_x0xbu"]
+[ext_resource type="PackedScene" uid="uid://hwvnjn2w13qq" path="res://scenes/baraja-uno-scenes/perfil.tscn" id="6_5fme1"]
 [ext_resource type="Script" uid="uid://bqtr8swjkg67o" path="res://scripts/ia/Game_Manager.gd" id="7_7qr1p"]
 
 [node name="Demo" type="Node2D"]
@@ -17,10 +21,23 @@ script = ExtResource("7_7qr1p")
 [node name="CartaRanura2" parent="." groups=["ranuras"] instance=ExtResource("3_x0xbu")]
 primersloot = false
 
-[node name="BarajaIA" parent="." node_paths=PackedStringArray("slots_container") instance=ExtResource("2_x0xbu")]
+[node name="BarajaIA" parent="." node_paths=PackedStringArray("slots_container", "game_manager") instance=ExtResource("2_x0xbu")]
 slots_container = NodePath("../CartaRanura2")
+game_manager = NodePath("../Game_Manager")
 
-[node name="baraja_player" parent="." instance=ExtResource("1_ba4lm")]
+[node name="perfil" parent="BarajaIA" instance=ExtResource("4_h5dly")]
+is_player_one = false
+
+[node name="puntos" parent="BarajaIA" instance=ExtResource("5_nwon6")]
+is_player_one = false
+
+[node name="baraja_player" parent="." node_paths=PackedStringArray("game_manager", "slots_container") instance=ExtResource("1_ba4lm")]
+game_manager = NodePath("../Game_Manager")
+slots_container = NodePath("../CartaRanura")
+
+[node name="puntos" parent="baraja_player" instance=ExtResource("5_e66cg")]
+
+[node name="perfil" parent="baraja_player" instance=ExtResource("6_5fme1")]
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 script = ExtResource("4_b0nem")

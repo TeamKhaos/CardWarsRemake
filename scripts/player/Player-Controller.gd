@@ -4,7 +4,8 @@ extends Node2D
 @export var is_player_one: bool = true
 @export var manejo_jugador: Node
 @export var input_manager: Node
-
+@export var game_manager: Node
+@export var slots_container: Node
 
 # --- VARIABLES ---
 var carta_siend_arrastrada
@@ -40,20 +41,33 @@ func empezar_a_arrastrar(carta):
 	carta.scale = Vector2(ALTURA_SUBIDA_CARTA, ALTURA_SUBIDA_CARTA)
 	
 func dejar_de_arrastrar():
+	if carta_siend_arrastrada == null:
+		return
+
 	carta_siend_arrastrada.scale = Vector2(ALTURA_SUBIDA_CARTA, ALTURA_SUBIDA_CARTA)
 	var carta_ranura_encontrada = raycast_check_carta_ranura()
+
 	if carta_ranura_encontrada and not carta_ranura_encontrada.carta_en_ranura:
-		mano_jugador_referencia.remover_carta_mano(carta_siend_arrastrada)
-		carta_siend_arrastrada.global_position = carta_ranura_encontrada.global_position
-		carta_siend_arrastrada.scale = carta_ranura_encontrada.scale
-		carta_siend_arrastrada.get_node("Area2D/CollisionShape2D").disabled = true
-		carta_ranura_encontrada.carta_en_ranura = true
-		var ataque = carta_siend_arrastrada.get_meta("ataque")
-		var tipo = carta_siend_arrastrada.get_meta("tipo")
-		print("📥 Carta cayó en ranura:", carta_siend_arrastrada.name, "→ { ataque:", ataque, ", tipo:", tipo, " }")
+		# Solo permitir si la ranura es del jugador
+		if carta_ranura_encontrada.id_ranura == "ranuraplayer":
+			mano_jugador_referencia.remover_carta_mano(carta_siend_arrastrada)
+
+			carta_siend_arrastrada.global_position = carta_ranura_encontrada.global_position
+			carta_siend_arrastrada.scale = carta_ranura_encontrada.scale
+			carta_siend_arrastrada.get_node("Area2D/CollisionShape2D").disabled = true
+			carta_ranura_encontrada.carta_en_ranura = true
+
+			# Registrar jugada en el Game_Manager
+			game_manager.registrar_carta(carta_ranura_encontrada.id_ranura, carta_siend_arrastrada, false)
+		else:
+			print("🚫 Esa ranura no pertenece al jugador.")
+			mano_jugador_referencia.añadir_carta_mano(carta_siend_arrastrada, velocidad_de_carta_default)
 	else:
+		# Si no hay ranura válida, vuelve la carta a la mano
 		mano_jugador_referencia.añadir_carta_mano(carta_siend_arrastrada, velocidad_de_carta_default)
+
 	carta_siend_arrastrada = null
+
 	
 # --- MANEJO DE SEÑALES DE LA CARTA ---
 func connect_carta_signal(carta):

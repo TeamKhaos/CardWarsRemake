@@ -1,4 +1,5 @@
 extends Node
+
 # --- Sistema de combate tipo CardJitsu ---
 
 # Definición de ventajas elementales
@@ -22,42 +23,40 @@ var WIN_MODE = WinMode.SAME_ELEMENT
 var WIN_THRESHOLD = 3
 var ALL_ELEMENTS_THRESHOLD = 1
 
-# --- Funciones principales ---
+# --- Función principal ---
 func determinar_resultado(carta_jugador: Node, carta_ia: Node) -> String:
 	var tipo_jugador = carta_jugador.get_meta("tipo")
 	var tipo_ia = carta_ia.get_meta("tipo")
-	var ataque_jugador = int(carta_jugador.get_node("ataque").text)
-	var ataque_ia = int(carta_ia.get_node("ataque").text)
+	var ataque_jugador = carta_jugador.get_meta("ataque")
+	var ataque_ia = carta_ia.get_meta("ataque")
 
 	if tipo_jugador == tipo_ia:
 		if ataque_jugador > ataque_ia:
-			return "jugador_gana"
+			return "jugador"
 		elif ataque_jugador < ataque_ia:
-			return "ia_gana"
+			return "ia"
 		else:
 			return "empate"
 	elif ventajas[tipo_jugador] == tipo_ia:
-		return "jugador_gana"
+		return "jugador"
 	else:
-		return "ia_gana"
+		return "ia"
 
-# --- Registrar y evaluar ---
 func registrar_resultado(carta_jugador: Node, carta_ia: Node) -> String:
 	var resultado = determinar_resultado(carta_jugador, carta_ia)
 	var tipo_jugador = carta_jugador.get_meta("tipo")
 	var tipo_ia = carta_ia.get_meta("tipo")
 
 	match resultado:
-		"jugador_gana":
+		"jugador":
 			puntos_totales_jugador += 1
 			puntos_jugador[tipo_jugador] += 1
-		"ia_gana":
+		"ia":
 			puntos_totales_ia += 1
 			puntos_ia[tipo_ia] += 1
 
 	return comprobar_victoria()
 
-# --- Condiciones de victoria ---
 func comprobar_victoria() -> String:
 	if WIN_MODE == WinMode.SAME_ELEMENT:
 		for tipo in puntos_jugador.keys():
