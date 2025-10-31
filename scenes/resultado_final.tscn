@@ -1,0 +1,84 @@
+[gd_scene load_steps=5 format=3 uid="uid://dimdttbrr0rdu"]
+
+[ext_resource type="Script" uid="uid://dl5a22s23snh" path="res://scripts/resultado_final.gd" id="1_kp80m"]
+[ext_resource type="Texture2D" uid="uid://dllf1mr2dg2xp" path="res://assets/ganaste.png" id="2_butk0"]
+[ext_resource type="Texture2D" uid="uid://clf3kgqclkrdi" path="res://assets/images/perdiste.png" id="3_amrlu"]
+[ext_resource type="Texture2D" uid="uid://b26dfj18hucve" path="res://assets/images/empate.png" id="4_6r8yn"]
+
+[node name="resultado-final" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_kp80m")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.44203168, 0.44203168, 0.44203168, 1)
+
+[node name="Ganaste" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -555.0
+offset_top = -258.0
+offset_right = 555.0
+offset_bottom = 258.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_butk0")
+
+[node name="Perdiste" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -555.0
+offset_top = -258.0
+offset_right = 555.0
+offset_bottom = 258.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_amrlu")
+
+[node name="Empate" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -555.0
+offset_top = -258.0
+offset_right = 555.0
+offset_bottom = 258.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_6r8yn")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -149.0
+offset_top = -169.0
+offset_right = 148.5
+offset_bottom = -78.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Volver al menu"

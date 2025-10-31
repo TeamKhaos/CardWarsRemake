@@ -6,6 +6,6 @@
 [node name="puntos" type="Node2D"]
 script = ExtResource("1_ga3gq")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="tabla" type="Sprite2D" parent="."]
 scale = Vector2(0.55686074, 0.42373815)
 texture = ExtResource("2_3qfrr")
