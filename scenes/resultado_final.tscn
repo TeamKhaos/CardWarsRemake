@@ -21,7 +21,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.44203168, 0.44203168, 0.44203168, 1)
+color = Color(1, 1, 1, 0.47058824)
 
 [node name="Ganaste" type="TextureRect" parent="."]
 layout_mode = 1
@@ -82,3 +82,5 @@ offset_bottom = -78.0
 grow_horizontal = 2
 grow_vertical = 0
 text = "Volver al menu"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

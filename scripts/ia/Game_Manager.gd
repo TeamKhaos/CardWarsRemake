@@ -1,6 +1,5 @@
 extends Node
 
-# --- Nodo central del juego (coordina jugador, IA y combate) ---
 @onready var combate = preload("res://scripts/ia/combate.gd").new()
 @onready var puntos_ia = $"../BarajaIA/puntos"
 @onready var puntos_jugador = $"../baraja_player/puntos"
@@ -8,10 +7,11 @@ extends Node
 signal ronda_resultado(resultado: String)
 signal partida_terminada(ganador: String)
 
-const RESULTADO_FINAL = preload("uid://dimdttbrr0rdu")
+
+const RESULTADO_FINAL = preload("uid://dimdttbrr0rdu") 
 
 
-var cartas_en_ranuras := {}  # {"ranuraplayer": {"jugador": null, "ia": null}}
+var cartas_en_ranuras := {} 
 
 func _ready():
 	add_child(combate)
@@ -24,9 +24,9 @@ func registrar_carta(ranura_id: String, carta: Node, es_ia: bool):
 	if not cartas_en_ranuras.has(ranura_combate_id):
 		cartas_en_ranuras[ranura_combate_id] = {"jugador": null, "ia": null}
 	if es_ia:
-		cartas_en_ranuras[ranura_combate_id]["ia"] = carta 
+		cartas_en_ranuras[ranura_combate_id]["ia"] = carta
 	else:
-		cartas_en_ranuras[ranura_combate_id]["jugador"] = carta 
+		cartas_en_ranuras[ranura_combate_id]["jugador"] = carta
 
 	var ataque = carta.get_meta("ataque")
 	var tipo = carta.get_meta("tipo")
@@ -57,7 +57,7 @@ func comparar_cartas(ranura_id: String):
 			carta_jugador.get_node("Cardimage").modulate = Color(1, 1, 1, 1)
 			carta_ia.get_node("Cardimage").modulate = Color(0.5, 0.5, 0.5, 1)
 			if verificar_victoria_final("Jugador"):
-				return 
+				return
 
 		"ia":
 			print("🤖 IA gana en", ranura_id)
@@ -97,30 +97,35 @@ func comparar_cartas(ranura_id: String):
 func verificar_victoria_final(jugador_o_ia: String) -> bool:
 	var nodo_puntos = puntos_jugador if jugador_o_ia == "Jugador" else puntos_ia
 	
-	# Asumimos que los puntos son contados por los índices del script de puntos
-	# (indice_fuego, indice_agua, indice_planta)
 	var f = nodo_puntos.indice_fuego
 	var a = nodo_puntos.indice_agua
 	var p = nodo_puntos.indice_planta
 	
-	# --- Condición 1: 3 puntos de un mismo elemento ---
 	var gano_por_tres_iguales = (f == 3) or (a == 3) or (p == 3)
 	
-	# --- Condición 2: 1 punto de cada elemento (3 puntos en total) ---
 	var gano_por_uno_de_cada_uno = (f >= 1) and (a >= 1) and (p >= 1)
 	
 	if gano_por_tres_iguales or gano_por_uno_de_cada_uno:
 		print("🎉 ¡Victoria final para:", jugador_o_ia, "!")
-		mostrar_pantalla_final(jugador_o_ia) 
-		
+		mostrar_pantalla_final(jugador_o_ia)
 		combate.resetear_puntajes()
 		return true
 	return false
 
 
-# Agrega esta nueva función al final de game_manager.gd
-func mostrar_pantalla_final(ganador_o_empate: String):
-	var pantalla_resultado = RESULTADO_FINAL.instantiate()
+func restablecer_modulacion_cartas():
+	var contenedor_jugador = $"../baraja_player"
+	var contenedor_ia = $"../BarajaIA"
+	for carta in contenedor_jugador.get_children():
+		if is_instance_valid(carta) and carta.has_node("Cardimage"):
+			carta.get_node("Cardimage").modulate = Color(1, 1, 1, 1)
+	for carta in contenedor_ia.get_children():
+		if is_instance_valid(carta) and carta.has_node("Cardimage"):
+			carta.get_node("Cardimage").modulate = Color(1, 1, 1, 1)
 
-	pantalla_resultado.mostrar_resultado(ganador_o_empate) 
-	get_tree().get_root().add_child(pantalla_resultado)
+func mostrar_pantalla_final(ganador_o_empate: String):
+	restablecer_modulacion_cartas()
+	var pantalla_resultado = RESULTADO_FINAL.instantiate()
+	var overlay = get_tree().get_root().get_node("Demo/CanvasLayer")
+	overlay.add_child(pantalla_resultado)
+	pantalla_resultado.mostrar_resultado(ganador_o_empate)
