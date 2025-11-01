@@ -11,7 +11,6 @@ config_version=5
 [application]
 
 config/name="CardWars"
-run/main_scene="uid://damvkfgrcxg5u"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -19,3 +18,7 @@ config/icon="res://icon.svg"
 
 window/size/mode=3
 window/size/resizable=false
+
+[global_group]
+
+ranuras=""

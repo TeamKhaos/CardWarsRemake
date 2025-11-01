@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://hwvnjn2w13qq"]
+
+[ext_resource type="Texture2D" uid="uid://o71aiyi5d8l4" path="res://assets/profile.png" id="1_63x4o"]
+[ext_resource type="Script" uid="uid://d1180qokhtnud" path="res://scripts/player/perfil.gd" id="1_es3ue"]
+
+[node name="perfil" type="Node2D"]
+script = ExtResource("1_es3ue")
+
+[node name="imagen" type="Sprite2D" parent="."]
+scale = Vector2(0.35216773, 0.34)
+texture = ExtResource("1_63x4o")

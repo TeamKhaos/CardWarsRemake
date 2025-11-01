@@ -1,8 +1,8 @@
 [gd_scene load_steps=8 format=3 uid="uid://duley73kyk7tt"]
 
 [ext_resource type="Script" uid="uid://ck8yoemv1i144" path="res://scripts/Carta.gd" id="1_6u4wf"]
-[ext_resource type="Texture2D" uid="uid://b86ap8h005b4r" path="res://assets/carta_verde1.png" id="1_kikvd"]
-[ext_resource type="Texture2D" uid="uid://dp48sn2157bw7" path="res://assets/carta_duelo0.png" id="2_ktuci"]
+[ext_resource type="Texture2D" uid="uid://bcccf3bay0xeo" path="res://assets/carta_verde1.png" id="1_kikvd"]
+[ext_resource type="Texture2D" uid="uid://cknj3wdr2281g" path="res://assets/images/maso.png" id="2_ktuci"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ig7tw"]
 size = Vector2(159, 249)
@@ -164,7 +164,6 @@ _data = {
 }
 
 [node name="Card" type="Node2D"]
-scale = Vector2(0.8, 0.8)
 script = ExtResource("1_6u4wf")
 
 [node name="Carta_reverso" type="Sprite2D" parent="."]
@@ -183,6 +182,7 @@ texture = ExtResource("1_kikvd")
 shape = SubResource("RectangleShape2D_ig7tw")
 
 [node name="ataque" type="RichTextLabel" parent="."]
+visible = false
 modulate = Color(0.62352943, 0, 0.1764706, 0)
 offset_left = -66.25
 offset_top = 23.750004
@@ -193,6 +193,7 @@ text = "0"
 metadata/_edit_use_anchors_ = true
 
 [node name="defensa" type="RichTextLabel" parent="."]
+visible = false
 modulate = Color(0.62352943, 0, 0.1764706, 0)
 offset_left = 35.0
 offset_top = 60.0

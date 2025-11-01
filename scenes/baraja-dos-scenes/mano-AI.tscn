@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cngyj7hhgkyxg"]
+
+[ext_resource type="Script" uid="uid://bdbiipu1ohuxq" path="res://scripts/ia/ManoJugador-AI.gd" id="1_xyrve"]
+
+[node name="ManoIA" type="Node2D"]
+script = ExtResource("1_xyrve")

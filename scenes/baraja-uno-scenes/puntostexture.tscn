@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://ca4feqqwx4onj"]
+
+[ext_resource type="Script" uid="uid://bbkkj05fwqfdv" path="res://scripts/player/puntos.gd" id="1_ga3gq"]
+[ext_resource type="Texture2D" uid="uid://bvav8emrh4xft" path="res://assets/images/puntos.png" id="2_3qfrr"]
+
+[node name="puntos" type="Node2D"]
+script = ExtResource("1_ga3gq")
+
+[node name="tabla" type="Sprite2D" parent="."]
+scale = Vector2(0.55686074, 0.42373815)
+texture = ExtResource("2_3qfrr")

@@ -1,35 +1,31 @@
-# Este script funciona como una base de datos de cartas, almacenando los atributos de cada una.
-# La estructura es un diccionario llamado CARTAS, donde cada clave es el nombre de la carta
-# y el valor es un array con sus estadísticas, en este caso, Ataque y Defensa.
+const CARTAS = {
+	"carta_verde1": {"ataque": 1, "tipo": "planta"},
+	"carta_verde2": {"ataque": 2, "tipo": "planta"},
+	"carta_verde3": {"ataque": 3, "tipo": "planta"},
+	"carta_verde4": {"ataque": 4, "tipo": "planta"},
+	"carta_verde5": {"ataque": 5, "tipo": "planta"},
+	"carta_verde6": {"ataque": 6, "tipo": "planta"},
+	"carta_verde7": {"ataque": 7, "tipo": "planta"},
+	"carta_verde8": {"ataque": 8, "tipo": "planta"},
+	"carta_verde9": {"ataque": 9, "tipo": "planta"},
 
-const CARTAS = { #Ataque, Defensa
-	"carta_verde1" : [3,2],
-	"carta_verde2" : [3,2],
-	"carta_verde3" : [3,2],
-	"carta_verde4" : [3,2],
-	"carta_verde5" : [3,2],
-	"carta_verde6" : [3,2],
-	"carta_verde7" : [3,2],
-	"carta_verde8" : [3,2],
-	"carta_verde9" : [3,2],
-	
-	"carta_roja1" : [4,1],
-	"carta_roja2" : [4,1],
-	"carta_roja3" : [4,1],
-	"carta_roja4" : [4,1],
-	"carta_roja5" : [4,1],
-	"carta_roja6" : [4,1],
-	"carta_roja7" : [4,1],
-	"carta_roja8" : [4,1],
-	"carta_roja9" : [4,1],
-	
-	"carta_azul1" : [2,4],
-	"carta_azul2" : [2,4],
-	"carta_azul3" : [2,4],
-	"carta_azul4" : [2,4],
-	"carta_azul5" : [2,4],
-	"carta_azul6" : [2,4],
-	"carta_azul7" : [2,4],
-	"carta_azul8" : [2,4],
-	"carta_azul9" : [2,4]
+	"carta_roja1": {"ataque": 1, "tipo": "fuego"},
+	"carta_roja2": {"ataque": 2, "tipo": "fuego"},
+	"carta_roja3": {"ataque": 3, "tipo": "fuego"},
+	"carta_roja4": {"ataque": 4, "tipo": "fuego"},
+	"carta_roja5": {"ataque": 5, "tipo": "fuego"},
+	"carta_roja6": {"ataque": 6, "tipo": "fuego"},
+	"carta_roja7": {"ataque": 7, "tipo": "fuego"},
+	"carta_roja8": {"ataque": 8, "tipo": "fuego"},
+	"carta_roja9": {"ataque": 9, "tipo": "fuego"},
+
+	"carta_azul1": {"ataque": 1, "tipo": "agua"},
+	"carta_azul2": {"ataque": 2, "tipo": "agua"},
+	"carta_azul3": {"ataque": 3, "tipo": "agua"},
+	"carta_azul4": {"ataque": 4, "tipo": "agua"},
+	"carta_azul5": {"ataque": 5, "tipo": "agua"},
+	"carta_azul6": {"ataque": 6, "tipo": "agua"},
+	"carta_azul7": {"ataque": 7, "tipo": "agua"},
+	"carta_azul8": {"ataque": 8, "tipo": "agua"},
+	"carta_azul9": {"ataque": 9, "tipo": "agua"}
 }
