@@ -18,9 +18,9 @@ func _ready():
 	add_child(combate)
 	combate.resetear_puntajes()
 
-	# Inicializar temporizador de 30 segundos
+	# Inicializar temporizador de 20 segundos
 	turn_timer = Timer.new()
-	turn_timer.wait_time = 30.0
+	turn_timer.wait_time = 20.0
 	turn_timer.one_shot = true
 	turn_timer.connect("timeout", Callable(self, "_on_TurnTimer_timeout"))
 	add_child(turn_timer)
@@ -62,6 +62,10 @@ func comparar_cartas(ranura_id: String):
 	print("⚔️ Revelando cartas en", ranura_id)
 	if carta_ia.has_method("flip_face_up"):
 		carta_ia.flip_face_up()
+	
+	# REVELAR COLOR DE IA
+	if carta_ia.has_method("revelar_color_elemental"):
+		carta_ia.revelar_color_elemental(carta_ia.get_meta("tipo"))
 	
 	# Pausa para dar efecto de revelado
 	await get_tree().create_timer(1.0).timeout 
@@ -112,10 +116,14 @@ func comparar_cartas(ranura_id: String):
 	cartas_en_ranuras[ranura_id]["jugador"] = null
 	cartas_en_ranuras[ranura_id]["ia"] = null
 
+	# --- REINICIAR TEMPORIZADOR PARA LA PRÓXIMA RONDA ---
+	iniciar_turno_jugador()
+
 	if ganador_global != "":
 		print("🎉 ¡Victoria final para:", ganador_global, "!")
 		mostrar_pantalla_final(ganador_global)
 		combate.resetear_puntajes()
+		detener_turno() # Detenerlo si la partida terminó
 
 # --- TEMPORIZADOR DE TURNO (A LLAMAR DESDE UN NODO TIMER) ---
 func _on_TurnTimer_timeout():
@@ -123,15 +131,20 @@ func _on_TurnTimer_timeout():
 	
 	# 1. Obtener acceso a la mano y ranuras
 	var mano_jugador = get_tree().root.find_child("ManoJugador", true, false)
-	var ranura_jugador = get_tree().root.find_child("CartaRanura", true, false) # Ajustar según tu jerarquía
+	var ranura_jugador = get_tree().root.find_child("CartaRanura", true, false) 
 	
 	if mano_jugador and ranura_jugador and not ranura_jugador.carta_en_ranura:
 		var cartas = mano_jugador.mano_jugador
 		if cartas.size() > 0:
 			var carta_azar = cartas.pick_random()
 			
-			# 2. Mover carta a la ranura
-			carta_azar.global_position = ranura_jugador.global_position
+			# 2. Mover carta a la ranura con Tween para que sea visible
+			var tween = create_tween()
+			tween.tween_property(carta_azar, "global_position", ranura_jugador.global_position, 0.5)
+			tween.parallel().tween_property(carta_azar, "scale", Vector2(1, 1), 0.5)
+			
+			await tween.finished
+			
 			carta_azar.get_node("Area2D/CollisionShape2D").disabled = true
 			ranura_jugador.carta_en_ranura = true
 			

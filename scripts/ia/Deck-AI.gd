@@ -61,7 +61,8 @@ func tomar_carta():
 		
 		var datos_carta = referencia_db_cartas.CARTAS[carta_sacar_nombre]
 		nueva_carta.set_meta("ataque", datos_carta["ataque"])
-		nueva_carta.set_meta("tipo", datos_carta["tipo"]) # Guardamos el tipo como metadata (útil luego para el combate)
+		nueva_carta.set_meta("tipo", datos_carta["tipo"])
+		nueva_carta.aplicar_brillo_elemental(datos_carta["tipo"], true)
 
 		var carta_imagen_ruta = str("res://assets/" + carta_sacar_nombre + ".png")
 		nueva_carta.get_node("Cardimage").texture = load(carta_imagen_ruta)

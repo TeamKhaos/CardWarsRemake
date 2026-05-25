@@ -22,8 +22,55 @@ func flip_face_down():
 	var img = get_node_or_null("Cardimage")
 	if img: img.visible = false
 
+# --- EFECTOS VISUALES ---
+const AURA_SHADER = """
+shader_type canvas_item;
+
+void fragment() {
+    vec4 tex = texture(TEXTURE, UV);
+    
+    // Crear líneas de "relámpago" usando ondas senoidales
+    float time = TIME * 5.0;
+    float line = sin(UV.y * 20.0 + time) * 0.5 + 0.5;
+    line += sin(UV.x * 20.0 - time) * 0.5 + 0.5;
+    
+    // Multiplicamos por COLOR para que el 'modulate' (color elemental) se preserve
+    COLOR = tex * COLOR * vec4(1.0, 1.0, 1.0, line * 0.5 + 0.5);
+}
+"""
+
+func aplicar_brillo_elemental(tipo: String, es_oculta: bool = false):
+	var aura = get_node_or_null("AuraSprite")
+	if not aura: return
+	
+	aura.visible = true
+	
+	# Si es oculta, usamos blanco. Si no, usamos el color del elemento.
+	if es_oculta:
+		aura.modulate = Color(1.0, 1.0, 1.0)
+	else:
+		match tipo:
+			"fuego":  aura.modulate = Color(1.0, 0.3, 0.2)
+			"agua":   aura.modulate = Color(0.2, 0.6, 1.0)
+			"planta": aura.modulate = Color(0.3, 1.0, 0.3)
+	
+	# Aplicar shader de relámpago
+	var material = ShaderMaterial.new()
+	var shader = Shader.new()
+	shader.code = AURA_SHADER
+	material.shader = shader
+	aura.material = material
+
+func revelar_color_elemental(tipo: String):
+	var aura = get_node_or_null("AuraSprite")
+	if aura:
+		match tipo:
+			"fuego":  aura.modulate = Color(1.0, 0.3, 0.2)
+			"agua":   aura.modulate = Color(0.2, 0.6, 1.0)
+			"planta": aura.modulate = Color(0.3, 1.0, 0.3)
+
+
 # --- FUNCIONES DE GODOT ---
-# Se llama cuando el nodo entra en el árbol de la escena por primera vez.
 func _ready() -> void:
 	# Si la carta es de la IA, deshabilitar la interacción del mouse.
 	if is_ai:

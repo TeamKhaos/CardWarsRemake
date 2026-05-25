@@ -46,9 +46,31 @@ Este documento detalla la arquitectura, funciones clave y sistema de señales de
 ## UI
 - **`PuntosHUD.gd`**: `sumar_punto(quien)` activa la visibilidad de los puntos de victoria.
 - **`puntos.gd`**: Similar a HUD, añade visualmente sprites de victoria en el tablero.
+- **`TimerDisplay.gd`**: Muestra visualmente el tiempo restante del turno.
+    - *Función*: `_process()` lee `game_manager.turn_timer.time_left` y actualiza el texto del Label en cada frame. Requiere tener asignado el nodo `Game_Manager`.
 
+---
+## Shaders y Efectos
+El juego utiliza `ShaderMaterial` dinámicos aplicados por código para mejorar la estética visual.
+- **`Carta.gd`**: Contiene `AURA_SHADER` (efecto eléctrico) y funciones de control.
+    - `aplicar_brillo_elemental(tipo, es_oculta)`: Inicializa el aura. Si `es_oculta` es true, el aura es blanca (para la IA).
+    - `revelar_color_elemental(tipo)`: Cambia el `modulate` del aura al color elemental real (tras el revelado).
+    - *Funcionamiento*: El shader utiliza ondas senoidales (`sin(TIME)`) multiplicadas por el `COLOR` del nodo (`modulate`), lo que permite que el color elemental (`fuego`, `agua`, `planta`) sea vibrante y mantenga la animación eléctrica.
+    - *Colores*:
+        - Fuego: `#FF4D33` (Rojo suave)
+        - Agua: `#3399FF` (Azul eléctrico)
+        - Planta: `#4DFF4D` (Verde neón)
 ---
 ## Sistema de Interconexión
 1. **Cartas -> Manejo de Cartas**: Se conectan mediante `connect_carta_signal`.
 2. **Game_Manager**: Orquesta todo el combate.
 3. **Turno**: El `Game_Manager` posee un `TurnTimer` (Timer nodo) que al agotarse dispara `_on_TurnTimer_timeout`.
+
+---
+## ¡Continuará!
+La base del proyecto está consolidada:
+- Sistema de combate con IA estratégica.
+- Temporizador de turno con movimiento forzado.
+- Sistema de revelado simultáneo.
+- Efectos visuales de aura elemental con shaders.
+El juego está listo para la siguiente fase de pulido o nuevas mecánicas.
