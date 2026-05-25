@@ -1,16 +1,32 @@
-[gd_scene load_steps=10 format=3 uid="uid://ne8ekixwg5in"]
+[gd_scene load_steps=11 format=3 uid="uid://ne8ekixwg5in"]
 
 [ext_resource type="PackedScene" uid="uid://br5jtnv27c6k0" path="res://scenes/baraja-uno-scenes/baraja-player.tscn" id="1_ba4lm"]
 [ext_resource type="PackedScene" uid="uid://deh8w4hji7hh5" path="res://scenes/baraja-dos-scenes/baraja-AI.tscn" id="2_x0xbu"]
 [ext_resource type="PackedScene" uid="uid://yja8ns78ohi8" path="res://scenes/carta_ranura.tscn" id="3_x0xbu"]
-[ext_resource type="Script" path="res://scripts/fondo.gd" id="4_b0nem"]
+[ext_resource type="Script" uid="uid://cehyt5o0mi17x" path="res://scripts/fondo.gd" id="4_b0nem"]
 [ext_resource type="PackedScene" uid="uid://ccx3bs1paww45" path="res://scenes/baraja-dos-scenes/perfilAI.tscn" id="4_h5dly"]
 [ext_resource type="PackedScene" uid="uid://ca4feqqwx4onj" path="res://scenes/baraja-uno-scenes/puntostexture.tscn" id="5_e66cg"]
 [ext_resource type="Texture2D" uid="uid://ci67b6mbtu3m4" path="res://assets/images/fondo.png" id="5_x0xbu"]
 [ext_resource type="PackedScene" uid="uid://hwvnjn2w13qq" path="res://scenes/baraja-uno-scenes/perfil.tscn" id="6_5fme1"]
 [ext_resource type="Script" uid="uid://bqtr8swjkg67o" path="res://scripts/ia/Game_Manager.gd" id="7_7qr1p"]
+[ext_resource type="Script" uid="uid://bcannegdixdp" path="res://scripts/ui/TimerDisplay.gd" id="8_h5dly"]
 
 [node name="Demo" type="Node2D"]
+
+[node name="Label" type="Label" parent="." node_paths=PackedStringArray("game_manager")]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 529.0
+offset_top = 289.0
+offset_right = 569.0
+offset_bottom = 312.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("8_h5dly")
+game_manager = NodePath("../Game_Manager")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
