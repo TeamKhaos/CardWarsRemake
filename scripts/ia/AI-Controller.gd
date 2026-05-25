@@ -32,6 +32,7 @@ func play_turn():
 		var empty_slot = find_empty_slot()
 		
 		if empty_slot:
+			
 			# Marcar la ranura como ocupada
 			empty_slot.set("carta_en_ranura", true)
 			game_manager.registrar_carta(empty_slot.id_ranura, card_to_play, true)

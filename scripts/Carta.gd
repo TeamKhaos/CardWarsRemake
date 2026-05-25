@@ -13,6 +13,15 @@ signal soltando
 # Almacena la posición inicial de la carta para poder devolverla a su lugar.
 var posicion_inicial
 
+# --- FUNCIONES DE VOLTEO ---
+func flip_face_up():
+	var img = get_node_or_null("Cardimage")
+	if img: img.visible = true
+
+func flip_face_down():
+	var img = get_node_or_null("Cardimage")
+	if img: img.visible = false
+
 # --- FUNCIONES DE GODOT ---
 # Se llama cuando el nodo entra en el árbol de la escena por primera vez.
 func _ready() -> void:
@@ -22,6 +31,9 @@ func _ready() -> void:
 		if area_2d:
 			area_2d.input_pickable = false
 		
+		# Asegurar que empiece boca abajo
+		flip_face_down()
+
 	# Conecta las señales de esta carta al script del padre (ManejoCarta).
 	# Es importante que todas las cartas sean hijas de ManejoCarta para que esto funcione.
 	if get_parent().has_method("connect_carta_signal"):
