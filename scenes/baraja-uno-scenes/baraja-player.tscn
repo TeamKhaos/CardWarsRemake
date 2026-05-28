@@ -12,6 +12,7 @@ manejo_jugador = NodePath("ManoJugador")
 input_manager = NodePath("InputManager")
 
 [node name="manotexture" parent="." instance=ExtResource("7_vjr14")]
+scale = Vector2(0.5, 0.5)
 
 [node name="Deck" parent="." node_paths=PackedStringArray("manejo_carta", "manejo_jugador") instance=ExtResource("3_wwpgx")]
 manejo_carta = NodePath("..")

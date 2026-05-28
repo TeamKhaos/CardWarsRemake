@@ -13,6 +13,7 @@ manejo_carta = NodePath("ManejoCartaAI")
 mano_ia = NodePath("ManoIA")
 
 [node name="manotexture" parent="." instance=ExtResource("4_grdi1")]
+scale = Vector2(0.5, 0.5)
 is_player_one = false
 
 [node name="DeckIA" parent="." node_paths=PackedStringArray("manejo_carta", "manejo_ia") instance=ExtResource("7_r75po")]

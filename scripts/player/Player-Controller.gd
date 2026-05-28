@@ -18,6 +18,8 @@ var ALTURA_SUBIDA_CARTA: float
 
 var cursor_sobre_carta
 var mano_jugador_referencia
+var ultima_posicion_mouse: Vector2 = Vector2.ZERO
+var velocidad_suavizada: Vector2 = Vector2.ZERO
 
 # --- FUNCIONES DE GODOT ---
 func _ready() -> void:
@@ -33,24 +35,41 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if carta_siend_arrastrada:
 		var mouse_pos = get_global_mouse_position()
+		
+		# Calcular velocidad y suavizarla
+		var instant_vel = (mouse_pos - ultima_posicion_mouse) / delta
+		velocidad_suavizada = velocidad_suavizada.lerp(instant_vel * 0.001, delta * 15.0)
+		
+		carta_siend_arrastrada.set_drag_velocity(velocidad_suavizada)
+		
+		ultima_posicion_mouse = mouse_pos
 		carta_siend_arrastrada.global_position = Vector2(clamp(mouse_pos.x, 0, tamano_escena.x), clamp(mouse_pos.y, 0, tamano_escena.y))
 
 # --- FUNCIONES DE ARRASTRE ---
 func empezar_a_arrastrar(carta):
 	carta_siend_arrastrada = carta
 	carta.scale = Vector2(ALTURA_SUBIDA_CARTA, ALTURA_SUBIDA_CARTA)
+	ultima_posicion_mouse = get_global_mouse_position()
+	velocidad_suavizada = Vector2.ZERO
 	
 func dejar_de_arrastrar():
 	if carta_siend_arrastrada == null:
 		return
 
+	# Resetear shader al soltar
+	carta_siend_arrastrada.set_drag_velocity(Vector2.ZERO)
+	velocidad_suavizada = Vector2.ZERO
+
 	carta_siend_arrastrada.scale = Vector2(ALTURA_SUBIDA_CARTA, ALTURA_SUBIDA_CARTA)
 	var carta_ranura_encontrada = raycast_check_carta_ranura()
 
 	if carta_ranura_encontrada and not carta_ranura_encontrada.carta_en_ranura:
-		# Solo permitir si la ranura es del jugador
-		if carta_ranura_encontrada.id_ranura == "ranuraplayer":
+		# Solo permitir si la ranura es del jugador (ahora checamos el prefijo)
+		if carta_ranura_encontrada.id_ranura.begins_with("ranuraplayer"):
 			mano_jugador_referencia.remover_carta_mano(carta_siend_arrastrada)
+			
+			# Ya no está en la mano, desactivar flotación idle
+			carta_siend_arrastrada.is_in_hand = false
 
 			carta_siend_arrastrada.global_position = carta_ranura_encontrada.global_position
 			carta_siend_arrastrada.scale = carta_ranura_encontrada.scale
