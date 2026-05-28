@@ -52,6 +52,12 @@ void vertex() {
 	// 3. Inclinación física por movimiento (Drag)
 	VERTEX.x += velocity.x * (UV.y - 0.5) * 100.0;
 	VERTEX.y += velocity.y * (UV.x - 0.5) * 100.0;
+	
+	// 4. Balanceo (Rotation) sutil constante
+	float roll = cos(TIME * 1.5 + time_offset) * 0.04 * total_float;
+	float s = sin(roll);
+	float c = cos(roll);
+	VERTEX = mat2(vec2(c, -s), vec2(s, c)) * VERTEX;
 }
 
 void fragment() {
@@ -146,7 +152,10 @@ func revelar_color_elemental(tipo: String):
 
 # --- FUNCIONES DE GODOT ---
 func _ready() -> void:
+	add_to_group("cartas")
 	setup_dynamic_shader()
+	# Forzar un Z-index alto para estar siempre por encima de las ranuras
+	z_index = 5
 	
 	# Si la carta es de la IA, deshabilitar la interacción del mouse.
 	if is_ai:

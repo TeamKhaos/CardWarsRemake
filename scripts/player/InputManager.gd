@@ -46,33 +46,35 @@ func _input(event):
 # --- FUNCIONES DE RAYCAST ---
 # Lanza un rayo desde la posición del cursor para detectar objetos.
 func raycast_al_cursor():
-
-	# Obtiene el estado del espacio 2D del mundo.
 	var space_state = get_world_2d().direct_space_state
-	# Crea los parámetros para la consulta de punto.
 	var parametros = PhysicsPointQueryParameters2D.new()
-	# Establece la posición de la consulta en la posición del mouse.
 	parametros.position = get_global_mouse_position()
-	# Habilita la colisión con áreas.
 	parametros.collide_with_areas = true
-	# Realiza la intersección de punto.
-	var resultado = space_state.intersect_point(parametros)
-	# Si hay algún resultado.
-	if resultado.size() > 0:
-		# Obtiene la máscara de colisión del objeto detectado.
-		var resultado_collision_mask = resultado[0].collider.collision_mask
-		# Si la máscara de colisión es la de una carta.
-		if resultado_collision_mask == MASCARA_COLISION_CARTA:
-			# Se ha seleccionado una carta.
-			var carta_encontrada = resultado[0].collider.get_parent()
-			if carta_encontrada.is_ai: return
-			# Si se ha encontrado una carta válida.
-			if carta_encontrada:
-				# Llama a la función para empezar a arrastrar la carta.
-				carta_manager_referencia.empezar_a_arrastrar(carta_encontrada)
-		# Si la máscara de colisión es la del mazo.
-		elif resultado_collision_mask == MASCARA_COLISION_CARTA_DECK:
-			# Se ha seleccionado el mazo.
-			deck_referencia.tomar_carta()
+	
+	var resultados = space_state.intersect_point(parametros)
+	
+	# Iteramos por todos los resultados para encontrar lo que nos interesa
+	# Priorizamos las cartas (Layer 1) y luego el mazo (Layer 4)
+	
+	var carta_encontrada = null
+	var deck_encontrado = false
+	
+	for res in resultados:
+		var col = res.collider
+		# Comprobamos la CAPA de colisión (Layer), que es lo que el objeto ES
+		if col.collision_layer == MASCARA_COLISION_CARTA:
+			var obj = col.get_parent()
+			if obj and not obj.get("is_ai"):
+				carta_encontrada = obj
+				break # Si encontramos una carta, paramos de buscar
+		elif col.collision_layer == MASCARA_COLISION_CARTA_DECK:
+			deck_encontrado = true
+
+	# Ejecutar la acción según lo encontrado
+	if carta_encontrada:
+		carta_manager_referencia.empezar_a_arrastrar(carta_encontrada)
+	elif deck_encontrado:
+		# deck_referencia.tomar_carta() # Desactivado por reparto automático
+		pass
 			
 			

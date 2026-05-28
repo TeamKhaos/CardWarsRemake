@@ -1,10 +1,16 @@
-[gd_scene load_steps=6 format=3 uid="uid://deh8w4hji7hh5"]
+[gd_scene load_steps=12 format=3 uid="uid://deh8w4hji7hh5"]
 
 [ext_resource type="Script" uid="uid://cvdye5lwiwmmo" path="res://scripts/ia/AI-Controller.gd" id="1_ncd17"]
 [ext_resource type="PackedScene" uid="uid://d0kx6ep6hlp3" path="res://scenes/baraja-dos-scenes/manejo-carta-AI.tscn" id="2_ryrig"]
 [ext_resource type="PackedScene" uid="uid://cngyj7hhgkyxg" path="res://scenes/baraja-dos-scenes/mano-AI.tscn" id="3_lbsoq"]
 [ext_resource type="PackedScene" uid="uid://chkkm07k6m5ie" path="res://scenes/baraja-dos-scenes/manotextureAI.tscn" id="4_grdi1"]
+[ext_resource type="Script" uid="uid://dakllk4rhuqi8" path="res://scripts/player/ranuras.gd" id="6_tmwiu"]
+[ext_resource type="Texture2D" uid="uid://b251c120jqex1" path="res://assets/images/K.png" id="7_jij20"]
 [ext_resource type="PackedScene" uid="uid://0k5hq6e2ay85" path="res://scenes/baraja-dos-scenes/deck-AI.tscn" id="7_r75po"]
+[ext_resource type="Texture2D" uid="uid://djkev6moktwpx" path="res://assets/images/H.png" id="8_r75po"]
+[ext_resource type="Texture2D" uid="uid://b0blp0nxjppig" path="res://assets/images/A.png" id="9_q67da"]
+[ext_resource type="Texture2D" uid="uid://cwhlnw8dg6nnp" path="res://assets/images/O.png" id="10_nhq2j"]
+[ext_resource type="Texture2D" uid="uid://cxb06quwd4qxm" path="res://assets/images/S.png" id="11_yj0ug"]
 
 [node name="BarajaIA" type="Node2D" node_paths=PackedStringArray("deck", "manejo_carta", "mano_ia")]
 script = ExtResource("1_ncd17")
@@ -17,12 +23,29 @@ scale = Vector2(0.5, 0.5)
 is_player_one = false
 
 [node name="DeckIA" parent="." node_paths=PackedStringArray("manejo_carta", "manejo_ia") instance=ExtResource("7_r75po")]
-is_player_one = false
 manejo_carta = NodePath("../ManejoCartaAI")
 manejo_ia = NodePath("../ManoIA")
 
 [node name="ManejoCartaAI" parent="." instance=ExtResource("2_ryrig")]
 
 [node name="ManoIA" parent="." node_paths=PackedStringArray("deck_") instance=ExtResource("3_lbsoq")]
-scale = Vector2(0.4, 0.4)
 deck_ = NodePath("../DeckIA")
+
+[node name="Ranuras" type="Node2D" parent="."]
+script = ExtResource("6_tmwiu")
+is_player_one = false
+
+[node name="K" type="Sprite2D" parent="Ranuras"]
+texture = ExtResource("7_jij20")
+
+[node name="H" type="Sprite2D" parent="Ranuras"]
+texture = ExtResource("8_r75po")
+
+[node name="A" type="Sprite2D" parent="Ranuras"]
+texture = ExtResource("9_q67da")
+
+[node name="O" type="Sprite2D" parent="Ranuras"]
+texture = ExtResource("10_nhq2j")
+
+[node name="S" type="Sprite2D" parent="Ranuras"]
+texture = ExtResource("11_yj0ug")

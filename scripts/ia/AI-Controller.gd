@@ -7,20 +7,21 @@ extends Node2D
 @export var game_manager: Node
 
 func _ready():
+	# El timer debe ser más lento y más controlado
 	var timer = Timer.new()
 	add_child(timer)
-	timer.wait_time = 2
+	timer.wait_time = 4.0 # Aumentamos tiempo entre decisiones
 	timer.one_shot = false
 	timer.start()
 	timer.connect("timeout", _on_timer_timeout)
 
 func _on_timer_timeout():
-	# Si la IA tiene menos de 5 cartas, roba una
-	if mano_ia.cartas_en_mano.size() < 5:
-		deck.tomar_carta()
-	else:
-		# Si ya tiene 5 cartas, juega una
+	# Primero, intentar jugar si hay slots vacíos
+	if find_empty_slot():
 		play_turn()
+	# Solo robar si la mano está vacía o muy baja, y no durante el reparto inicial
+	elif mano_ia.cartas_en_mano.size() < 2:
+		deck.tomar_carta()
 
 func reponer_carta():
 	if mano_ia.cartas_en_mano.size() < 5:
@@ -58,7 +59,6 @@ func choose_ai_card(player_wins: Dictionary, ai_wins: Dictionary, ai_hand: Array
 
 func play_turn():
 	if mano_ia.cartas_en_mano.size() > 0:
-		# Acceder a la información de puntos desde el nodo puntos del jugador/IA (puntos.gd)
 		var player_wins = {"fuego": game_manager.puntos_jugador.indice_fuego, "agua": game_manager.puntos_jugador.indice_agua, "planta": game_manager.puntos_jugador.indice_planta}
 		var ai_wins = {"fuego": game_manager.puntos_ia.indice_fuego, "agua": game_manager.puntos_ia.indice_agua, "planta": game_manager.puntos_ia.indice_planta}
 		
@@ -66,9 +66,9 @@ func play_turn():
 		var empty_slot = find_empty_slot()
 		
 		if empty_slot:
-			# Marcar la ranura como ocupada
-			empty_slot.set("carta_en_ranura", true)
-			game_manager.registrar_carta(empty_slot.id_ranura, card_to_play, true)
+			# Marcar la ranura como ocupada usando metadata
+			empty_slot.set_meta("carta_en_ranura", true)
+			game_manager.registrar_carta(empty_slot.get_meta("id_ranura", ""), card_to_play, true)
 			mano_ia.remover_carta_mano(card_to_play)
 			reponer_carta()
 			
@@ -77,17 +77,11 @@ func play_turn():
 			tween.set_ease(Tween.EASE_OUT)
 			tween.set_trans(Tween.TRANS_CUBIC)
 			tween.tween_property(card_to_play, "global_position", empty_slot.global_position, 0.5)
+			tween.parallel().tween_property(card_to_play, "scale", Vector2(0.7, 0.7), 0.5) # Ajuste a 0.7 para coincidir
 
 			tween.connect("finished", func():
-				card_to_play.scale = Vector2(1, 1)
-				manejo_carta.play_card_for_ai(card_to_play, empty_slot)
-				if card_to_play.has_node("Area2D/CollisionShape2D"):
-					card_to_play.get_node("Area2D/CollisionShape2D").disabled = true
-			)
-
-			tween.connect("finished", func():
-				card_to_play.scale = Vector2(1, 1)
-				manejo_carta.play_card_for_ai(card_to_play, empty_slot)
+				# Aseguramos escala final 0.7
+				card_to_play.scale = Vector2(0.7, 0.7)
 				if card_to_play.has_node("Area2D/CollisionShape2D"):
 					card_to_play.get_node("Area2D/CollisionShape2D").disabled = true
 			)
@@ -98,7 +92,8 @@ func play_turn():
 func find_empty_slot():
 	var ranuras = get_tree().get_nodes_in_group("ranuras")
 	for ranura in ranuras:
-		if ranura.id_ranura == "ranuraia":
-			if not ranura.carta_en_ranura:
+		var id = ranura.get_meta("id_ranura", "")
+		if id.begins_with("ranuraia"):
+			if not ranura.get_meta("carta_en_ranura", false):
 				return ranura
 	return null

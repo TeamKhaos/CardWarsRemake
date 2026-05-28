@@ -67,10 +67,47 @@ El juego utiliza `ShaderMaterial` dinámicos aplicados por código para mejorar 
 3. **Turno**: El `Game_Manager` posee un `TurnTimer` (Timer nodo) que al agotarse dispara `_on_TurnTimer_timeout`.
 
 ---
+## Fase 2: Automatización y Pulido Visual (¡Nuevo!)
+En esta fase se transformó la mecánica de juego de arrastre manual a un sistema de **reparto automático** y se añadieron efectos visuales avanzados.
+
+### 1. Sistema KHAOS (Multi-carril)
+- **`scripts/player/ranuras.gd`**: Script maestro que transforma nodos `Sprite2D` en ranuras funcionales.
+    - Crea dinámicamente `Area2D` y `CollisionShape2D` para las letras **K, H, A, O, S**.
+    - Gestiona el posicionamiento automático basado en el tamaño de pantalla y el rol (`is_player_one`).
+    - Utiliza el sistema de **Metadata** (`id_ranura`, `carta_en_ranura`) para una identificación robusta.
+
+### 2. Reparto Automático
+- **`scripts/player/Deck.gd`** y **`scripts/ia/Deck-AI.gd`**:
+    - Las cartas ya no van a la mano; vuelan directamente a las ranuras KHAOS al iniciar.
+    - Sincronización mediante `await` y temporizadores para asegurar que las ranuras estén listas antes del reparto.
+    - Registro automático en `Game_Manager` al aterrizar.
+
+### 3. Shaders y "Juicy Movement"
+- **`scripts/Carta.gd`**: Se implementó el `CARD_DYNAMIC_SHADER`.
+    - **Idle Float & Roll**: Movimiento constante de balanceo y respiración.
+    - **3D Parallax Tilt**: La carta se inclina siguiendo el mouse.
+    - **Velocity Lean**: La carta se recuesta físicamente según la velocidad de arrastre.
+    - **Corrección de Escala**: Forzado de escala a `0.7` para evitar saltos visuales con el `AnimationPlayer`.
+
+### 4. Interacción y Lógica de Combate
+- **`scripts/player/Player-Controller.gd`**:
+    - **Swap (Intercambio)**: Si se suelta una carta sobre otra ocupada, intercambian posiciones y actualizan el `Game_Manager`.
+    - **Detección Fiable**: El raycast ahora itera sobre todos los objetos bajo el mouse, priorizando cartas sobre ranuras.
+- **`scripts/ia/Game_Manager.gd`**:
+    - Refactorizado para ser **100% dinámico**. Ya no usa rutas fijas de nodos.
+    - Busca ranuras por su metadata `id_ranura` dentro del grupo `"ranuras"`.
+    - Soporta los 5 carriles de combate simultáneamente.
+
+---
+## Archivos Modificados en Fase 2:
+- `scripts/Carta.gd`: Shader dinámico, Z-index y grupos.
+- `scripts/player/ranuras.gd`: Lógica de letras KHAOS y colisiones dinámicas.
+- `scripts/player/Player-Controller.gd`: Intercambio de cartas y búsqueda robusta de Manager.
+- `scripts/player/InputManager.gd`: Prioridad de clic y detección por capas.
+- `scripts/player/Deck.gd` / `scripts/ia/Deck-AI.gd`: Reparto automático sincronizado.
+- `scripts/ia/Game_Manager.gd`: Combate dinámico carril por carril.
+- `scripts/player/manotexture.gd`: Alineación con el área de ranuras.
+
+---
 ## ¡Continuará!
-La base del proyecto está consolidada:
-- Sistema de combate con IA estratégica.
-- Temporizador de turno con movimiento forzado.
-- Sistema de revelado simultáneo.
-- Efectos visuales de aura elemental con shaders.
-El juego está listo para la siguiente fase de pulido o nuevas mecánicas.
+El juego ahora es un sistema de combate automático con carriles estratégicos y una respuesta visual de alta calidad.

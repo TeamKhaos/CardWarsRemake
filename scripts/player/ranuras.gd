@@ -1,44 +1,64 @@
 extends Node2D
 
-@export var es_ia: bool = false # Si este contenedor es para la IA o el Jugador
+@export var is_player_one: bool = true
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	posicionar_ranuras()
+	# Aseguramos que se inicialice después de que todo el árbol esté listo
+	call_deferred("inicializar_ranuras_khaos")
 
-func posicionar_ranuras() -> void:
+func inicializar_ranuras_khaos() -> void:
 	var tamano_ventana = get_viewport_rect().size
 	
-	# Las 5 letras que pidió el usuario
-	var letras = ["k", "h", "a", "o", "s"]
+
+	# Posicionar el contenedor según el jugador
+	if is_player_one:
+		self.position = Vector2(tamano_ventana.x * 0.5, tamano_ventana.y * 0.82)
+	else:
+		self.position = Vector2(tamano_ventana.x * 0.5, tamano_ventana.y * 0.18)
+
+	var letras = ["K", "H", "A", "O", "S"]
+	# Espaciado ajustado para escala 1.0
+	var spacing = 170.0 
 	
-	# Buscamos los hijos llamados Ranura1, Ranura2, etc.
-	var ranuras = [
-		get_node_or_null("Ranura1"),
-		get_node_or_null("Ranura2"),
-		get_node_or_null("Ranura3"),
-		get_node_or_null("Ranura4"),
-		get_node_or_null("Ranura5")
-	]
+	print("📍 [RANURAS] Inicializando letras KHAOS para ", "Jugador" if is_player_one else "IA")
 	
-	# Configuración de posicionamiento
-	# Queremos que estén centradas horizontalmente
-	var margen_h = 0.15 # 15% de margen a los lados
-	var y_pos = tamano_ventana.y * 0.6 if !es_ia else tamano_ventana.y * 0.4
-	var area_disponible = tamano_ventana.x * (1.0 - (margen_h * 2))
-	var spacing = area_disponible / (ranuras.size() - 1)
+	for i in range(letras.size()):
+		var nodo = get_node_or_null(letras[i])
+		if nodo:
 	
-	var prefix = "ranuraia" if es_ia else "ranuraplayer"
-	
-	for i in range(ranuras.size()):
-		var ranura = ranuras[i]
-		if ranura:
-			# Posicionamiento horizontal
-			var x_pos = (tamano_ventana.x * margen_h) + (spacing * i)
-			ranura.global_position = Vector2(x_pos, y_pos)
+			# Alinear horizontalmente
+			nodo.position = Vector2((i - 2) * spacing, 0)
 			
-			# Asignar ID según la letra correspondiente
-			ranura.id_ranura = prefix + letras[i]
-			ranura.es_ia = es_ia
+			# ASEGURAR QUE LAS LETRAS ESTÉN AL FONDO
+			nodo.z_index = 0
 			
-			print("📍 Ranura ", letras[i], " posicionada en: ", ranura.global_position, " ID: ", ranura.id_ranura)
+			# --- HACER QUE EL NODO FUNCIONE COMO RANURA ---
+			
+			# 1. Añadir variables necesarias usando Metadata
+			var prefix = "ranuraplayer" if is_player_one else "ranuraia"
+			var id_final = prefix + letras[i].to_lower()
+			
+			nodo.set_meta("id_ranura", id_final)
+			nodo.set_meta("es_ia", !is_player_one)
+			nodo.set_meta("carta_en_ranura", false)
+			
+			# 2. Añadir al grupo
+			if not nodo.is_in_group("ranuras"):
+				nodo.add_to_group("ranuras")
+			
+			# 3. Crear Area2D y Colisión
+			var area = nodo.get_node_or_null("AreaRanura")
+			if not area:
+				area = Area2D.new()
+				area.name = "AreaRanura"
+				area.collision_layer = 2
+				area.collision_mask = 0
+				nodo.add_child(area)
+				
+				var shape = CollisionShape2D.new()
+				var rect = RectangleShape2D.new()
+				rect.size = Vector2(300, 500) 
+				shape.shape = rect
+				area.add_child(shape)
+			
+			print("✅ Ranura ", letras[i], " lista en ID: ", nodo.get_meta("id_ranura"))
