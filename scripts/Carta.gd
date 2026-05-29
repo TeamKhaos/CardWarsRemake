@@ -21,11 +21,21 @@ var mouse_rel_pos: Vector2 = Vector2(0.5, 0.5)
 # --- FUNCIONES DE VOLTEO ---
 func flip_face_up():
 	var img = get_node_or_null("Cardimage")
-	if img: img.visible = true
+	if img: 
+		img.visible = true
+		img.z_index = 1
+	var reverso = get_node_or_null("Carta_reverso")
+	if reverso:
+		reverso.z_index = 0
 
 func flip_face_down():
 	var img = get_node_or_null("Cardimage")
-	if img: img.visible = false
+	if img: 
+		img.visible = false
+		img.z_index = -1
+	var reverso = get_node_or_null("Carta_reverso")
+	if reverso:
+		reverso.z_index = 1
 
 # --- EFECTOS VISUALES ---
 const CARD_DYNAMIC_SHADER = """

@@ -25,10 +25,14 @@ var ALL_ELEMENTS_THRESHOLD = 1
 
 # --- Función principal ---
 func determinar_resultado(carta_jugador: Node, carta_ia: Node) -> String:
-	var tipo_jugador = carta_jugador.get_meta("tipo")
-	var tipo_ia = carta_ia.get_meta("tipo")
-	var ataque_jugador = carta_jugador.get_meta("ataque")
-	var ataque_ia = carta_ia.get_meta("ataque")
+	if not is_instance_valid(carta_jugador) or not is_instance_valid(carta_ia):
+		print("⚠️ [COMBATE] Error: Carta nula en determinar_resultado")
+		return "empate"
+	
+	var tipo_jugador = carta_jugador.get_meta("tipo") if carta_jugador.has_meta("tipo") else "fuego"
+	var tipo_ia = carta_ia.get_meta("tipo") if carta_ia.has_meta("tipo") else "fuego"
+	var ataque_jugador = carta_jugador.get_meta("ataque") if carta_jugador.has_meta("ataque") else 0
+	var ataque_ia = carta_ia.get_meta("ataque") if carta_ia.has_meta("ataque") else 0
 
 	if tipo_jugador == tipo_ia:
 		if ataque_jugador > ataque_ia:
@@ -37,23 +41,27 @@ func determinar_resultado(carta_jugador: Node, carta_ia: Node) -> String:
 			return "ia"
 		else:
 			return "empate"
-	elif ventajas[tipo_jugador] == tipo_ia:
+	elif ventajas.has(tipo_jugador) and ventajas[tipo_jugador] == tipo_ia:
 		return "jugador"
 	else:
 		return "ia"
 
 func registrar_resultado(carta_jugador: Node, carta_ia: Node) -> String:
 	var resultado = determinar_resultado(carta_jugador, carta_ia)
-	var tipo_jugador = carta_jugador.get_meta("tipo")
-	var tipo_ia = carta_ia.get_meta("tipo")
-
-	match resultado:
-		"jugador":
-			puntos_totales_jugador += 1
-			puntos_jugador[tipo_jugador] += 1
-		"ia":
-			puntos_totales_ia += 1
-			puntos_ia[tipo_ia] += 1
+	
+	if is_instance_valid(carta_jugador):
+		var tipo_jugador = carta_jugador.get_meta("tipo") if carta_jugador.has_meta("tipo") else "fuego"
+		match resultado:
+			"jugador":
+				puntos_totales_jugador += 1
+				puntos_jugador[tipo_jugador] += 1
+	
+	if is_instance_valid(carta_ia):
+		var tipo_ia = carta_ia.get_meta("tipo") if carta_ia.has_meta("tipo") else "fuego"
+		match resultado:
+			"ia":
+				puntos_totales_ia += 1
+				puntos_ia[tipo_ia] += 1
 
 	return comprobar_victoria()
 

@@ -29,6 +29,15 @@ func reponer_carta():
 
 # --- ESTRATEGIA IA ---
 func choose_ai_card(player_wins: Dictionary, ai_wins: Dictionary, ai_hand: Array) -> Node:
+	# 0. Limpiar la mano de cartas liberadas
+	var mano_limpia = []
+	for c in ai_hand:
+		if is_instance_valid(c):
+			mano_limpia.append(c)
+	ai_hand = mano_limpia
+	
+	if ai_hand.size() == 0: return null
+
 	# 1. Identificar elemento que le falta al jugador para ganar por 1 de cada
 	var falta_jugador = []
 	for tipo in ["fuego", "agua", "planta"]:
@@ -44,10 +53,10 @@ func choose_ai_card(player_wins: Dictionary, ai_wins: Dictionary, ai_hand: Array
 	var ventajas = {"fuego": "planta", "agua": "fuego", "planta": "agua"}
 	
 	for carta in ai_hand:
-		var tipo = carta.get_meta("tipo")
+		var tipo = carta.get_meta("tipo") if carta.has_meta("tipo") else "fuego"
 		
 		# Prioridad: Bloquear al jugador si está a punto de ganar
-		if peligro_jugador != "" and ventajas[tipo] == peligro_jugador:
+		if peligro_jugador != "" and ventajas.has(tipo) and ventajas[tipo] == peligro_jugador:
 			mejores_cartas.append(carta)
 		elif tipo in falta_jugador:
 			mejores_cartas.append(carta)

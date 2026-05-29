@@ -51,19 +51,18 @@ func detener_turno():
 
 # --- MODIFICADO: COMPARAR CARTAS DINÁMICAMENTE ---
 func registrar_carta(ranura_id: String, carta: Node, es_ia: bool):
-	# Extraer la letra identificadora (k, h, a, o, s) de forma más robusta
-	var carril_id = ""
-	var id_lower = ranura_id.to_lower()
+	# Permitir ranuras de combate genéricas y todas las ranuras del jugador/IA (KHAOS)
+	var es_ranura_valida = (
+		ranura_id == "ranuraplayer" or ranura_id == "ranuraia" or
+		ranura_id.begins_with("ranuraplayer") or ranura_id.begins_with("ranuraia")
+	)
 	
-	for letra in ["k", "h", "a", "o", "s"]:
-		if id_lower.ends_with(letra):
-			carril_id = letra
-			break
+	if not es_ranura_valida:
+		print("⚠️ [GM] Ignorando registro en ranura no de combate: ", ranura_id)
+		return
 	
-	if carril_id == "": carril_id = ranura_id # Fallback
-	
-	if not cartas_en_ranuras.has(carril_id):
-		cartas_en_ranuras[carril_id] = {
+	if not cartas_en_ranuras.has(ranura_id):
+		cartas_en_ranuras[ranura_id] = {
 			"jugador": null, 
 			"ia": null,
 			"nodo_player": null,
@@ -78,27 +77,122 @@ func registrar_carta(ranura_id: String, carta: Node, es_ia: bool):
 			break
 
 	if es_ia:
-		cartas_en_ranuras[carril_id]["ia"] = carta
-		cartas_en_ranuras[carril_id]["nodo_ia"] = nodo_ranura
-		print("✅ [GM] IA registró carta en carril:", carril_id)
+		# --- PROTECCIÓN: NO SOBREESCRIBIR SI YA HAY CARTA ---
+		if cartas_en_ranuras[ranura_id]["ia"] != null:
+			print("⚠️ [GM] Intentando registrar IA en ranura ocupada. Ignorando.")
+			return
+		
+		cartas_en_ranuras[ranura_id]["ia"] = carta
+		cartas_en_ranuras[ranura_id]["nodo_ia"] = nodo_ranura
+		print("✅ [GM] IA registró carta en ranura de combate:", ranura_id)
 	else:
-		cartas_en_ranuras[carril_id]["jugador"] = carta
-		cartas_en_ranuras[carril_id]["nodo_player"] = nodo_ranura
-		print("✅ [GM] Jugador registró carta en carril:", carril_id)
+		# --- PROTECCIÓN: NO SOBREESCRIBIR SI YA HAY CARTA ---
+		if cartas_en_ranuras[ranura_id]["jugador"] != null:
+			print("⚠️ [GM] Intentando registrar Jugador en ranura ocupada. Ignorando.")
+			return
+			
+		cartas_en_ranuras[ranura_id]["jugador"] = carta
+		cartas_en_ranuras[ranura_id]["nodo_player"] = nodo_ranura
+		print("✅ [GM] Jugador registró carta en ranura de combate:", ranura_id)
+
+	# --- DISPARAR COMBATE AUTOMÁTICO SI ES CARRIL CENTRAL ---
+	if ranura_id == "ranuraplayer" or ranura_id == "ranuraia":
+		# UNIFICAR CLAVE: Siempre usamos "ranuraplayer" para el estado del combate central
+		var clave_combate = "ranuraplayer"
+		
+		# Asegurar que la estructura exista
+		if not cartas_en_ranuras.has(clave_combate):
+			cartas_en_ranuras[clave_combate] = {"jugador": null, "ia": null, "nodo_player": null, "nodo_ia": null}
+		
+		# Transferir si es necesario
+		if ranura_id == "ranuraia" and es_ia:
+			cartas_en_ranuras[clave_combate]["ia"] = carta
+			cartas_en_ranuras[clave_combate]["nodo_ia"] = nodo_ranura
+		elif ranura_id == "ranuraplayer" and not es_ia:
+			cartas_en_ranuras[clave_combate]["jugador"] = carta
+			cartas_en_ranuras[clave_combate]["nodo_player"] = nodo_ranura
+			
+		# Comprobar seguridad: ¿existen ambas partes?
+		var p_ok = cartas_en_ranuras[clave_combate]["jugador"] != null
+		var ia_ok = cartas_en_ranuras[clave_combate]["ia"] != null
+		
+		if p_ok and ia_ok:
+			await comparar_cartas_centrales()
+
+var ia_esperando: bool = false # Añadir como variable de clase si no existe
+
+func comparar_cartas_centrales():
+	if ia_esperando: return # Evitar bucle
+	ia_esperando = true
+	
+	# Comparar específicamente el carril central (unificado en "ranuraplayer")
+	await comparar_cartas("ranuraplayer")
+	
+	# Solicitar nueva carta a la IA
+	var grupo_ia = get_tree().get_nodes_in_group("deck_ia")
+	if grupo_ia.size() > 0:
+		grupo_ia[0].tomar_carta()
+		
+		# Delay para instancia
+		await get_tree().create_timer(0.5).timeout
+		var nueva_carta = grupo_ia[0].manejo_carta.get_children().back()
+		
+		var ranura_central = null
+		for r in get_tree().get_nodes_in_group("ranuras"):
+			if r.get_meta("id_ranura", "") == "ranuraia":
+				ranura_central = r
+				break
+				
+		if ranura_central:
+			# Limpieza explícita del estado unificado
+			cartas_en_ranuras["ranuraplayer"]["ia"] = null
+			
+			var tween = create_tween()
+			tween.tween_property(nueva_carta, "global_position", ranura_central.global_position, 0.5).set_trans(Tween.TRANS_QUART)
+			
+			# ASIGNAR DIRECTAMENTE para evitar re-disparar el combate y bucles
+			cartas_en_ranuras["ranuraplayer"]["ia"] = nueva_carta
+			cartas_en_ranuras["ranuraplayer"]["nodo_ia"] = ranura_central
+			
+			print("🤖 [GM] Nueva carta IA asignada directamente a estado de combate")
+	
+	ia_esperando = false
+
+
+# --- FUNCIONES AUXILIARES DE SEGURIDAD ---
+func set_card_modulate(carta: Node, color: Color):
+	if is_instance_valid(carta) and carta.has_node("Cardimage"):
+		carta.get_node("Cardimage").modulate = color
 
 func comparar_cartas(ranura_id: String):
+	# LOG DE ESTADO
+	print("DEBUG: Entrando en comparar_cartas para: ", ranura_id)
+	print("DEBUG: Estado de cartas: ", cartas_en_ranuras.get(ranura_id, "No existe registro"))
+	
+	# COMPROBACIÓN CRÍTICA
+	if not cartas_en_ranuras.has(ranura_id) or cartas_en_ranuras[ranura_id]["jugador"] == null or cartas_en_ranuras[ranura_id]["ia"] == null:
+		print("⚠️ [GM] Abortando combate en ", ranura_id, " por carta nula.")
+		return
+	
 	var carta_jugador = cartas_en_ranuras[ranura_id]["jugador"]
 	var carta_ia = cartas_en_ranuras[ranura_id]["ia"]
 	var nodo_ranura_p = cartas_en_ranuras[ranura_id]["nodo_player"]
 	var nodo_ranura_ia = cartas_en_ranuras[ranura_id]["nodo_ia"]
 
+
 	# --- REVELADO SIMULTÁNEO ---
 	print("⚔️ Revelando cartas en carril:", ranura_id)
-	if carta_ia.has_method("flip_face_up"):
-		carta_ia.flip_face_up()
 	
-	if carta_ia.has_method("revelar_color_elemental"):
-		carta_ia.revelar_color_elemental(carta_ia.get_meta("tipo"))
+	if is_instance_valid(carta_ia):
+		print("DEBUG: ¿Tiene método flip_face_up?: ", carta_ia.has_method("flip_face_up"))
+		if carta_ia.has_method("flip_face_up"):
+			carta_ia.flip_face_up()
+			print("DEBUG: flip_face_up() ejecutado en IA")
+		
+		print("DEBUG: ¿Tiene método revelar_color_elemental?: ", carta_ia.has_method("revelar_color_elemental"))
+		if carta_ia.has_method("revelar_color_elemental"):
+			carta_ia.revelar_color_elemental(carta_ia.get_meta("tipo"))
+			print("DEBUG: revelar_color_elemental() ejecutado en IA")
 	
 	await get_tree().create_timer(1.0).timeout 
 
@@ -107,18 +201,18 @@ func comparar_cartas(ranura_id: String):
 
 	match resultado:
 		"jugador":
-			puntos_jugador.agregar_punto(carta_jugador.get_meta("tipo"))
-			carta_jugador.get_node("Cardimage").modulate = Color(1, 1, 1, 1)
-			carta_ia.get_node("Cardimage").modulate = Color(0.5, 0.5, 0.5, 1)
+			if is_instance_valid(carta_jugador): puntos_jugador.agregar_punto(carta_jugador.get_meta("tipo"))
+			set_card_modulate(carta_jugador, Color(1, 1, 1, 1))
+			set_card_modulate(carta_ia, Color(0.5, 0.5, 0.5, 1))
 			if verificar_victoria_final("Jugador"): return
 		"ia":
-			puntos_ia.agregar_punto(carta_ia.get_meta("tipo"))
-			carta_ia.get_node("Cardimage").modulate = Color(1, 1, 1, 1)
-			carta_jugador.get_node("Cardimage").modulate = Color(0.5, 0.5, 0.5, 1)
+			if is_instance_valid(carta_ia): puntos_ia.agregar_punto(carta_ia.get_meta("tipo"))
+			set_card_modulate(carta_ia, Color(1, 1, 1, 1))
+			set_card_modulate(carta_jugador, Color(0.5, 0.5, 0.5, 1))
 			if verificar_victoria_final("IA"): return
 		"empate":
-			carta_ia.get_node("Cardimage").modulate = Color(0.5, 0.5, 0.5, 1)
-			carta_jugador.get_node("Cardimage").modulate = Color(0.5, 0.5, 0.5, 1)
+			set_card_modulate(carta_ia, Color(0.5, 0.5, 0.5, 1))
+			set_card_modulate(carta_jugador, Color(0.5, 0.5, 0.5, 1))
 
 	await get_tree().create_timer(1.0).timeout
 

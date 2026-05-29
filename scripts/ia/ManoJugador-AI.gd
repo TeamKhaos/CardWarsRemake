@@ -22,11 +22,15 @@ func añadir_carta_mano(carta, velocidad):
 
 func actulizar_posicion_mano(velocidad):
 	var tamano_ventana = get_viewport().size
+	var nuevas_cartas_en_mano = []
 	for i in range(cartas_en_mano.size()):
-		var nueva_posicion = Vector2(calcular_carta_posicion(i, tamano_ventana.x), tamano_ventana.y * mano_y_proporcion)
 		var carta = cartas_en_mano[i]
-		carta.posicion_inicial = nueva_posicion
-		animar_carta_a_posicion(carta, nueva_posicion, velocidad)
+		if is_instance_valid(carta):
+			var nueva_posicion = Vector2(calcular_carta_posicion(i, tamano_ventana.x), tamano_ventana.y * mano_y_proporcion)
+			carta.posicion_inicial = nueva_posicion
+			animar_carta_a_posicion(carta, nueva_posicion, velocidad)
+			nuevas_cartas_en_mano.append(carta)
+	cartas_en_mano = nuevas_cartas_en_mano
 
 func calcular_carta_posicion(index, ancho_ventana):
 	var total_ancho = (cartas_en_mano.size() - 1) * carta_ancho

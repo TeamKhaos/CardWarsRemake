@@ -1,113 +1,115 @@
-# Mapa de Scripts - Card Wars
+# Mapa Técnico Detallado - Card Wars Remake (GODOT)
 
-Este documento detalla la arquitectura, funciones clave y sistema de señales del proyecto.
-
-## Estructura de Directorios
-- `scripts/`: Núcleo y scripts globales.
-- `scripts/ia/`: IA y coordinador principal.
-- `scripts/player/`: Lógica del jugador e input.
-- `scripts/ui/`: Interfaz.
+Este documento proporciona una guía exhaustiva de la arquitectura del código, funciones clave con referencias de línea y sistemas de interacción.
 
 ---
 
-## Núcleo
-- **`Carta.gd`**: Controla visibilidad y señales de interacción.
-    - `flip_face_up()` / `flip_face_down()`: Alterna la visibilidad del nodo `Cardimage`.
-    - `_ready()`: Inicializa estado (deshabilita input si es IA, oculta si es IA).
-- **`CartaRanura.gd`**: Gestiona el estado de ocupación de ranuras.
-    - `_ready()`: Configura `id_ranura` y posición según `primersloot`.
-- **`DB_Cartas.gd`**: Diccionario `CARTAS` que mapea nombres de archivos con atributos (ataque, tipo).
-- **`fondo.gd`**: `ajustar_fondo()` escala la textura para cubrir el viewport.
-- **`mesa.gd`**: `_ready()` centra la mesa en la pantalla.
-- **`resultado_final.gd`**: 
-    - `mostrar_resultado(ganador)`: Activa texturas de resultado (`Ganaste`, `Perdiste`, `Empate`).
-- **`menu.gd`**: Controla navegación de escenas (`_on_jugar_pressed`, `_on_salir_pressed`).
+## 1. Núcleo: `scripts/Carta.gd`
+Controla el comportamiento individual de cada carta, sus efectos visuales y respuesta al mouse.
 
-## IA y Coordinación (`scripts/ia/`)
-- **`Game_Manager.gd`**: **Nodo central**. 
-    - `registrar_carta(ranura_id, carta, es_ia)`: Gestiona el registro de cartas y dispara `comparar_cartas` al recibir ambas.
-    - `comparar_cartas(ranura_id)`: **Flujo de combate**. Revela carta IA, espera, resuelve, aplica modulaciones visuales y limpia ranuras.
-    - `verificar_victoria_final()`: Evalúa condiciones de victoria según `combate.gd`.
-- **`combate.gd`**:
-    - `determinar_resultado(carta1, carta2)`: Lógica pura de reglas (Agua>Fuego>Planta).
-    - `registrar_resultado()`: Incrementa contadores.
-- **`AI-Controller.gd`**:
-    - `play_turn()`: Elige carta, la registra en `GameManager`, y anima su movimiento.
-- **`Deck-AI.gd`**: `tomar_carta()` gestiona el mazo, instanciación de `Carta.gd` y asignación de metadatos.
-
-## Jugador (`scripts/player/`)
-- **`Player-Controller.gd`**: Lógica de arrastre.
-    - `empezar_a_arrastrar(carta)`: Cambia escala y guarda referencia.
-    - `dejar_de_arrastrar()`: Verifica colisión con `CartaRanura` y registra en `GameManager`.
-- **`InputManager.gd`**: Gestor de inputs de bajo nivel.
-    - `raycast_al_cursor()`: Detecta colisiones (cartas o mazos).
-- **`ManoJugador.gd`**: Gestiona posicionamiento de la mano (`actulizar_posicion_mano`).
-
-## UI
-- **`PuntosHUD.gd`**: `sumar_punto(quien)` activa la visibilidad de los puntos de victoria.
-- **`puntos.gd`**: Similar a HUD, añade visualmente sprites de victoria en el tablero.
-- **`TimerDisplay.gd`**: Muestra visualmente el tiempo restante del turno.
-    - *Función*: `_process()` lee `game_manager.turn_timer.time_left` y actualiza el texto del Label en cada frame. Requiere tener asignado el nodo `Game_Manager`.
+- **Línea 21: `flip_face_up()`**: Hace visible el nodo `Cardimage` y ajusta el `z_index` para mostrar el frente.
+- **Línea 31: `flip_face_down()`**: Oculta el frente y muestra el reverso (`Carta_reverso`).
+- **Línea 40: `CARD_DYNAMIC_SHADER`**: Shader de vértices que maneja:
+    - *Idle Float*: Balanceo suave (Línea 49).
+    - *Parallax*: Inclinación basada en la posición del mouse (Línea 55).
+    - *Drag Velocity*: Inclinación física al arrastrar (Línea 61).
+- **Línea 76: `setup_dynamic_shader()`**: Instancia y configura el `ShaderMaterial` dinámico con un offset de tiempo aleatorio.
+- **Línea 110: `aplicar_brillo_elemental(tipo, es_oculta)`**: Inicializa el `AURA_SHADER`. Si la carta es de la IA (`es_oculta`), el brillo es blanco neutro.
+- **Línea 130: `revelar_color_elemental(tipo)`**: Cambia el `modulate` del aura al color real (Fuego: Rojo, Agua: Azul, Planta: Verde).
+- **Línea 158: `_process(delta)`**: Interpola (`lerp`) los valores de `hover_amount` e `idle_amount` para animaciones fluidas.
 
 ---
-## Shaders y Efectos
-El juego utiliza `ShaderMaterial` dinámicos aplicados por código para mejorar la estética visual.
-- **`Carta.gd`**: Contiene `AURA_SHADER` (efecto eléctrico) y funciones de control.
-    - `aplicar_brillo_elemental(tipo, es_oculta)`: Inicializa el aura. Si `es_oculta` es true, el aura es blanca (para la IA).
-    - `revelar_color_elemental(tipo)`: Cambia el `modulate` del aura al color elemental real (tras el revelado).
-    - *Funcionamiento*: El shader utiliza ondas senoidales (`sin(TIME)`) multiplicadas por el `COLOR` del nodo (`modulate`), lo que permite que el color elemental (`fuego`, `agua`, `planta`) sea vibrante y mantenga la animación eléctrica.
-    - *Colores*:
-        - Fuego: `#FF4D33` (Rojo suave)
-        - Agua: `#3399FF` (Azul eléctrico)
-        - Planta: `#4DFF4D` (Verde neón)
----
-## Sistema de Interconexión
-1. **Cartas -> Manejo de Cartas**: Se conectan mediante `connect_carta_signal`.
-2. **Game_Manager**: Orquesta todo el combate.
-3. **Turno**: El `Game_Manager` posee un `TurnTimer` (Timer nodo) que al agotarse dispara `_on_TurnTimer_timeout`.
+
+## 2. Coordinación: `scripts/ia/Game_Manager.gd`
+Nodo central que gestiona el flujo del combate, turnos y registro de estado.
+
+- **Línea 32: `senal_reparto_terminado(es_ia)`**: Sincroniza el inicio del combate tras el reparto automático de ambos bandos.
+- **Línea 49: `registrar_carta(ranura_id, carta, es_ia)`**:
+    - Almacena referencias de cartas en el diccionario `cartas_en_ranuras`.
+    - Detecta si la ranura es de combate central (`ranuraplayer`/`ranuraia`) para iniciar el duelo central.
+- **Línea 103: `comparar_cartas_centrales()`**: Gestiona el bucle de combate en el carril central, solicitando reposición a la IA tras cada duelo.
+- **Línea 144: `comparar_cartas(ranura_id)`**:
+    - **Línea 160**: Revelado simultáneo de cartas.
+    - **Línea 174**: Consulta a `combate.gd` para el resultado elemental.
+    - **Línea 193**: Limpieza de cartas y liberación de ranuras tras el combate.
+- **Línea 215: `iniciar_combate_total()`**: Se activa por timeout del cronómetro (20s), resolviendo todos los carriles KHAOS ocupados.
+- **Línea 227: `verificar_victoria_final()`**: Evalúa si alguien alcanzó 3 puntos del mismo elemento o 1 de cada uno.
 
 ---
-## Fase 2: Automatización y Pulido Visual (¡Nuevo!)
-En esta fase se transformó la mecánica de juego de arrastre manual a un sistema de **reparto automático** y se añadieron efectos visuales avanzados.
 
-### 1. Sistema KHAOS (Multi-carril)
-- **`scripts/player/ranuras.gd`**: Script maestro que transforma nodos `Sprite2D` en ranuras funcionales.
-    - Crea dinámicamente `Area2D` y `CollisionShape2D` para las letras **K, H, A, O, S**.
-    - Gestiona el posicionamiento automático basado en el tamaño de pantalla y el rol (`is_player_one`).
-    - Utiliza el sistema de **Metadata** (`id_ranura`, `carta_en_ranura`) para una identificación robusta.
+## 3. Sistema KHAOS: `scripts/player/ranuras.gd`
+Transforma sprites estáticos en ranuras funcionales interactivas.
 
-### 2. Reparto Automático
-- **`scripts/player/Deck.gd`** y **`scripts/ia/Deck-AI.gd`**:
-    - Las cartas ya no van a la mano; vuelan directamente a las ranuras KHAOS al iniciar.
-    - Sincronización mediante `await` y temporizadores para asegurar que las ranuras estén listas antes del reparto.
-    - Registro automático en `Game_Manager` al aterrizar.
-
-### 3. Shaders y "Juicy Movement"
-- **`scripts/Carta.gd`**: Se implementó el `CARD_DYNAMIC_SHADER`.
-    - **Idle Float & Roll**: Movimiento constante de balanceo y respiración.
-    - **3D Parallax Tilt**: La carta se inclina siguiendo el mouse.
-    - **Velocity Lean**: La carta se recuesta físicamente según la velocidad de arrastre.
-    - **Corrección de Escala**: Forzado de escala a `0.7` para evitar saltos visuales con el `AnimationPlayer`.
-
-### 4. Interacción y Lógica de Combate
-- **`scripts/player/Player-Controller.gd`**:
-    - **Swap (Intercambio)**: Si se suelta una carta sobre otra ocupada, intercambian posiciones y actualizan el `Game_Manager`.
-    - **Detección Fiable**: El raycast ahora itera sobre todos los objetos bajo el mouse, priorizando cartas sobre ranuras.
-- **`scripts/ia/Game_Manager.gd`**:
-    - Refactorizado para ser **100% dinámico**. Ya no usa rutas fijas de nodos.
-    - Busca ranuras por su metadata `id_ranura` dentro del grupo `"ranuras"`.
-    - Soporta los 5 carriles de combate simultáneamente.
+- **Línea 9: `inicializar_ranuras_khaos()`**: 
+    - Posiciona los nodos K-H-A-O-S dinámicamente según el tamaño de la pantalla.
+    - **Línea 33**: Inyecta **Metadata** (`id_ranura`, `es_ia`) a los nodos.
+    - **Línea 43**: Crea en tiempo de ejecución nodos `Area2D` y `CollisionShape2D` para detectar colisiones de arrastre.
 
 ---
-## Archivos Modificados en Fase 2:
-- `scripts/Carta.gd`: Shader dinámico, Z-index y grupos.
-- `scripts/player/ranuras.gd`: Lógica de letras KHAOS y colisiones dinámicas.
-- `scripts/player/Player-Controller.gd`: Intercambio de cartas y búsqueda robusta de Manager.
-- `scripts/player/InputManager.gd`: Prioridad de clic y detección por capas.
-- `scripts/player/Deck.gd` / `scripts/ia/Deck-AI.gd`: Reparto automático sincronizado.
-- `scripts/ia/Game_Manager.gd`: Combate dinámico carril por carril.
-- `scripts/player/manotexture.gd`: Alineación con el área de ranuras.
+
+## 4. Controladores de Arrastre: `scripts/player/Player-Controller.gd`
+Gestiona la interacción física del jugador con las cartas.
+
+- **Línea 58: `empezar_a_arrastrar(carta)`**: Inicia el seguimiento del mouse y escala la carta.
+- **Línea 71: `dejar_de_arrastrar()`**:
+    - **Línea 103: Caso Intercambio (Swap)**: Si se suelta sobre otra carta en KHAOS, intercambian posiciones.
+    - **Línea 136: Caso Registro**: Si es una ranura vacía, se registra en el `Game_Manager`.
+    - **Línea 147: Bloqueo Central**: Si la carta entra en `ranuraplayer`, se desactiva su `input_pickable` y se pide reposición al mazo.
+- **Línea 181: `volver_a_casa(carta)`**: Tween de retorno a la posición inicial si el movimiento es inválido.
+- **Línea 231: `raycast_check_carta()`**: Identifica la carta bajo el mouse priorizando por `z_index`.
 
 ---
-## ¡Continuará!
-El juego ahora es un sistema de combate automático con carriles estratégicos y una respuesta visual de alta calidad.
+
+## 5. Automatización: `scripts/player/Deck.gd` y `scripts/ia/Deck-AI.gd`
+Gestionan el mazo y la distribución inicial.
+
+- **Línea 37 (`Deck.gd`): `repartir_a_ranuras()`**: Distribuye visualmente las cartas iniciales a las posiciones KHAOS del jugador.
+- **Línea 77 (`Deck.gd`): `reponer_carta_en_ranura(ranura)`**: Instancia una nueva carta del mazo cuando una ranura de la mano queda vacía.
+- **Línea 33 (`Deck-AI.gd`): `repartir_a_ranuras_ia()`**: Reparte las 5 cartas KHAOS y la carta central de la IA al inicio.
+- **Línea 121 (`Deck-AI.gd`): `tomar_carta()`**: Utilizada por el `AI-Controller` para reponer la mano de la IA.
+
+---
+
+## 6. Lógica de IA: `scripts/ia/AI-Controller.gd`
+- **Línea 41: `choose_ai_card()`**: Algoritmo de decisión:
+    1. Prioriza bloquear elementos donde el jugador tiene 2 puntos.
+    2. Prioriza elementos que el jugador aún no ha ganado (para evitar victoria por "1 de cada tipo").
+- **Línea 81: `play_turn()`**: Ejecuta el movimiento de la carta elegida hacia una ranura libre.
+
+---
+
+## 8. Bugs Identificados y Conflictos de Lógica
+
+### 1. Conflicto de "Mano" vs "Ranuras KHAOS" (IA)
+- **Problema**: La IA tiene dos sistemas compitiendo por el control de las cartas.
+    - El `Deck-AI.gd` reparte cartas a las ranuras físicas (`ranuraiak`, etc.).
+    - El `AI-Controller.gd` y `ManoJugador-AI.gd` intentan gestionar una "mano" virtual (`cartas_en_mano`).
+- **Consecuencia**: Cuando la IA "toma una carta", esta se añade a una posición flotante calculada en `ManoJugador-AI.gd` (Línea 38) en lugar de rellenar una ranura KHAOS vacía. Esto crea la ilusión de un "segundo mazo" o cartas que aparecen fuera de lugar.
+
+### 2. Fallo en la Reposición de la IA
+- **Problema**: La función `reponer_carta_en_ranura` de la IA en `Deck-AI.gd` es inconsistente.
+    - `tomar_carta()` (Línea 121) añade a la mano virtual, no a una ranura específica.
+    - `repartir_a_ranuras_ia()` (Línea 33) es la única que llena las ranuras KHAOS correctamente al inicio.
+- **Consecuencia**: Tras un combate, las ranuras KHAOS de la IA quedan vacías permanentemente mientras las cartas nuevas se acumulan en la "mano virtual" invisible o mal posicionada.
+
+### 3. Registro Duplicado y Cartas "Zombies"
+- **Problema**: En `Game_Manager.gd`, `comparar_cartas_centrales()` (Línea 103) asigna una nueva carta directamente al estado de combate: `cartas_en_ranuras["ranuraplayer"]["ia"] = nueva_carta`.
+- **Consecuencia**: Si el `AI-Controller` también intenta registrar una carta en esa misma ranura, ocurre un conflicto de estado (Logs: `⚠️ Ranura ocupada`). Además, si una carta es eliminada por `queue_free()` pero sigue en la lista `cartas_en_mano` de la IA, se producen errores de referencia nula.
+
+---
+
+## 9. Análisis de Debug Logs (Hallazgos)
+
+- **`🤖 [DECK-AI] Ranuras totales en grupo 'ranuras': 12`**: Correcto (5 Jugador + 5 IA + 2 Centrales).
+- **`✅ [GM] IA registró carta en ranura de combate:ranuraia`**: Se observa un registro excesivo. Esto confirma que el `Deck-AI` y el `Game_Manager` (en `comparar_cartas_centrales`) están intentando controlar el carril central simultáneamente.
+- **`⚠️ [CONTROLLER] Ranura ocupada, no se puede registrar`**: Confirma que el sistema de intercambio (Swap) y el sistema de combate central están chocando al intentar escribir en la metadata de la misma ranura.
+- **`🤖 [DECK-AI] Carta tomada: carta_azul9`**: Confirma que el sistema sigue usando la lógica de "mano" antigua de `ManoJugador-AI.gd` que debería estar obsoleta tras la implementación de KHAOS.
+
+---
+
+## 10. Funciones Obsoletas o Mal Aplicadas
+
+1.  **`scripts/ia/ManoJugador-AI.gd`**: **OBSOLETA**. Toda su lógica de posicionamiento de mano (`actulizar_posicion_mano`) entra en conflicto con el sistema de ranuras físicas KHAOS.
+2.  **`scripts/ia/ManejoCarta-AI.gd`**: **OBSOLETA**. Utiliza `AnimationPlayer` y escalas (`1.0`) que rompen la estética de los `Tweens` y la escala estándar de `0.7` definida en la Fase 2.
+3.  **`AI-Controller.gd` -> `play_turn()`**: Utiliza `mano_ia.cartas_en_mano`. Debería buscar cartas directamente en las ranuras KHAOS si se quiere que la IA juegue desde sus letras.
+4.  **`Game_Manager.gd` -> `comparar_cartas_centrales()`**: El bloque de código que instancia una nueva carta IA (Línea 111) duplica la responsabilidad del `Deck-AI`, causando que la IA tenga "más cartas de las que debería" o que aparezcan directamente en el centro sin pasar por su mano/ranuras.

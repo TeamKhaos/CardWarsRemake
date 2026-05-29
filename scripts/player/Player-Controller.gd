@@ -57,6 +57,11 @@ func _process(delta: float) -> void:
 
 # --- FUNCIONES DE ARRASTRE ---
 func empezar_a_arrastrar(carta):
+	# --- NUEVO: EVITAR ARRASTRE SI ESTÁ BLOQUEADA ---
+	if carta.has_node("Area2D") and not carta.get_node("Area2D").input_pickable:
+		print("🔒 [CONTROLLER] Esta carta está bloqueada y no se puede mover.")
+		return
+		
 	carta_siend_arrastrada = carta
 	# Guardamos la posición inicial por si el movimiento es inválido
 	carta.posicion_inicial = carta.global_position
@@ -66,6 +71,11 @@ func empezar_a_arrastrar(carta):
 	
 func dejar_de_arrastrar():
 	if carta_siend_arrastrada == null:
+		return
+	
+	# Verificar si la carta ya fue bloqueada (no debe procesarse si input_pickable es falso)
+	if carta_siend_arrastrada.has_node("Area2D") and not carta_siend_arrastrada.get_node("Area2D").input_pickable:
+		carta_siend_arrastrada = null
 		return
 
 	# Resetear visuales
@@ -93,7 +103,10 @@ func dejar_de_arrastrar():
 				break
 		
 		# --- CASO A: INTERCAMBIO (Swap) ---
-		if carta_en_destino:
+		# PROHIBIR SWAP SI EL DESTINO ES RANURAPLAYER
+		var es_ranura_player = ranura_destino.get_meta("id_ranura", "") == "ranuraplayer"
+		
+		if carta_en_destino and not es_ranura_player:
 			if ranura_origen:
 				# Movemos la carta que estaba en el destino a nuestra vieja casa
 				carta_en_destino.global_position = ranura_origen.global_position
@@ -104,10 +117,14 @@ func dejar_de_arrastrar():
 				print("🔄 Intercambio: ", carta_siend_arrastrada.name, " <-> ", carta_en_destino.name)
 			else:
 				# Si no hay ranura de origen (venía de la mano), devolvemos la arrastrada
-				# (Opcional: podrías decidir que la arrastrada se quede y la vieja vuelva a la mano)
 				volver_a_casa(carta_siend_arrastrada)
 				carta_siend_arrastrada = null
 				return
+		elif carta_en_destino and es_ranura_player:
+			print("⚠️ [CONTROLLER] No se puede hacer swap en ranuraplayer.")
+			volver_a_casa(carta_siend_arrastrada)
+			carta_siend_arrastrada = null
+			return
 
 		# --- CASO B: MOVER A RANURA VACÍA ---
 		else:
@@ -116,14 +133,43 @@ func dejar_de_arrastrar():
 				ranura_origen.set_meta("carta_en_ranura", false)
 
 		# Finalizar movimiento de la carta arrastrada al destino
-		carta_siend_arrastrada.global_position = ranura_destino.global_position
-		carta_siend_arrastrada.posicion_inicial = ranura_destino.global_position
-		ranura_destino.set_meta("carta_en_ranura", true)
-		# Mantenemos is_in_hand true para que siga moviéndose en la ranura
-		carta_siend_arrastrada.is_in_hand = true
-		
-		# Registrar en GameManager
-		registrar_en_manager(ranura_destino.get_meta("id_ranura"), carta_siend_arrastrada)
+		if is_instance_valid(ranura_destino):
+			carta_siend_arrastrada.global_position = ranura_destino.global_position
+			carta_siend_arrastrada.posicion_inicial = ranura_destino.global_position
+			
+			# Verificar si la ranura ya está ocupada
+			var esta_ocupada = ranura_destino.get_meta("carta_en_ranura", false)
+			var es_la_misma_carta = (ranura_destino.has_meta("carta_en_ranura_node") and 
+									 ranura_destino.get_meta("carta_en_ranura_node", null) == carta_siend_arrastrada)
+
+			if esta_ocupada and not es_la_misma_carta:
+				var carta_en_ranura = ranura_destino.get_meta("carta_en_ranura_node", "desconocido")
+				print("⚠️ [CONTROLLER] Ranura ocupada, no se puede registrar. Ocupada por: ", carta_en_ranura)
+				volver_a_casa(carta_siend_arrastrada)
+			else:
+				ranura_destino.set_meta("carta_en_ranura", true)
+				ranura_destino.set_meta("carta_en_ranura_node", carta_siend_arrastrada)
+				carta_siend_arrastrada.is_in_hand = true
+				
+				# Registrar en GameManager
+				registrar_en_manager(ranura_destino.get_meta("id_ranura"), carta_siend_arrastrada)
+				
+				# --- BLOQUEO SELECTIVO Y REPOSICIÓN ---
+				# Si la ranura es la central 'ranuraplayer', bloquear la carta y reponer la ranura de origen
+				if ranura_destino.get_meta("id_ranura", "") == "ranuraplayer":
+					if carta_siend_arrastrada.has_node("Area2D"):
+						carta_siend_arrastrada.get_node("Area2D").input_pickable = false
+						print("🔒 [CONTROLLER] Carta bloqueada en ranuraplayer.")
+					
+					# Reponer la ranura de la cual vino la carta (usando la variable ya definida)
+					if ranura_origen and ranura_origen.get_meta("id_ranura", "").begins_with("ranuraplayer"):
+						var deck = get_tree().get_nodes_in_group("player_deck")
+						if deck.size() > 0:
+							deck[0].reponer_carta_en_ranura(ranura_origen)
+				else:
+					print("🔓 [CONTROLLER] Carta colocada en ranura KHAOS, libre para mover.")
+				
+				resaltar_carta(carta_siend_arrastrada, false)
 
 	else:
 		# Si soltamos fuera, vuelve a donde estaba
