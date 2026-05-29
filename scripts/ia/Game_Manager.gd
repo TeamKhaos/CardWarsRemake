@@ -1,16 +1,14 @@
 extends Node
 
 @onready var combate = preload("res://scripts/ia/combate.gd").new()
-@onready var puntos_ia = $"../BarajaIA/puntos"
-@onready var puntos_jugador = $"../baraja_player/puntos"
 
 signal ronda_resultado(resultado: String)
 signal partida_terminada(ganador: String)
 
-
 const RESULTADO_FINAL = preload("uid://dimdttbrr0rdu") 
 
-
+var puntos_ia
+var puntos_jugador
 var cartas_en_ranuras := {}
 var turn_timer: Timer
 var combate_en_curso: bool = false
@@ -29,6 +27,11 @@ func _ready():
 	turn_timer.connect("timeout", Callable(self, "_on_TurnTimer_timeout"))
 	add_child(turn_timer)
 
+	# Inicializar referencias de forma segura tras el frame inicial
+	await get_tree().process_frame
+	puntos_ia = get_node_or_null("../BarajaIA/puntos")
+	puntos_jugador = get_node_or_null("../baraja_player/puntos")
+	
 	print("✅ Game_Manager listo.")
 
 # --- Nuevo método para sincronizar el reparto ---

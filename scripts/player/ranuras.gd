@@ -3,8 +3,8 @@ extends Node2D
 @export var is_player_one: bool = true
 
 func _ready() -> void:
-	# Aseguramos que se inicialice después de que todo el árbol esté listo
-	call_deferred("inicializar_ranuras_khaos")
+	# Inicializamos inmediatamente para garantizar que las ranuras existan para los Decks
+	inicializar_ranuras_khaos()
 
 func inicializar_ranuras_khaos() -> void:
 	var tamano_ventana = get_viewport_rect().size
