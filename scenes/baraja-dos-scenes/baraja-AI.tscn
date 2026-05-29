@@ -12,19 +12,17 @@
 [ext_resource type="Texture2D" uid="uid://cwhlnw8dg6nnp" path="res://assets/images/O.png" id="10_nhq2j"]
 [ext_resource type="Texture2D" uid="uid://cxb06quwd4qxm" path="res://assets/images/S.png" id="11_yj0ug"]
 
-[node name="BarajaIA" type="Node2D" node_paths=PackedStringArray("deck", "manejo_carta", "mano_ia")]
+[node name="BarajaIA" type="Node2D" node_paths=PackedStringArray("deck", "manejo_carta")]
 script = ExtResource("1_ncd17")
 deck = NodePath("DeckIA")
 manejo_carta = NodePath("ManejoCartaAI")
-mano_ia = NodePath("ManoIA")
 
 [node name="manotexture" parent="." instance=ExtResource("4_grdi1")]
 scale = Vector2(0.5, 0.5)
 is_player_one = false
 
-[node name="DeckIA" parent="." node_paths=PackedStringArray("manejo_carta", "manejo_ia") instance=ExtResource("7_r75po")]
+[node name="DeckIA" parent="." node_paths=PackedStringArray("manejo_carta") instance=ExtResource("7_r75po")]
 manejo_carta = NodePath("../ManejoCartaAI")
-manejo_ia = NodePath("../ManoIA")
 
 [node name="ManejoCartaAI" parent="." instance=ExtResource("2_ryrig")]
 

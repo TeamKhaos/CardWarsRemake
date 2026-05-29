@@ -84,6 +84,7 @@ tracks/5/keys = {
 
 [sub_resource type="Animation" id="Animation_6u4wf"]
 resource_name = "carta_flip"
+length = 0.3
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -91,7 +92,7 @@ tracks/0/path = NodePath("ataque:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0.1, 0.2),
+"times": PackedFloat32Array(0.15, 0.3),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Color(0.62352943, 0, 0.1764706, 0), Color(0.62352943, 0, 0.1764706, 1)]
@@ -103,10 +104,10 @@ tracks/1/path = NodePath("defensa:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.11450026, 0.2),
-"transitions": PackedFloat32Array(1, 1, 1),
+"times": PackedFloat32Array(0.15, 0.3),
+"transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Color(0.62352943, 0, 0.1764706, 0), Color(0.62352943, 0, 0.1764706, 0), Color(0.62352943, 0, 0.1764706, 1)]
+"values": [Color(0.62352943, 0, 0.1764706, 0), Color(0.62352943, 0, 0.1764706, 1)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -115,34 +116,34 @@ tracks/2/path = NodePath("Carta_reverso:scale")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2),
-"transitions": PackedFloat32Array(1, 1, 1),
+"times": PackedFloat32Array(0, 0.15),
+"transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(0.24651158, 0.24702372), Vector2(0.1, 0.247), Vector2(0.24, 0.247)]
+"values": [Vector2(0.24651158, 0.24702372), Vector2(0.01, 0.247)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Carta_reverso:z_index")
+tracks/3/path = NodePath("Carta_reverso:visible")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 0.15),
+"transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [0]
+"values": [true, false]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("Cardimage:z_index")
+tracks/4/path = NodePath("Cardimage:visible")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0, 0.1),
+"times": PackedFloat32Array(0, 0.15),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [-1, 0]
+"values": [false, true]
 }
 tracks/5/type = "value"
 tracks/5/imported = false
@@ -151,10 +152,22 @@ tracks/5/path = NodePath("Cardimage:scale")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2),
-"transitions": PackedFloat32Array(1, 1, 1),
+"times": PackedFloat32Array(0.15, 0.3),
+"transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(0.24728683, 0.24728683), Vector2(0.1, 0.247), Vector2(0.24, 0.247)]
+"values": [Vector2(0.01, 0.247), Vector2(0.24728683, 0.24728683)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Cardimage:z_index")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.15),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [-1, 1]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ktuci"]

@@ -12,9 +12,9 @@ func inicializar_ranuras_khaos() -> void:
 
 	# Posicionar el contenedor según el jugador
 	if is_player_one:
-		self.position = Vector2(tamano_ventana.x * 0.5, tamano_ventana.y * 0.82)
+		self.position = Vector2(tamano_ventana.x * 0.445, tamano_ventana.y * 0.82)
 	else:
-		self.position = Vector2(tamano_ventana.x * 0.5, tamano_ventana.y * 0.18)
+		self.position = Vector2(tamano_ventana.x * 0.555, tamano_ventana.y * 0.18)
 
 	var letras = ["K", "H", "A", "O", "S"]
 	# Espaciado ajustado para escala 1.0

@@ -46,6 +46,7 @@ uniform float hover_amount = 0.0;
 uniform float idle_amount = 0.0;
 uniform vec2 mouse_pos = vec2(0.5);
 uniform float time_offset = 0.0;
+uniform float dissolve_value : hint_range(0, 1) = 0.0;
 
 void vertex() {
 	// 1. Efecto de flotación (Idle + Hover)
@@ -71,10 +72,62 @@ void vertex() {
 }
 
 void fragment() {
-	// Solo aplicamos la textura original y el modulate (COLOR)
-	COLOR = texture(TEXTURE, UV) * COLOR;
+	vec4 main_tex = texture(TEXTURE, UV);
+	
+	// Efecto de Disolver
+	float noise = fract(sin(dot(UV ,vec2(12.9898,78.233))) * 43758.5453);
+	if (noise < dissolve_value) {
+		discard;
+	}
+	
+	// Efecto de Escala de Grises (cuando empieza a disolverse)
+	float avg = (main_tex.r + main_tex.g + main_tex.b) / 3.0;
+	vec4 grayscale = vec4(vec3(avg), main_tex.a);
+	
+	COLOR = mix(main_tex, grayscale, dissolve_value) * COLOR;
+	
+	// Borde brillante al disolverse
+	if (dissolve_value > 0.0 && noise < dissolve_value + 0.05) {
+		COLOR.rgb += vec3(1.0, 0.3, 0.1) * (dissolve_value * 2.0);
+	}
 }
 """
+
+func aplicar_efecto_victoria():
+	var tween = create_tween()
+	tween.set_parallel(true)
+	
+	# Elevación y escala
+	tween.tween_property(self, "global_position:y", global_position.y - 100, 0.6).set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)
+	tween.tween_property(self, "scale", Vector2(1.0, 1.0), 0.3).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	
+	# Brillo intenso (usando modulate)
+	tween.tween_property(self, "modulate", Color(1.5, 1.5, 1.5, 1.0), 0.3)
+	
+	# Desvanecimiento final
+	var tween_fade = create_tween()
+	tween_fade.set_parallel(true)
+	tween_fade.tween_interval(0.4) # Esperar un poco antes de desvanecer
+	tween_fade.tween_property(self, "modulate:a", 0.0, 0.4)
+	tween_fade.tween_property(self, "scale", Vector2(0.1, 0.1), 0.4)
+
+func aplicar_efecto_derrota():
+	var tween = create_tween()
+	tween.set_parallel(true)
+	
+	# Disolver el frente
+	var img = get_node_or_null("Cardimage")
+	if img and img.material is ShaderMaterial:
+		tween.tween_method(func(v): img.material.set_shader_parameter("dissolve_value", v), 0.0, 1.0, 0.8)
+	
+	# Disolver el aura
+	var aura = get_node_or_null("AuraSprite")
+	if aura:
+		tween.tween_property(aura, "modulate:a", 0.0, 0.5)
+	
+	# Efecto de caída/giro
+	tween.tween_property(self, "rotation_degrees", randf_range(-15, 15), 0.8)
+	tween.tween_property(self, "scale", Vector2(0.1, 0.1), 0.8).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_BACK)
 
 const AURA_SHADER = """
 shader_type canvas_item;

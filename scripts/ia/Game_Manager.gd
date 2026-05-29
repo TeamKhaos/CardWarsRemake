@@ -22,9 +22,9 @@ func _ready():
 	add_child(combate)
 	combate.resetear_puntajes()
 
-	# Inicializar temporizador de 20 segundos
+	# Inicializar temporizador de 22 segundos (un poco más que los 21 frames del visual)
 	turn_timer = Timer.new()
-	turn_timer.wait_time = 20.0
+	turn_timer.wait_time = 22.0
 	turn_timer.one_shot = true
 	turn_timer.connect("timeout", Callable(self, "_on_TurnTimer_timeout"))
 	add_child(turn_timer)
@@ -44,10 +44,21 @@ func iniciar_turno_jugador():
 	if combate_en_curso: return
 	combate_en_curso = true
 	turn_timer.start()
+	
+	# Reiniciar el temporizador visual si existe
+	var temporizador = get_tree().root.find_child("Temporizador", true, false)
+	if temporizador:
+		temporizador.detener_temporizador()
+		temporizador.iniciar_cuenta_regresiva()
+		
 	print("⏱️ Turno iniciado.")
 
 func detener_turno():
 	turn_timer.stop()
+	# Detener temporizador visual
+	var temporizador = get_tree().root.find_child("Temporizador", true, false)
+	if temporizador:
+		temporizador.detener_temporizador()
 
 # --- MODIFICADO: COMPARAR CARTAS DINÁMICAMENTE ---
 func registrar_carta(ranura_id: String, carta: Node, es_ia: bool):
@@ -128,33 +139,9 @@ func comparar_cartas_centrales():
 	# Comparar específicamente el carril central (unificado en "ranuraplayer")
 	await comparar_cartas("ranuraplayer")
 	
-	# Solicitar nueva carta a la IA
-	var grupo_ia = get_tree().get_nodes_in_group("deck_ia")
-	if grupo_ia.size() > 0:
-		grupo_ia[0].tomar_carta()
-		
-		# Delay para instancia
-		await get_tree().create_timer(0.5).timeout
-		var nueva_carta = grupo_ia[0].manejo_carta.get_children().back()
-		
-		var ranura_central = null
-		for r in get_tree().get_nodes_in_group("ranuras"):
-			if r.get_meta("id_ranura", "") == "ranuraia":
-				ranura_central = r
-				break
-				
-		if ranura_central:
-			# Limpieza explícita del estado unificado
-			cartas_en_ranuras["ranuraplayer"]["ia"] = null
-			
-			var tween = create_tween()
-			tween.tween_property(nueva_carta, "global_position", ranura_central.global_position, 0.5).set_trans(Tween.TRANS_QUART)
-			
-			# ASIGNAR DIRECTAMENTE para evitar re-disparar el combate y bucles
-			cartas_en_ranuras["ranuraplayer"]["ia"] = nueva_carta
-			cartas_en_ranuras["ranuraplayer"]["nodo_ia"] = ranura_central
-			
-			print("🤖 [GM] Nueva carta IA asignada directamente a estado de combate")
+	# Ya no instanciamos cartas aquí. 
+	# El AI-Controller detectará que 'ranuraia' está vacía y jugará una carta en su próximo tick.
+	print("🤖 [GM] Carril central resuelto. Esperando siguiente jugada de la IA...")
 	
 	ia_esperando = false
 
@@ -165,14 +152,17 @@ func set_card_modulate(carta: Node, color: Color):
 		carta.get_node("Cardimage").modulate = color
 
 func comparar_cartas(ranura_id: String):
-	# LOG DE ESTADO
-	print("DEBUG: Entrando en comparar_cartas para: ", ranura_id)
-	print("DEBUG: Estado de cartas: ", cartas_en_ranuras.get(ranura_id, "No existe registro"))
+	# PROTECCIÓN CONTRA RE-ENTRADA (Doble puntaje)
+	if not cartas_en_ranuras.has(ranura_id): return
+	if cartas_en_ranuras[ranura_id].get("resolviendo", false): return
 	
 	# COMPROBACIÓN CRÍTICA
-	if not cartas_en_ranuras.has(ranura_id) or cartas_en_ranuras[ranura_id]["jugador"] == null or cartas_en_ranuras[ranura_id]["ia"] == null:
-		print("⚠️ [GM] Abortando combate en ", ranura_id, " por carta nula.")
+	if cartas_en_ranuras[ranura_id]["jugador"] == null or cartas_en_ranuras[ranura_id]["ia"] == null:
 		return
+	
+	# Marcar como en resolución para evitar que el timer u otro registro lo llame
+	cartas_en_ranuras[ranura_id]["resolviendo"] = true
+	detener_turno() # Detener timer lógico inmediatamente
 	
 	var carta_jugador = cartas_en_ranuras[ranura_id]["jugador"]
 	var carta_ia = cartas_en_ranuras[ranura_id]["ia"]
@@ -184,15 +174,17 @@ func comparar_cartas(ranura_id: String):
 	print("⚔️ Revelando cartas en carril:", ranura_id)
 	
 	if is_instance_valid(carta_ia):
-		print("DEBUG: ¿Tiene método flip_face_up?: ", carta_ia.has_method("flip_face_up"))
-		if carta_ia.has_method("flip_face_up"):
-			carta_ia.flip_face_up()
-			print("DEBUG: flip_face_up() ejecutado en IA")
+		var anim = carta_ia.get_node_or_null("AnimationPlayer")
+		if anim:
+			anim.play("carta_flip")
+			print("DEBUG: Animation 'carta_flip' iniciada en IA")
+		else:
+			# Fallback si no hay AnimationPlayer
+			if carta_ia.has_method("flip_face_up"):
+				carta_ia.flip_face_up()
 		
-		print("DEBUG: ¿Tiene método revelar_color_elemental?: ", carta_ia.has_method("revelar_color_elemental"))
 		if carta_ia.has_method("revelar_color_elemental"):
 			carta_ia.revelar_color_elemental(carta_ia.get_meta("tipo"))
-			print("DEBUG: revelar_color_elemental() ejecutado en IA")
 	
 	await get_tree().create_timer(1.0).timeout 
 
@@ -201,20 +193,32 @@ func comparar_cartas(ranura_id: String):
 
 	match resultado:
 		"jugador":
-			if is_instance_valid(carta_jugador): puntos_jugador.agregar_punto(carta_jugador.get_meta("tipo"))
-			set_card_modulate(carta_jugador, Color(1, 1, 1, 1))
-			set_card_modulate(carta_ia, Color(0.5, 0.5, 0.5, 1))
+			if is_instance_valid(carta_jugador): 
+				puntos_jugador.agregar_punto(carta_jugador.get_meta("tipo"))
+				if carta_jugador.has_method("aplicar_efecto_victoria"):
+					carta_jugador.aplicar_efecto_victoria()
+			
+			if is_instance_valid(carta_ia) and carta_ia.has_method("aplicar_efecto_derrota"):
+				carta_ia.aplicar_efecto_derrota()
+			
 			if verificar_victoria_final("Jugador"): return
 		"ia":
-			if is_instance_valid(carta_ia): puntos_ia.agregar_punto(carta_ia.get_meta("tipo"))
-			set_card_modulate(carta_ia, Color(1, 1, 1, 1))
-			set_card_modulate(carta_jugador, Color(0.5, 0.5, 0.5, 1))
+			if is_instance_valid(carta_ia): 
+				puntos_ia.agregar_punto(carta_ia.get_meta("tipo"))
+				if carta_ia.has_method("aplicar_efecto_victoria"):
+					carta_ia.aplicar_efecto_victoria()
+			
+			if is_instance_valid(carta_jugador) and carta_jugador.has_method("aplicar_efecto_derrota"):
+				carta_jugador.aplicar_efecto_derrota()
+			
 			if verificar_victoria_final("IA"): return
 		"empate":
-			set_card_modulate(carta_ia, Color(0.5, 0.5, 0.5, 1))
-			set_card_modulate(carta_jugador, Color(0.5, 0.5, 0.5, 1))
+			if is_instance_valid(carta_jugador) and carta_jugador.has_method("aplicar_efecto_derrota"):
+				carta_jugador.aplicar_efecto_derrota()
+			if is_instance_valid(carta_ia) and carta_ia.has_method("aplicar_efecto_derrota"):
+				carta_ia.aplicar_efecto_derrota()
 
-	await get_tree().create_timer(1.0).timeout
+	await get_tree().create_timer(1.2).timeout
 
 	# LIMPIAR DINÁMICAMENTE
 	if is_instance_valid(carta_jugador):
@@ -224,10 +228,21 @@ func comparar_cartas(ranura_id: String):
 		if nodo_ranura_ia: nodo_ranura_ia.set_meta("carta_en_ranura", false)
 		carta_ia.queue_free()
 
+	# Limpiar estado de combate
 	cartas_en_ranuras[ranura_id]["jugador"] = null
 	cartas_en_ranuras[ranura_id]["ia"] = null
 	cartas_en_ranuras[ranura_id]["nodo_player"] = null
 	cartas_en_ranuras[ranura_id]["nodo_ia"] = null
+	cartas_en_ranuras[ranura_id]["resolviendo"] = false # LIBERAR PARA PRÓXIMO COMBATE
+
+	# Si es el carril central, limpiar también la ranura aliada para evitar bugs de registro
+	if ranura_id == "ranuraplayer" and cartas_en_ranuras.has("ranuraia"):
+		cartas_en_ranuras["ranuraia"]["ia"] = null
+		cartas_en_ranuras["ranuraia"]["resolviendo"] = false
+
+	# --- REINICIAR TURNO Y TEMPORIZADOR ---
+	combate_en_curso = false
+	iniciar_turno_jugador()
 
 	if ganador_global != "":
 		mostrar_pantalla_final(ganador_global)
@@ -242,13 +257,21 @@ func iniciar_combate_total():
 	detener_turno()
 	combate_en_curso = true
 	
+	var algun_combate = false
 	# Resolver todos los carriles que tengan carta
 	for ranura_id in cartas_en_ranuras.keys():
 		if cartas_en_ranuras[ranura_id]["jugador"] and cartas_en_ranuras[ranura_id]["ia"]:
+			algun_combate = true
 			await comparar_cartas(ranura_id)
 			
 	combate_en_curso = false
-	print("⚔️ Combate finalizado. Esperando jugador para próximo turno...")
+	
+	# Si no hubo combates, forzar el reinicio del turno para que el ciclo no se detenga
+	if not algun_combate:
+		print("⚔️ No se detectaron combates. Reiniciando ciclo de espera...")
+		iniciar_turno_jugador()
+	else:
+		print("⚔️ Combate finalizado. Esperando jugador para próximo turno...")
 
 func verificar_victoria_final(jugador_o_ia: String) -> bool:
 	var nodo_puntos = puntos_jugador if jugador_o_ia == "Jugador" else puntos_ia

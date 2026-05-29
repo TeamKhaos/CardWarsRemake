@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://ne8ekixwg5in"]
+[gd_scene load_steps=34 format=3 uid="uid://ne8ekixwg5in"]
 
 [ext_resource type="PackedScene" uid="uid://br5jtnv27c6k0" path="res://scenes/baraja-uno-scenes/baraja-player.tscn" id="1_ba4lm"]
 [ext_resource type="PackedScene" uid="uid://deh8w4hji7hh5" path="res://scenes/baraja-dos-scenes/baraja-AI.tscn" id="2_x0xbu"]
@@ -9,24 +9,108 @@
 [ext_resource type="Texture2D" uid="uid://ci67b6mbtu3m4" path="res://assets/images/fondo.png" id="5_x0xbu"]
 [ext_resource type="PackedScene" uid="uid://hwvnjn2w13qq" path="res://scenes/baraja-uno-scenes/perfil.tscn" id="6_5fme1"]
 [ext_resource type="Script" uid="uid://bqtr8swjkg67o" path="res://scripts/ia/Game_Manager.gd" id="7_7qr1p"]
-[ext_resource type="Script" uid="uid://bcannegdixdp" path="res://scripts/ui/TimerDisplay.gd" id="8_h5dly"]
+[ext_resource type="Texture2D" uid="uid://bd2ar0oe7h21l" path="res://assets/temporizador/00.png" id="10_f1hw0"]
+[ext_resource type="Texture2D" uid="uid://dnowbl7dj2alo" path="res://assets/temporizador/01.png" id="11_04bex"]
+[ext_resource type="Texture2D" uid="uid://dj0ipaagshey5" path="res://assets/temporizador/02.png" id="12_18vu0"]
+[ext_resource type="Texture2D" uid="uid://dd5msuragh12s" path="res://assets/temporizador/03.png" id="13_hj0bg"]
+[ext_resource type="Texture2D" uid="uid://d2auosqsklbxt" path="res://assets/temporizador/04.png" id="14_ijaeb"]
+[ext_resource type="Texture2D" uid="uid://gk176jsvx2w0" path="res://assets/temporizador/05.png" id="15_ssbcb"]
+[ext_resource type="Texture2D" uid="uid://dd3gyrjj7wnns" path="res://assets/temporizador/06.png" id="16_nbj7l"]
+[ext_resource type="Texture2D" uid="uid://bh4eaqqxvplct" path="res://assets/temporizador/07.png" id="17_tmadj"]
+[ext_resource type="Texture2D" uid="uid://djlj0gi3vox0y" path="res://assets/temporizador/08.png" id="18_keb61"]
+[ext_resource type="Texture2D" uid="uid://csgwujnmnpxl5" path="res://assets/temporizador/09.png" id="19_n3amx"]
+[ext_resource type="Texture2D" uid="uid://cnxshx0omnikm" path="res://assets/temporizador/10.png" id="20_dgtg0"]
+[ext_resource type="Texture2D" uid="uid://cjjk7cb055env" path="res://assets/temporizador/11.png" id="21_rtn4a"]
+[ext_resource type="Texture2D" uid="uid://dnpbhqfu3mnbu" path="res://assets/temporizador/12.png" id="22_kxiys"]
+[ext_resource type="Texture2D" uid="uid://bwrbpnvr08eto" path="res://assets/temporizador/13.png" id="23_y24d5"]
+[ext_resource type="Texture2D" uid="uid://b1jh5vx5jljml" path="res://assets/temporizador/14.png" id="24_1mbge"]
+[ext_resource type="Texture2D" uid="uid://bcmv6wjy1xm0q" path="res://assets/temporizador/15.png" id="25_itma0"]
+[ext_resource type="Texture2D" uid="uid://ckg4341wexu62" path="res://assets/temporizador/16.png" id="26_0wqbi"]
+[ext_resource type="Texture2D" uid="uid://bsygtu8gxcmm" path="res://assets/temporizador/17.png" id="27_fbdsg"]
+[ext_resource type="Texture2D" uid="uid://wmp8hpj5ftrf" path="res://assets/temporizador/18.png" id="28_3obfh"]
+[ext_resource type="Texture2D" uid="uid://583ffdcgjly1" path="res://assets/temporizador/19.png" id="29_dv2fi"]
+[ext_resource type="Texture2D" uid="uid://de1ukb0fryh0i" path="res://assets/temporizador/20.png" id="30_pc5id"]
+[ext_resource type="Script" uid="uid://d2wxebiax8pcr" path="res://scripts/temporizador.gd" id="31_04bex"]
+[ext_resource type="Script" uid="uid://bellbkaedqf77" path="res://scripts/versus.gd" id="32_18vu0"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_54ynu"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("30_pc5id")
+}, {
+"duration": 1.0,
+"texture": ExtResource("29_dv2fi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("28_3obfh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("27_fbdsg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("26_0wqbi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("25_itma0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_1mbge")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_y24d5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_kxiys")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_rtn4a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_dgtg0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_n3amx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_keb61")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_tmadj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_nbj7l")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_ssbcb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_ijaeb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_hj0bg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_18vu0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_04bex")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_f1hw0")
+}],
+"loop": false,
+"name": &"temporizador",
+"speed": 1.0
+}]
 
 [node name="Demo" type="Node2D"]
 
-[node name="Label" type="Label" parent="." node_paths=PackedStringArray("game_manager")]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 529.0
-offset_top = 289.0
-offset_right = 569.0
-offset_bottom = 312.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("8_h5dly")
-game_manager = NodePath("../Game_Manager")
+[node name="Temporizador" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.6, 0.6)
+sprite_frames = SubResource("SpriteFrames_54ynu")
+animation = &"temporizador"
+script = ExtResource("31_04bex")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -46,6 +130,7 @@ game_manager = NodePath("../Game_Manager")
 is_player_one = false
 
 [node name="perfil" parent="BarajaIA" instance=ExtResource("4_h5dly")]
+visible = false
 is_player_one = false
 
 [node name="baraja_player" parent="." node_paths=PackedStringArray("game_manager", "slots_container") instance=ExtResource("1_ba4lm")]
@@ -55,6 +140,7 @@ slots_container = NodePath("../CartaRanura")
 [node name="puntos" parent="baraja_player" instance=ExtResource("5_e66cg")]
 
 [node name="perfil" parent="baraja_player" instance=ExtResource("6_5fme1")]
+visible = false
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 script = ExtResource("4_b0nem")
@@ -63,3 +149,10 @@ script = ExtResource("4_b0nem")
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
 texture = ExtResource("5_x0xbu")
+
+[node name="Versus" type="Label" parent="."]
+offset_right = 37.0
+offset_bottom = 45.0
+theme_override_font_sizes/font_size = 32
+text = "VS"
+script = ExtResource("32_18vu0")
